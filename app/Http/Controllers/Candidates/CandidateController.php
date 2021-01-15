@@ -231,7 +231,15 @@ class CandidateController extends AppBaseController
 
         CandidateFunction::profileCompletion(Auth::user()->id);
 
-        return $this->sendSuccess('Certificate uploaded successfully.');
+        return $this->sendSuccess(__('messages.candidate_profile.certificate_uploaded'));
+    }
+
+    public function uploadSalarySlip(Request $request)
+    {
+        $input = $request->all();
+        $this->candidateRepository->uploadResume($input, null);
+
+        return $this->sendSuccess(__('messages.candidate_profile.salary_slip_uploaded'));
     }
 
     /**
@@ -404,5 +412,48 @@ class CandidateController extends AppBaseController
     public function showAppliedJobs(JobApplication $jobApplication)
     {
         return $this->sendResponse($jobApplication, 'Retrieved successfully.');
+    }
+
+    public function profileCompletion(){
+        $user = Auth::user()->id;
+        $candidate = Candidate::whereUserId($user)->first();
+        if($candidate){
+            return $candidate->profile_completion;
+        }
+        return null;
+    }
+
+    public function getSalarySlip(){
+        $ajax = request()->ajax;
+        $candidate = request()->cd;
+        if($ajax){
+            $media = App\Models\Media::where('model_id', $candidate)->where('collection_name', 'salary-slips')->first();
+        }else{
+            $media =  Media::where('model_id', $candidate)->where('collection_name', 'salary-slips')->first();
+            return $media->get();
+        }
+        if($media){
+            return $media;
+        }
+        return $media;
+    }
+
+    public function deleteSalarySlip(){
+        $user = User::find(Auth::user()->id);
+        /*$candidate = Candidate::where('user_id', $user)->first();
+        if(is_null($candidate)){
+            return null;
+        }*/
+        //return $this->sendSuccess($user->candidate->father_name);
+        $media = App\Models\Media::where('model_id', $user->candidate->id)->where('collection_name', 'salary-slips')->first();
+        $directory = public_path('salary-slips/'.$media->id);
+        if(is_dir($directory)){
+            rmdir(public_path('salary-slips/'.$media->id));
+        }
+        if(!is_dir($directory)){
+            $media->delete();
+        }
+
+        return $this->sendSuccess(__('messages.candidate_profile.salary_slip_deleted'));
     }
 }

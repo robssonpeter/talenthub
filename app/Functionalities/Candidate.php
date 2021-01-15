@@ -20,7 +20,8 @@ class Candidate
         $resumes = DB::table('media')->where('collection_name', 'resumes')->where('model_id', $candidate->id)->get();
         $certifications = DB::table('media')->where('collection_name', 'certifications')->where('model_id', $candidate->id)->get();
         $percentages = [
-            'personal' => ['value' => 20, 'eligible' => $user->first_name],
+            'personal' => ['value' => 5, 'eligible' => $user->first_name],
+            'personal_extra' => ['value' => 15, 'eligible' => $user->gender],
             'skills' => ['value' => 10, 'eligible' => $skills->count()],
             'experience' => ['value' => 10, 'eligible' => $experience->count()],
             'education' => ['value' => 20, 'eligible' => $education->count()],

@@ -126,12 +126,17 @@
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('current_salary', __('messages.candidate.current_salary').':', ['class' => 'font-weight-bolder']) }}
-            {{ Form::text('current_salary', isset($user->candidate->current_salary) ? $user->candidate->current_salary : null, ['class' => 'form-control price-input']) }}
+            {{ Form::text('current_salary', isset($user->candidate->current_salary) ? $user->candidate->current_salary : null, ['class' => 'form-control price-input', 'id' => 'current_salary']) }}
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('expected_salary', __('messages.candidate.expected_salary').':', ['class' => 'font-weight-bolder']) }}
             {{ Form::text('expected_salary', isset($user->candidate->expected_salary) ? $user->candidate->expected_salary : null, ['class' => 'form-control price-input']) }}
         </div>
+
+        <div class="form-group col-12" id="salary_slip">
+
+        </div>
+
         <div class="form-group col-sm-6">
             {{ Form::label('salary_currency', __('messages.candidate.salary_currency').':', ['class' => 'font-weight-bolder']) }}
             {{ Form::select('salary_currency', $data['currency'], isset($user->candidate->salary_currency) ? $user->candidate->salary_currency : null, ['class' => 'form-control', 'id' => 'salaryCurrencyId']) }}
@@ -226,12 +231,19 @@
     </div>
     {{ Form::close() }}
 @endsection
+@include('candidate.profile.modals.upload_salary_slip_modal')
 <script>
     let countryId = '{{$user->country_id}}';
     let stateId = '{{$user->state_id}}';
     let cityId = '{{$user->city_id}}';
     let isEdit = true;
     let utilsScript = "{{asset('assets/js/inttel/js/utils.min.js')}}";
+    let salarySlipUrl = "{{route('candidate.get.salary_slip')}}?ajax=true";
+    let candidateId = "{{$user->candidate->id}}";
+    let slipsAsset = "{{asset('uploads/salary-slips/**file**')}}";
+    let salarySlipName = '';
+    let resumeUploadUrl = "{{ route('candidate.salary-slip') }}";
+    let slipDeleteUrl = "{{ route('candidate.salary-slip.delete') }}";
 </script>
 @push('page-scripts')
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>

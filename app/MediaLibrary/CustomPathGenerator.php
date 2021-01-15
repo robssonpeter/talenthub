@@ -33,6 +33,8 @@ class CustomPathGenerator implements PathGenerator
                 return str_replace('{PARENT_DIR}', 'resumes', $path);
             case Candidate::CERTIFICATE_PATH;
                 return str_replace('{PARENT_DIR}', 'certifications', $path);
+            case Candidate::SALARY_SLIP_PATH;
+                return str_replace('{PARENT_DIR}', 'salary-slips', $path);
             case Testimonial::PATH;
                 return str_replace('{PARENT_DIR}', 'testimonials', $path);
             case User::PROFILE;

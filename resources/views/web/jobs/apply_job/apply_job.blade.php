@@ -57,7 +57,7 @@
                                 {{ Form::select('resume_id', $resumes, ($isJobDrafted) ? $draftJobDetails->resume_id : null, ['class' => 'selectpicker','id' => 'resumeId','placeholder'=>'Select Resume', 'required']) }}
                             </div>
                             <div class="form-group col-sm-12">
-                                <label for="expected_salary">{{ __('messages.candidate.expected_salary').':' }}<span
+                                <label for="expected_salary">{{ __('messages.candidate.expected_salary').' ('.$job->currency->currency_icon.'):' }}<span
                                             class="required asterisk-size">*</span></label>
                                 <input type="text" id="expected_salary" name="expected_salary"
                                        value="{{ ($isJobDrafted) ? $draftJobDetails->expected_salary : '' }}"

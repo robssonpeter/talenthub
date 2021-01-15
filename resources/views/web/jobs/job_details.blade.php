@@ -286,7 +286,13 @@
                             @role('Candidate')
                             @if(!$isApplied && !$isJobApplicationRejected && ! $isJobApplicationCompleted)
                                 <div class="mt20">
-                                    @if($isActive && !$job->is_suspended && \Carbon\Carbon::today()->toDateString() < $job->job_expiry_date->toDateString())
+                                    @if(isset($candidate->profile_completion) && $candidate->profile_completion<80)
+                                        <button
+                                            class="btn {{ $isJobDrafted ? 'btn-red' : 'btn-purple' }} btn-block btn-effect"
+                                            onclick="profileIncomplete()">
+                                            {{ $isJobDrafted ? __('web.job_details.edit_draft') : __('web.job_details.apply_for_job') }}
+                                        </button>
+                                    @elseif($isActive && !$job->is_suspended && \Carbon\Carbon::today()->toDateString() < $job->job_expiry_date->toDateString())
                                         <button
                                             class="btn {{ $isJobDrafted ? 'btn-red' : 'btn-purple' }} btn-block btn-effect"
                                             onclick="window.location='{{ route('show.apply-job-form', $job->job_id) }}'">
@@ -418,6 +424,9 @@
         let isJobAddedToFavourite = "{{ $isJobAddedToFavourite }}";
         let removeFromFavorite = "{{ __('web.job_details.remove_from_favorite') }}";
         let addToFavorites = "{{ __('web.job_details.add_to_favorite') }}";
+        let profileCompletion = "{{ isset($candidate->profile_completion)?$candidate->profile_completion:null }}";
+        let profileIncompleteMessage = "{{__('web.job_details.messages.profile_not_complete')}}";
+        let candidateProfileUrl = "{{route('candidate.profile')}}";
     </script>
     <script src="{{ mix('assets/js/jobs/front/job_details.js') }}"></script>
 @endsection

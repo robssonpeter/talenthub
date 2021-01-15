@@ -263,6 +263,12 @@ class CandidateRepository extends BaseRepository
      */
     public function uploadResume($input, $resume = true)
     {
+
+        /**
+         * if $resume  == true -> the user is uploading a cv
+         * if $resume == null -> the user is uploading a salary slip
+         * else the user just uploaded a certificate
+         */
         try {
             $user = Auth::user();
             /** @var Candidate $candidate */
@@ -275,7 +281,7 @@ class CandidateRepository extends BaseRepository
                 ->withCustomProperties([
                     'is_default' => isset($input['is_default'])?$input['is_default']:false,
                     'title'      => $input['title'],
-                ])->usingFileName($fileExtension)->toMediaCollection($resume?Candidate::RESUME_PATH:Candidate::CERTIFICATE_PATH, config('app.media_disc'));
+                ])->usingFileName($fileExtension)->toMediaCollection($resume?Candidate::RESUME_PATH:is_null($resume)?Candidate::SALARY_SLIP_PATH:Candidate::CERTIFICATE_PATH, config('app.media_disc'));
 
             return true;
         } catch (Exception $e) {

@@ -168,6 +168,12 @@
             </a>
             <ul class="dropdown-menu side-menus">
                 <li class="side-menus {{ Request::is('admin/marital-status*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('educationInstitution.index') }}">
+                        <i class="fas fa-school"></i>
+                        <span>{{ __('messages.education_institutions') }}</span>
+                    </a>
+                </li>
+                <li class="side-menus {{ Request::is('admin/marital-status*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('maritalStatus.index') }}">
                         <i class="fas fa-life-ring"></i>
                         <span>{{ __('messages.marital_statuses') }}</span>

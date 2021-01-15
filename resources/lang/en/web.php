@@ -131,6 +131,9 @@ return [
         'to_upload_resume'                   => 'to upload resume',
         'register_to_apply'                  => 'Register to apply',
         'location_information_not_available' => 'Location Information not available.',
+        'messages' => [
+            'profile_not_complete' => "You must complete your profile by atleast 80% to apply"
+        ]
     ],
 
     'apply_for_job'  => [

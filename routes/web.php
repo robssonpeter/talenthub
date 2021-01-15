@@ -211,6 +211,16 @@ Route::group(['middleware' => ['auth', 'role:Admin', 'xss', 'verified.user'], 'p
     Route::delete('salary-currencies/{salaryCurrency}',
         'SalaryCurrencyController@destroy')->name('salaryCurrency.destroy');
 
+    // Education Institutions
+    Route::get('education-institutions', 'EducationInstitutionContrroller@index')->name('educationInstitution.index');
+    Route::post('education-institutions', 'EducationInstitutionContrroller@store')->name('educationInstitution.store');
+    Route::get('education-institutions/{educationInstitution}/edit',
+        'EducationInstitutionContrroller@edit')->name('educationInstitution.edit');
+    Route::put('education-institutions/{educationInstitution}',
+        'EducationInstitutionContrroller@update')->name('educationInstitution.update');
+    Route::delete('education-institutions/{educationInstitution}',
+        'EducationInstitutionContrroller@destroy')->name('educationInstitution.destroy');
+
     // jobs route
     Route::get('jobs', 'JobController@getJobs')->name('admin.jobs.index');
     Route::get('jobs/create', 'JobController@createJob')->name('admin.job.create');
@@ -362,6 +372,9 @@ Route::group(['middleware' => ['auth', 'role:Employer', 'xss', 'verified.user'],
     // Job Applications
     Route::get('jobs/{jobId}/applications', 'JobApplicationController@index')->name('job-applications');
     Route::get('job-applications/{id}/status/{status}', 'JobApplicationController@changeJobApplicationStatus');
+    Route::post('job-application/{id}/add-note', 'JobApplicationController@addNote')->name('note.save');
+    Route::post('job-application/{id}/get-notes', 'JobApplicationController@fetchNotes')->name('notes.fetch');
+    Route::post('schedule-interview', 'JobApplicationController@scheduleInterview')->name('interview.schedule');
     Route::delete('job-applications/{jobApplication}',
         'JobApplicationController@destroy')->name('job.application.destroy');
     Route::get('resume-download/{jobApplication}', 'JobApplicationController@downloadMedia');
@@ -434,6 +447,7 @@ Route::group(['middleware' => ['auth', 'role:Candidate', 'xss', 'verified.user']
         Route::get('dashboard', 'DashboardController@dashboard')->name('dashboard');
 
         Route::get('/profile', 'CandidateController@editProfile')->name('candidate.profile');
+        Route::get('/profile/completion', 'CandidateController@profileCompletion')->name('candidate.profile.completion');
         Route::post('update-profile', 'CandidateController@updateProfile')->name('candidate-profile.update');
 
         Route::get('edit-profile', 'CandidateController@editCandidateProfile')->name('candidate.edit.profile');
@@ -442,6 +456,8 @@ Route::group(['middleware' => ['auth', 'role:Candidate', 'xss', 'verified.user']
 
         Route::post('/resumes', 'CandidateController@uploadResume')->name('candidate.resumes');
         Route::post('/certificates', 'CandidateController@uploadCertificate')->name('candidate.certificates');
+        Route::post('/salary-slip', 'CandidateController@uploadSalarySlip')->name('candidate.salary-slip');
+        Route::post('/salary-slip/delete', 'CandidateController@deleteSalarySlip')->name('candidate.salary-slip.delete');
         Route::get('/media/{media}', 'CandidateController@downloadResume')->name('download.resume');
         Route::delete('/resumes/{media}', 'CandidateController@deletedResume')->name('download.destroy');
         Route::delete('/certificates/{media}', 'CandidateController@deletedResume')->name('download.destroy.certificate');
@@ -484,6 +500,7 @@ Route::group(['middleware' => ['auth', 'role:Candidate', 'xss', 'verified.user']
         Route::post('update-general-profile',
             'CandidateController@updateGeneralInformation')->name('candidate.general.profile.update');
         Route::get('get-cv-template', 'CandidateController@getCVTemplate')->name('candidate.cv.template');
+        Route::get('get-salary-slip', 'CandidateController@getSalarySlip')->name('candidate.get.salary_slip');
         Route::post('update-online-profile',
             'CandidateController@updateOnlineProfile')->name('candidate.online.profile.update');
 

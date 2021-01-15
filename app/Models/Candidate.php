@@ -75,6 +75,7 @@ class Candidate extends Model implements HasMedia
 
     const RESUME_PATH = 'resumes';
     const CERTIFICATE_PATH = 'certifications';
+    const SALARY_SLIP_PATH = 'salary-slips';
     public const CANDIDATE_LOGIN_TYPE = 1;
 
     const STATUS = [

@@ -91,8 +91,23 @@
     let updateLanguageURL = "{{ url('update-language')}}";
     let changePasswordUrl = "{{ url('candidate/edit-change-password') }}";
     let loggedInUserId = "{{ getLoggedInUserId() }}";
+    $(document).on('click', '.document', function(){
+        var link = this.id;
+        var doc = document.getElementById('doc');
+        //alert(link);
+        //doc.data=link;
+        doc.innerHTML= "<object data='"+link+"'\n" +
+            "                          type='application/pdf'\n" +
+            "                          width='100%'\n" +
+            "                          height='500px'>\n" +
+            "                      <p>This browser does not support inline PDFs. Please download the PDF to view it: <a href=\"http://www.africau.edu/images/default/sample.pdf\">Download PDF</a></p>\n" +
+            "                  </object>"
+        //documentMode();
+    })
+
 </script>
 <script src="{{ mix('assets/js/candidate_profile/candidate_profile.js') }}"></script>
 <script src="{{ asset('js/currency.js') }}"></script>
+@include('modals.document-modal');
 </body>
 </html>

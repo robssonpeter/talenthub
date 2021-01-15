@@ -34,11 +34,14 @@
             <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the &apos;x&apos; icon.</p>
         </div>--}}
     </section>
+    @include('employer.job_applications.modals.add-note')
+    @include('employer.job_applications.modals.notes')
+    @include('employer.job_applications.modals.schedule-interview')
     <div class="modal fade bd-example-modal-lg show" id="coverLetter" style="z-index: 2000000000" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cover Letter</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__("messages.applied_job.cover_letter")}}</h5>
                     {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>--}}
@@ -47,7 +50,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("messages.common.close")}}</button>
                 </div>
             </div>
         </div>
@@ -62,6 +65,12 @@
         let jobDetailsUrl = "{{  route('front.job.details') }}";
         let statusArray = JSON.parse('@json($statusArray)');
         let downloadDocumentUrl = "{{ url('employer/resume-download') }}";
+        let addNoteUrl = "{{route('note.save', '**appid**')}}";
+        let noteSavedMessage = "{{__('messages.apply_job.note_saved')}}";
+        let notesUrl = "{{route('notes.fetch', "**appid**")}}";
+        let currentUser = "{{auth()->user()->id}}";
+        let transApplicationNote = "{{__('messages.apply_job.application_note')}}";
+        let interviewScheduleUrl = "{{route('interview.schedule')}}";
     </script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ mix('assets/js/custom/custom-datatable.js') }}"></script>

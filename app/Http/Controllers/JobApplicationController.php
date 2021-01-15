@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApplicationNote;
+use App\Models\Interview;
 use App\Models\Job;
 use App\Models\JobApplication;
 use App\Queries\JobApplicationDataTable;
@@ -72,9 +74,16 @@ class JobApplicationController extends AppBaseController
      */
     public function changeJobApplicationStatus($id, $status)
     {
+        $statuses = JobApplication::STATUS;
         $jobApplication = JobApplication::findOrFail($id);
         if (! in_array($jobApplication->status, [JobApplication::REJECTED, JobApplication::COMPLETE])) {
             $jobApplication->update(['status' => $status]);
+            if($statuses[$status] == 'Interviewed'){
+                $interviewed = Interview::where('application_id', $jobApplication->id)->update(['status' => 1]);
+                if($interviewed){
+                    return $this->sendSuccess('Status changed successfully.');
+                }
+            }
 
             return $this->sendSuccess('Status changed successfully.');
         }
@@ -92,5 +101,42 @@ class JobApplicationController extends AppBaseController
         list($file, $headers) = $this->jobApplicationRepository->downloadMedia($jobApplication);
 
         return response($file, 200, $headers);
+    }
+
+    public function addNote(){
+        $data = request()->all();
+        $data['user_id'] = \Auth::user()->id;
+        $saved = ApplicationNote::create($data);
+        return $saved;
+    }
+
+    public function fetchNotes(){
+        $data = request()->application_id;
+        $notes = ApplicationNote::where('application_id', $data)->with('author')->get();
+        return $notes;
+    }
+
+    public function scheduleInterview(){
+        $data = request()->all();
+        $notification = request()->email_notification;
+        unset($data['email_notification']);
+        $interview = Interview::updateOrCreate(['application_id' => $data['application_id']], $data);
+        if($interview){
+            if($notification){
+                $message = [
+                    'success' => true,
+                    'message' => __('messages.apply_job.interview_schedule_success'),
+                    'next' => true
+                ];
+            }else{
+                $message = [
+                    'success' => true,
+                    'message' => __('messages.apply_job.interview_schedule_success'),
+                    'next' => false
+                ];
+            }
+            return $message;
+        }
+        return $data;
     }
 }

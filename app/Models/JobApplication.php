@@ -46,15 +46,25 @@ class JobApplication extends Model
     const STATUS_DRAFT = 0;
     const STATUS_APPLIED = 1;
     const REJECTED  = 2;
-    const COMPLETE = 3;
-    const SHORT_LIST = 4;
+    const COMPLETE = 5;
+    const SHORT_LIST = 3;
+    const INTERVIEWED = 4;
 
-    const STATUS = [
+    /*const STATUS = [
         0 => 'Drafted',
         1 => 'Applied',
         2 => 'Rejected',
         3 => 'Selected',
         4 => 'Shortlisted',
+        5 => 'Interviewed'
+    ];*/
+    const STATUS = [
+        0 => 'Drafted',
+        1 => 'Applied',
+        2 => 'Rejected',
+        3 => 'Shortlisted',
+        4 => 'Interviewed',
+        5 => 'Selected'
     ];
 
     public $fillable = [
@@ -65,6 +75,7 @@ class JobApplication extends Model
         'notes',
         'cover_letter',
         'status',
+        'currency_id',
     ];
 
     /**
@@ -80,6 +91,10 @@ class JobApplication extends Model
         'expected_salary' => 'double',
         'notes'           => 'string',
         'cover_letter'    => 'string',
+    ];
+
+    protected $with = [
+        'currency', 'notes', 'interview'
     ];
 
     /**
@@ -109,6 +124,14 @@ class JobApplication extends Model
         return $this->belongsTo(Job::class, 'job_id');
     }
 
+    public function notes(){
+        return $this->hasMany(ApplicationNote::class, 'application_id', 'id');
+    }
+
+    public function currency(){
+        return $this->belongsTo(SalaryCurrency::class, 'currency_id', 'id');
+    }
+
     /**
      * @return mixed
      */
@@ -123,5 +146,9 @@ class JobApplication extends Model
         }
 
         return null;
+    }
+
+    public function interview(){
+        return $this->hasOne(Interview::class, 'application_id', 'id');
     }
 }

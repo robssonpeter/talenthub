@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\EmailJobToFriendRequest;
+use App\Models\Candidate;
 use App\Models\Job;
 use App\Repositories\JobRepository;
 use Auth;
@@ -52,6 +53,12 @@ class JobController extends AppBaseController
             abort(404);
         }
 
+        if(Auth::check() && Auth::user()->hasRole('Candidate')){
+            $candidate = Candidate::whereUserId(Auth::user()->id)->first();
+        }else{
+            $candidate = null;
+        }
+
         $data['resumes'] = null;
 
         $data['isActive'] = $data['isApplied'] = $data['isJobAddedToFavourite'] = $data['isJobReportedAsAbuse'] = false;
@@ -67,7 +74,7 @@ class JobController extends AppBaseController
         $data['getRelatedJobs'] = $relatedJobs->whereNotIn('id', [$job->id])->orderByDesc('created_at')->take(5)->get();
         $url = Share::load(url()->current())->services('facebook', 'twitter', 'gmail', 'pinterest');
 
-        return view('web.jobs.job_details', compact('job', 'url'))->with($data);
+        return view('web.jobs.job_details', compact('job', 'url', 'candidate'))->with($data);
     }
 
     /**

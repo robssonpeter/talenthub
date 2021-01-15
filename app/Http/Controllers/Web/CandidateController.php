@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\AppBaseController;
 use App\Models\Candidate;
+use App\Models\User;
 use App\Repositories\Candidates\CandidateRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Spatie\MediaLibrary\Models\Media;
 
 class CandidateController extends AppBaseController
 {
@@ -42,4 +44,6 @@ class CandidateController extends AppBaseController
     {
         return view('web.candidate.index');
     }
+
+
 }

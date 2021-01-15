@@ -127,7 +127,7 @@ class JobApplicationRepository extends BaseRepository
             $input['candidate_id'] = Auth::user()->owner_id;
             $input['expected_salary'] = removeCommaFromNumbers($input['expected_salary']);
             $input['status'] = $input['application_type'] == 'apply' ? JobApplication::STATUS_APPLIED : JobApplication::STATUS_DRAFT;
-
+            $input['currency_id'] = $job->currency_id;
             //$this->create($input);
             JobApplication::create($input);
 

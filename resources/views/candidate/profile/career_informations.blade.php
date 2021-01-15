@@ -113,6 +113,8 @@
         let educationUrl = "{{ url('candidate/candidate-education') }}/";
         let present = "{{ __('messages.candidate_profile.present') }}";
         let isEdit = false;
+        let userId = "{{auth()->user()->id}}";
+        let candidateProgressUrl = "{{route('candidate.profile.completion')}}";
     </script>
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>

@@ -13,8 +13,11 @@
             <div class="section-header-breadcrumb">
                 {{ Form::select('is_featured', $featured, null, ['id' => 'filter_featured', 'class' => 'form-control status-filter w-100', 'placeholder' => 'Select Featured Job']) }}
                 <a href="{{ route('job.create') }}"
-                   class="btn btn-primary form-btn ml-2 w-50px">{{ __('messages.common.add') }}
+                   class="btn btn-primary form-btn ml-2 w-50px">{{ __('messages.job.new_job') }}
                     <i class="fas fa-plus"></i></a>
+                <a href="{{ route('front.candidate.lists') }}"
+                   class="btn btn-success form-btn ml-2 w-50px">Job Seekers
+                    <i class="fas fa-search"></i></a>
             </div>
         </div>
         <div class="section-body">

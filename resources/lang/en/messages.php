@@ -31,6 +31,7 @@ return [
     'career_levels'          => 'Career Levels',
     'salary_currencies'      => 'Salary Currencies',
     'jobs'                   => 'Jobs',
+    'education_institutions' => 'Education Institutions',
     'candidates'             => 'Candidates',
     'profile'                => 'Profile',
     'resumes'                => 'Resumes',
@@ -113,13 +114,16 @@ return [
         'closed'              => 'Closed',
         'paused'              => 'Paused',
         'selected'            => 'Selected',
+        'interviewed'         => 'Interviewed',
         'view_public_profile' => 'View Public Profile',
         'view_profile'        => 'View Profile',
         'applied_on'          => 'Applied On',
         'all'                 => 'All',
         'print'               => 'Print',
         'preview'             => 'Preview',
-        'processing'          => 'Processing'
+        'processing'          => 'Processing',
+        'add_note'            => 'Add Note',
+        'view_notes'          => 'View Notes'
     ],
 
     'user_language' => [
@@ -426,8 +430,18 @@ return [
         'currency_icon'        => 'Currency Icon',
     ],
 
+    'education_institution' => [
+        'institution_name'  => 'Institution Name',
+        'country'           => 'Country',
+        'new_institution'   => 'New Education Institution',
+        'edit_institution'   => 'Edit Education Institution',
+        'messages' => [
+            'institution_saved_successfully' => 'Institution Saved Successfully',
+        ]
+    ],
+
     // Job
-    'job'                   => [
+    'job'                  => [
         'new_job'          => 'New Job',
         'edit_job'         => 'Edit Job',
         'job_details'      => 'Job Details',
@@ -525,6 +539,7 @@ return [
     'candidate_profile'   => [
         'upload_resume'     => 'Upload Resume',
         'upload_certificate'=> 'Upload Certificate',
+        'upload_salary_slip'=> 'Upload Salary Slip',
         'experience'        => 'Experience',
         'education'         => 'Education',
         'add_experience'    => 'Add Experience',
@@ -545,6 +560,10 @@ return [
         'degree_title'      => 'Degree Title',
         'present'           => 'Present',
         'online_profile'    => 'Online Profile',
+        'resume_updated'    => 'Resume updated successfully',
+        'certificate_uploaded'=> 'Certificate uploaded successfully',
+        'salary_slip_uploaded'=> 'Salary slip uploaded successfully',
+        'salary_slip_deleted'=> 'Salary slip deleted successfully',
     ],
 
     // apply job
@@ -553,6 +572,11 @@ return [
         'resume'    => 'Resume',
         'certification'    => 'Certification',
         'notes'     => 'Notes',
+        'note_saved'=> 'Note successfully saved',
+        'application_note' => "Application Note",
+        'schedule_interview' => "Schedule Interview",
+        'reschedule_interview' => "Re-schedule Interview",
+        'interview_schedule_success' => "Interview scheduled successfully",
     ],
 
     'job_application'    => [
