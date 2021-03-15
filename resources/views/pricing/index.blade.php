@@ -88,13 +88,21 @@
         </div>
     </section>
 @endsection
+
 @push('scripts')
     <script src="https://js.stripe.com/v3/"></script>
     <script>
+        let success = '';
         let stripe = Stripe('{{ config('services.stripe.key') }}');
+        let dpo_token = "{{env('DPO_COMPANY_TOKEN')}}";
         let subscribeText = "{{ __('messages.plan.purchase') }}";
         let cancelSubscriptionUrl = "{{ route('cancel-subscription') }}";
         let purchaseTriaalSubscriptionUrl = "{{ route('purchase-trial-subscription') }}";
     </script>
+    @if(session()->has('success'))
+        <script>
+            success = "{{session()->get('success')}}";
+        </script>
+    @endif
     <script src="{{ mix('assets/js/subscription/subscription.js') }}"></script>
 @endpush

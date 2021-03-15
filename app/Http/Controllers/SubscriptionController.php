@@ -4,7 +4,11 @@
 namespace App\Http\Controllers;
 
 
+use App\Functionalities\FeedData;
+use App\Models\Company;
+use App\Models\Payment;
 use App\Models\Plan;
+use App\Models\SalaryCurrency;
 use App\Models\Subscription;
 use App\Models\User;
 use App\Repositories\PlanRepository;
@@ -18,6 +22,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Spatie\ArrayToXml\ArrayToXml;
 use Stripe\Checkout\Session;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
@@ -64,10 +69,57 @@ class SubscriptionController extends AppBaseController
 
         /** @var User $user */
         $user = Auth::user();
+        $company = Company::whereUserId(Auth::user()->id)->first();
+        $currency = SalaryCurrency::find($plan->currency_id);
 
         $userEmail = isset($user->email) ? $user->email : null;
+        $items = [
+            ['plan' => $plan->id]
+        ];
+        $data = [
+            'user_id' => Auth::user()->id,
+            'type' => 'subscription',
+            'items' => json_encode($items),
+            'currency' => $currency->currency_icon,
+            'amount' => $plan->amount,
 
-        setStripeApiKey();
+        ];
+        $payment = Payment::create($data);
+
+        $xmlRequest = ArrayToXml::convert([
+            'CompanyToken' => env('DPO_COMPANY_TOKEN'),
+            'Request' => 'createToken',
+            'Transaction' => [
+                'PaymentAmount' => $plan->amount,
+                'PaymentCurrency' => $currency->currency_icon,
+                'TransactionChargeType' => 2,
+                'RedirectURL' => url('employer/payment-success')."?session_id=".$payment->id,
+                'BackURL' => url('employer/manage-subscriptions'),
+                'DeclinedURL' => url('failed-payment'),
+                'customerEmail' => Auth::user()->email,
+                'customerFirstName' => Auth::user()->first_name,
+                'customerLastName' => isset(Auth::user()->first_name[0])?Auth::user()->first_name[0]:'',
+                'customerAddress' => $company->address_line_1,
+                'customerCity' => $company->location,
+                'customerCountry' => 'TZ',
+                'customerPhone' => Auth::user()->phone,
+            ],
+            'Services' => [
+                'Service' => [
+                    'ServiceType' => 5525,
+                    'ServiceDescription' => 'Subscription',
+                    'ServiceDate' => '2013/12/20 19:00'
+                ]
+            ]
+        ], 'API3G');
+
+
+        $receivedXML = FeedData::xmlRequest($xmlRequest, env('DPO_TOKEN_CREATE_URL'), 'POST');
+
+        $result = FeedData::parseXML($receivedXML);
+
+
+        /*setStripeApiKey();
         $session = Session::create([
             'payment_method_types' => ['card'],
             'customer_email'       => $userEmail,
@@ -81,6 +133,17 @@ class SubscriptionController extends AppBaseController
         ]);
         $result = [
             'sessionId' => $session['id'],
+        ];*/
+        $transToken = (string) $result->TransToken;
+        $referenceNumber = (string) $result->TransRef;
+
+        /*Update the token into the database*/
+        Payment::where('id', $payment->id)->update(['token' => $transToken, 'ref_no' => $referenceNumber]);
+
+        $result = [
+            'sessionId' => $payment->id,
+            'token' => $transToken,
+            'payment_url' => str_replace('{token}', $transToken, env('DPO_PAYMENT_URL'))
         ];
 
         return $this->sendResponse($result, 'Subscription resumed successfully.');
@@ -96,15 +159,49 @@ class SubscriptionController extends AppBaseController
     public function paymentSuccess(Request $request)
     {
         $sessionId = $request->get('session_id');
+        $transactionToken = $request->get('TransactionToken');
+        $verificationDetails = [
+            'CompanyToken' => env('DPO_COMPANY_TOKEN'),
+            'Request' => 'verifyToken',
+            'TransactionToken' => $request->get('TransactionToken'),
+        ];
+        $xml = ArrayToXml::convert($verificationDetails, 'API3G');
+        $xmlRequest = FeedData::xmlRequest($xml, env('DPO_TOKEN_VERIFICATION_URL'), 'POST');
+        $result = FeedData::parseXML($xmlRequest);
+
+        switch ((string) $result->Result){
+            case ('000'): // paid
+                $paid = 1;
+                break;
+            case ('900'): //not paid yet
+                $paid = null;
+                break;
+            case (901): // declined
+                $paid = 0;
+                break;
+            default:
+                $paid=null;
+        }
+        $payment = Payment::where('token', $request->get('TransactionToken'))->update(['paid' => $paid]);
+
+
         if (empty($sessionId)) {
             throw new UnprocessableEntityHttpException('session_id required');
+        }else if(empty($transactionToken)){
+            throw new UnprocessableEntityHttpException('Transaction Token is required');
         }
+
 
         /** @var SubscriptionRepository $subscriptionRepo */
         $subscriptionRepo = app(SubscriptionRepository::class);
         $subscriptionRepo->purchaseSubscription($sessionId);
 
-        return redirect(route('manage-subscription.index'));
+        if($paid){
+            return redirect(route('manage-subscription.index'))->with('success', 'Payment Successfully Processed');
+        }else{
+            return redirect(route('manage-subscription.index'));
+        }
+
     }
 
     /**
@@ -171,7 +268,7 @@ class SubscriptionController extends AppBaseController
     {
         $stripeWebHookSecret = config('services.stripe.webhook_secret_key');
         $data = $request->all();
-        
+
         $payload = @file_get_contents('php://input');
         $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $event = null;

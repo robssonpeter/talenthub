@@ -8,7 +8,7 @@
                     <h5 class="education-degree-level">{{ $candidateEducation->degreeLevel->name }}</h5>
                     <h6 class="text-muted">{{ $candidateEducation->degree_title }}</h6>
                 </div>
-                <span class="text-muted">{{ $candidateEducation->year }} | {{ $candidateEducation->country }}</span>
+                <span class="text-muted">{{ $candidateEducation->currently_studying?'Ongoing':$candidateEducation->year }} | {{ $candidateEducation->country }}</span>
                 <p class="mb-0">{{ Str::limit($candidateEducation->institute,50,'...') }}</p>
                 <div class="article-cta candidate-education-edit-delete">
                     <a href="javascript:void(0)" class="action-btn edit-education"

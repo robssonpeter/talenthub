@@ -4,6 +4,7 @@
 @endsection
 @section('css')
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 @endsection
 @section('content')
     <section class="page-header">
@@ -60,16 +61,20 @@
                                 <label for="expected_salary">{{ __('messages.candidate.expected_salary').' ('.$job->currency->currency_icon.'):' }}<span
                                             class="required asterisk-size">*</span></label>
                                 <input type="text" id="expected_salary" name="expected_salary"
+                                       placeholder="{{__('messages.job.net_amount')}}"
                                        value="{{ ($isJobDrafted) ? $draftJobDetails->expected_salary : '' }}"
                                        class="form-control price-input" required>
                             </div>
                             <div class="form-group col-sm-12">
                                 <label for="notes">{{ __('messages.applied_job.cover_letter').':' }}<span
                                         class="required asterisk-size">{{$job->require_cover_letter?'*':''}}</span></label>
-                                <textarea rows="5" id="cover_letter" name="cover_letter"
+                                <div id="message" class="mb-3">
+
+                                </div>
+                                <input type="hidden" rows="5" id="cover_letter" name="cover_letter"
                                           {{$job->require_cover_letter?'required':''}}
                                           placeholder="{{$job->require_cover_letter?'Required':'Optional'}}"
-                                          class="form-control">{{ ($isJobDrafted) ? $draftJobDetails->cover_letter : '' }}</textarea>
+                                          class="form-control" value="{{ ($isJobDrafted) ? $draftJobDetails->cover_letter : '' }}">
                             </div>
                             <div class="form-group col-sm-12">
                                 <label for="notes">{{ __('messages.apply_job.notes').':' }}</label>
@@ -79,10 +84,10 @@
                             <div class="form-group pt30 nomargin text-right" id="last">
                                 @if(!$isApplied)
                                     @if(!$isJobDrafted)
-                                        <button class="btn btn-red btn-effect save-draft mr-1">Save as Draft</button>
+                                        <button class="btn btn-red btn-effect save-draft mr-1 submit">Save as Draft</button>
                                     @endif
                                     @if($isActive && !$job->is_suspended)
-                                        <button class="btn btn-blue btn-effect apply-job">{{ __('web.common.apply') }}</button>
+                                        <button class="btn btn-blue btn-effect apply-job submit">{{ __('web.common.apply') }}</button>
                                     @endif
                                 @else
                                     <button class="btn btn-green btn-effect">{{ __('web.apply_for_job.already_applied') }}</button>
@@ -98,6 +103,36 @@
     </section>
 @endsection
 @section('scripts')
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+    <script>
+        var toolbarOptions = [
+            'bold', 'italic', 'underline',
+            { 'list': 'ordered'},
+            { 'list': 'bullet' },
+            {'align': 'center'},
+            {'align': 'right'},
+            {'align': 'justify'}];
+        var quill = new Quill('#message', {
+            modules: {
+                toolbar: toolbarOptions
+            },
+            placeholder: 'Type your cover letter here',
+            theme: 'snow',
+        });
+    </script>
+    @if($job->require_cover_letter)
+    <script>
+        let requireCoverLetter = "{{$job->require_cover_letter}}";
+        var turndownService = new TurndownService();
+        $(document).on('click', '.submit', function(event){
+            let markdown = turndownService.turndown(quill.root.innerHTML);
+            //$("#cover_letter").val(quill.root.innerHTML);
+            $("#cover_letter").val(markdown);
+            event.preventDefault();
+        });
+    </script>
+    @endif
     <script>
         let applyJobUrl = "{{ route('apply-job') }}";
         let jobDetailsUrl = "{{ url('job-details') }}";

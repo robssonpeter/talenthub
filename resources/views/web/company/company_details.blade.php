@@ -81,7 +81,7 @@
                         <div class="profile-title">
                             <div class="d-flex flex-row align-items-center">
                             <h2 class="capitalize flex-fill">{{ $companyDetail->user->full_name }}</h2>
-                            @if($companyDetail->has('verification'))
+                            @if($companyDetail->verification)
                                 <img src="{{asset('assets/images/002-check.svg')}}" title="{{__('messages.verification.verified_employer')}}" style="margin-left:30px; height: 30px; width: 30px" alt="">
                             @endif
                             </div>

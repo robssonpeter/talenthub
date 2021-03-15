@@ -29,4 +29,13 @@ class AboutUsController extends AppBaseController
 
         return view('web.about_us.index', compact('faqLists'));
     }
+
+    public function termsAndConditions(){
+        return view('web.about_us.terms-and-conditions');
+    }
+    public function termsAndConditionSale(){
+        return view('web.about_us.terms-and-conditions-sale');
+    }
+
+
 }

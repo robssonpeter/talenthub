@@ -179,6 +179,11 @@ class Job extends Model
         'city_id',
         'status',
         'require_cover_letter',
+        'reports_to',
+        'industry_id',
+        'summary',
+        'qualifications',
+        'additional_information'
     ];
     /**
      * @var array
@@ -212,7 +217,7 @@ class Job extends Model
     ];
 
     protected $appends = ['country_name', 'state_name', 'city_name'];
-    protected $with = ['country', 'state', 'city', 'activeFeatured', 'currency'];
+    protected $with = ['country', 'state', 'city', 'activeFeatured', 'currency', 'company'];
 
     /**
      *

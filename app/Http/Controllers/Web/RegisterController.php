@@ -37,11 +37,15 @@ class RegisterController extends AppBaseController
      */
     public function register(WebRegisterRequest $request)
     {
+        $validator = $request->validate([
+            'password'   => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
         $input = $request->all();
         $this->webRegisterRepository->store($input);
         $userType = ($input['type'] == 1) ? 'Candidate' : 'Employer';
-        Flash::success('You have registered successfully, Activate your account from mail.');
-
+        $message = 'Please follow the verification link sent to \n'.$input['email'].' to verify your account';
+        Flash::success('Successfully registered, Please follow the verification link sent to <strong>'.$input['email'].'</strong>');
+        session()->flash('registered', $message);
         return $this->sendSuccess("{$userType} registration done successfully.");
     }
 }

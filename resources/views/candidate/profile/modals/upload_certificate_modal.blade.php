@@ -3,7 +3,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{ __('messages.candidate_profile.upload_certificate') }}</h5>
+                <h5 class="modal-title">{{ __('messages.upload_attachment') }}</h5>
                 <button type="button" aria-label="Close" class="close" data-dismiss="modal">×</button>
             </div>
             {{ Form::open(['id'=>'addNewForm']) }}

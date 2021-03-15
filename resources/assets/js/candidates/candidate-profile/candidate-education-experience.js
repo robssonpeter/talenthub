@@ -65,6 +65,8 @@ $(document).ready(function () {
         }, 1000);
     });
 
+    $(document).on('click', '#')
+
     $('#default').on('click', function () {
         if ($(this).prop('checked') == true) {
             $('#endDate').prop('disabled', true);
@@ -561,6 +563,7 @@ window.renderExperienceData = function (id) {
     });
 };
 window.renderExperienceTemplate = function (experienceArray) {
+    var converter = new showdown.Converter();
     let candidateExperienceCount =
         $('.candidate-experience-container .candidate-experience:last').
             data('experience-id') != undefined ?
@@ -579,7 +582,7 @@ window.renderExperienceTemplate = function (experienceArray) {
         startDate: moment(experienceArray.start_date, 'YYYY-MM-DD').
             format('Do MMM, YYYY'),
         endDate: endDate,
-        description: experienceArray.description,
+        description: converter.makeHTML(experienceArray.description),
         country: experienceArray.country,
     };
     let stageTemplateHtml = template.render(data);

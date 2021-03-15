@@ -5,6 +5,7 @@ namespace App\Repositories\Candidates;
 use App\Models\Candidate;
 use App\Models\CandidateEducation;
 use App\Models\CandidateExperience;
+use App\Models\CandidateObjective;
 use App\Models\CareerLevel;
 use App\Models\FunctionalArea;
 use App\Models\Industry;
@@ -188,8 +189,8 @@ class CandidateRepository extends BaseRepository
             $userInput = Arr::only($input,
                 [
                     'first_name', 'last_name', 'email', 'password', 'phone',
-                    'country_id', 'state_id', 'city_id', 'gender', 'dob', 'facebook_url', 'twitter_url', 'linkedin_url',
-                    'pinterest_url', 'google_plus_url', 'region_code',
+                    'country_id', 'state_id', 'city_id', 'gender', 'dob', 'dob_visible', 'facebook_url', 'twitter_url', 'linkedin_url',
+                    'pinterest_url', 'google_plus_url', 'region_code', 'address_line_1', 'address_line_2', 'zip_code'
                 ]);
 
             $user->update($userInput);
@@ -247,6 +248,9 @@ class CandidateRepository extends BaseRepository
             if (isset($input['candidateSkills']) && ! empty($input['candidateSkills'])) {
                 $user->candidateSkill()->sync($input['candidateSkills']);
             }
+            if(isset($input['objective']) && ! empty($input['objective'])){
+                CandidateObjective::updateOrCreate(['candidate_id' => $user->candidate->id], ['description' => $input['objective']]);
+            }
             DB::commit();
 
             return $user;
@@ -269,6 +273,7 @@ class CandidateRepository extends BaseRepository
          * if $resume == null -> the user is uploading a salary slip
          * else the user just uploaded a certificate
          */
+
         try {
             $user = Auth::user();
             /** @var Candidate $candidate */
@@ -277,12 +282,20 @@ class CandidateRepository extends BaseRepository
 
             $fileExtension = getFileName('download', $input['file']);
             //throw new UnprocessableEntityHttpException($resume?Candidate::RESUME_PATH:Candidate::CERTIFICATE_PATH);
+            if($resume){
+                $mediaCollection = Candidate::RESUME_PATH;
+            }else{
+                if(is_null($resume)){
+                    $mediaCollection = Candidate::SALARY_SLIP_PATH;
+                }else{
+                    $mediaCollection = Candidate::CERTIFICATE_PATH;
+                }
+            }
             $candidate->addMedia($input['file'])
                 ->withCustomProperties([
                     'is_default' => isset($input['is_default'])?$input['is_default']:false,
                     'title'      => $input['title'],
-                ])->usingFileName($fileExtension)->toMediaCollection($resume?Candidate::RESUME_PATH:is_null($resume)?Candidate::SALARY_SLIP_PATH:Candidate::CERTIFICATE_PATH, config('app.media_disc'));
-
+                ])->usingFileName($fileExtension)->toMediaCollection($mediaCollection, config('app.media_disc'));
             return true;
         } catch (Exception $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());

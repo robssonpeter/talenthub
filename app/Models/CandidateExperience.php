@@ -74,6 +74,9 @@ class CandidateExperience extends Model
         'end_date',
         'currently_working',
         'description',
+        'career_level_id',
+        'job_category_id',
+        'industry_id'
     ];
     /**
      * The attributes that should be casted to native types.
@@ -93,9 +96,18 @@ class CandidateExperience extends Model
         'description'       => 'string',
     ];
 
+    protected $appends = ['duration'];
+
     /**
-     * @return BelongsTo
+     * @return string
      */
+    public function getDurationAttribute(){
+        $start = Carbon::parse($this->start_date);
+        $end = Carbon::parse($this->currently_working?date('Y-m-d', time()):$this->end_date);
+
+        return $start->diffForHumans($end, true, false, 2);
+    }
+
     public function candidate()
     {
         return $this->belongsTo(Candidate::class, 'candidate_id');

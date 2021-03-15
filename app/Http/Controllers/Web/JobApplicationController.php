@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\ApplyJobRequest;
+use App\Models\Candidate;
 use App\Models\Job;
 use App\Repositories\JobApplicationRepository;
 use Illuminate\Contracts\View\Factory;
@@ -43,7 +44,8 @@ class JobApplicationController extends AppBaseController
     public function applyJob(ApplyJobRequest $request)
     {
         $input = $request->all();
-
+        $candidate = Candidate::whereUserId(\Auth::user()->id)->first();
+        $input['immediately_available'] = $candidate->immediate_available;
         $this->jobApplicationRepository->store($input);
 
         /** @var Job $job */

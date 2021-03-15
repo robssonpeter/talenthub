@@ -18,8 +18,8 @@
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'editEducationCountry','class' => 'form-control','placeholder' => 'Select Country', 'data-modal-type' => 'education', 'data-is-edit' => 'true']) }}
     </div>
     <div class="form-group col-sm-6">
-        {{ Form::label('state', __('messages.company.state').':') }}
-        {{ Form::select('state_id', [], null, ['id'=>'editEducationState','class' => 'form-control','placeholder' => 'Select State', 'data-modal-type' => 'education', 'data-is-edit' => 'true']) }}
+        {{ Form::label('state', __('messages.company.region').':') }}
+        {{ Form::select('state_id', [], null, ['id'=>'editEducationState','class' => 'form-control','placeholder' => 'Select region', 'data-modal-type' => 'education', 'data-is-edit' => 'true']) }}
     </div>
     <div class="form-group col-sm-6">
         {{ Form::label('city', __('messages.company.city').':') }}
@@ -30,15 +30,31 @@
                 class="text-danger">*</span>
         {{ Form::text('institute', null, ['class' => 'form-control','required', 'id' => 'editInstitute']) }}
     </div>
+
     <div class="form-group col-sm-6">
-        {{ Form::label('result', __('messages.candidate_profile.result').':') }}<span
+        {{ Form::label('year', __('messages.candidate_profile.start_year').':') }}<span
                 class="text-danger">*</span>
-        {{ Form::text('result', null, ['class' => 'form-control', 'required', 'id' => 'editResult']) }}
+        {{ Form::selectYear('start_year', date('Y'), 1950, null, ['class' => 'form-control', 'id' => 'editStartYear']) }}
     </div>
     <div class="form-group col-sm-6">
-        {{ Form::label('year', __('messages.candidate_profile.year').':') }}<span
-                class="text-danger">*</span>
-        {{ Form::selectYear('year', date('Y'), 2000, null, ['class' => 'form-control', 'id' => 'editYear']) }}
+        {{ Form::label('year', __('messages.candidate_profile.end_year').':') }}<span
+                class="text-danger" id="editEducationEndYearRequired">*</span>
+        {{ Form::selectYear('year', date('Y'), 1950, null, ['class' => 'form-control', 'id' => 'editYear']) }}
+    </div>
+    <div class="form-group col-sm-6 mb-0 pt-3">
+        <label>{{ __('messages.candidate_profile.currently_studying') }}</label>
+        <div class="col-6 pl-0">
+            <label class="custom-switch pl-0">
+                <input type="checkbox" name="currently_studying" class="custom-switch-input"
+                       value="1" id="editCurrentlyStudying">
+                <span class="custom-switch-indicator"></span>
+            </label>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        {{ Form::label('result', __('messages.candidate_profile.result').':') }}<span
+            class="text-danger" id="editEducationResultRequired">*</span>
+        {{ Form::text('result', null, ['class' => 'form-control', 'required', 'id' => 'editResult']) }}
     </div>
 </div>
 <div class="text-right">

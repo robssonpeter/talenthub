@@ -2,12 +2,12 @@
     <div class="col-md-6 mt30 {{ ($loop->last && $loop->iteration % 2 != 0) ? 'col-md-offset-3' : '' }}">
         <div class="single-job-post row nomargin container-shadow">
             <div class="col-md-2 col-xs-3 nopadding">
-                <img src="{{ $company->company_url }}" class="jobs-company-logo" alt="company logo">
+                <img src="{{ str_replace('htts:', 'https:', asset($company->company_url)) }}" class="jobs-company-logo" alt="company logo">
             </div>
             <div class="col-md-10 col-xs-6 pt5 nopadding-right ">
                 <div class="job-title d-flex flex-row">
                     <h6 class="text-dark flex-fill mr-3">{{ $company->user->first_name }}</h6>
-                    @if($company->has('verification'))
+                    @if($company->verification)
                     <img src="{{asset('assets/images/002-check.svg')}}" title="{{__('messages.verification.verified_employer')}}" style="height: 17px; width: 17px" alt="">
                     @endif
                 </div>

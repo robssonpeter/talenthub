@@ -13,7 +13,7 @@ class JobSearch extends Component
     use WithPagination;
 
     public $searchByLocation = '', $types = [], $category = '', $salaryFrom = '', $salaryTo = '', $title = '',
-        $skill = '', $gender = '', $careerLevel = '', $functionalArea = '', $company = '';
+        $skill = '', $gender = '', $careerLevel = '', $functionalArea = '', $company = '', $payCurrency = '';
 
     protected $listeners = ['changeFilter', 'resetFilter'];
 
@@ -71,7 +71,7 @@ class JobSearch extends Component
      */
     public function render()
     {
-        $jobs = $this->searchJobs();
+        $jobs = $this->searchJobs(true);
 
         return view('livewire.job-search', compact('jobs'));
     }
@@ -79,7 +79,7 @@ class JobSearch extends Component
     /**
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function searchJobs()
+    public function searchJobs($latest=null)
     {
         /** @var Job $query */
         $query = Job::with(['company', 'country', 'state', 'city', 'jobShift'])
@@ -125,6 +125,9 @@ class JobSearch extends Component
         $query->when(! empty($this->functionalArea), function (Builder $q) {
             $q->where('functional_area_id', '=', $this->functionalArea);
         });
+        $query->when(!empty($this->payCurrency), function (Builder $q){
+            $q->where('currency_id', '=', $this->payCurrency);
+        });
 
         $query->when($this->gender != '', function (Builder $q) {
             $q->where('no_preference', '=', $this->gender);
@@ -139,6 +142,10 @@ class JobSearch extends Component
             $q->whereHas('company', function (Builder $q) {
                 $q->where('company_id', '=', $this->company);
             });
+        });
+
+        $query->when($latest, function (Builder $q) {
+            $q->orderBy('id', 'DESC');
         });
 
         return $query->paginate(10);

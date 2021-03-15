@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="form-group col-sm-12">
-        {{ Form::label('description', __('messages.candidate_profile.description').':') }}
+        {{ Form::label('description', __('messages.candidate_profile.achievements').':') }}
         {{ Form::textarea('description', null, ['class' => 'form-control textarea-sizing','rows'=>'5']) }}
     </div>
 </div>

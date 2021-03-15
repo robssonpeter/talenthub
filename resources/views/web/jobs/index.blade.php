@@ -79,7 +79,7 @@
                         @endif
                     </div>
 
-                    <div class="job-categories mt30">
+                    {{--<div class="job-categories mt30">
                         <h4 class="pb20">{{ __('messages.candidate.gender') }}</h4>
                         <select id="searchGender" class="form-control selectpicker" name="search-gender"
                                 title="Any Gender" data-size="5">
@@ -88,7 +88,7 @@
                                 <option value="{{ $key }}">{{ $value }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div>--}}
 
                     <div class="job-categories mt30">
                         <h4 class="pb20">{{ __('messages.job.career_level') }}</h4>
@@ -115,6 +115,12 @@
                                 @endforeach
                             </select>
                         @endif
+                    </div>
+
+                    <!--Pay Currency -->
+                    <div class="job-types mt30">
+                        <label class="text-dark">{{ __('web.job_menu.pay_currency') }}:</label>
+                        {{Form::select('currency', $payCurrencies, 0, ['class' => 'form-control', 'id' => 'payCurrency'])}}
                     </div>
 
                     <!-- Job Types -->

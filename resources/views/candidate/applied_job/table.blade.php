@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th scope="col">{{ __('messages.job.job_title') }}</th>
+        <th scope="col">{{ __('messages.common.company') }}</th>
         <th scope="col">{{ __('messages.common.applied_on') }}</th>
         <th scope="col">{{ __('messages.common.status') }}</th>
         <th scope="col">{{ __('messages.common.action') }}</th>

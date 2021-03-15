@@ -6,6 +6,7 @@ use App\Http\Requests\CreateCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\CompanyVerification;
+use App\Models\EmailTemplate;
 use App\Models\FeaturedRecord;
 use App\Models\FrontSetting;
 use App\Models\ReportedToCompany;
@@ -455,5 +456,64 @@ class CompanyController extends AppBaseController
         ];
         $verified = CompanyVerification::updateOrCreate(['company_id' => $id], $data);
         return $verified;
+    }
+
+    public function emailTemplates(){
+        return \view('employer.email_templates.index-temp');
+    }
+
+    public function getEmailTemplates(){
+        $company = Company::whereUserId(Auth::user()->id)->first();
+        $emails = EmailTemplate::where('company_id', $company->id)->orWhereNull('company_id')->get();
+        return $this->sendResponse($emails,'Data retrieved successfully');
+    }
+
+    public function showEmailTemplate($template_id){
+        $template = EmailTemplate::find($template_id);
+        return $this->sendResponse($template, 'Template retrieved successfully');
+    }
+
+    public function templatePlaceholder($type){
+        $columns = EmailTemplate::TYPES_TABLES[$type]['columns'];
+        return $this->sendResponse($columns, 'Placeholders retrieved successfully');
+    }
+
+    public function saveEmailTemplate(){
+        $company = Company::whereUserId(\Auth::user()->id)->first();
+        $data = \request()->all();
+        $data['company_id'] = $company->id;
+        if(isset($data['template_id'])){ // updating existing template
+            $template_id = $data['template_id'];
+            $updates = [
+                'name' => $data['name'],
+                'content' => $data['content'],
+                'type' => $data['type']
+            ];
+            $save = EmailTemplate::find($template_id)->update($updates);
+        }else{
+            $save = EmailTemplate::create($data);
+        }
+
+        if($save){
+            return $this->sendResponse($save, 'Template saved successfully');
+        }else{
+            return $this->sendResponse(null, 'Template could not be saved');
+        }
+    }
+
+    public function availableTemplates($type){
+        $company = Company::whereUserId(Auth::user()->id)->first();
+        $templates = EmailTemplate::whereRaw('(company_id = "'.$company->id.'" OR company_id IS NULL) AND type = "'.$type.'"')->get();
+        return $this->sendResponse($templates, 'Templates fetch successfully');
+    }
+
+    public function deleteEmailTemplate($template_id){
+        $template = EmailTemplate::find($template_id);
+        $company = Company::whereUserId(Auth::user()->id)->first();
+        if($company->id == $template->company_id){
+            $template->delete();
+            return $this->sendResponse($template_id, 'Template deleted successfully.');
+        }
+        return $this->sendError('You can not delete this template');
     }
 }

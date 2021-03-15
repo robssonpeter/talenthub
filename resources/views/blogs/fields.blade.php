@@ -28,6 +28,11 @@
                 class="text-danger">*</span>
         {{ Form::textarea('description', null, ['class' => 'form-control','id' => 'description', 'rows' => '5']) }}
     </div>
+    <div class="form-group col-sm-12">
+        {{ Form::label('author',__('messages.post.author').':') }}<span
+            class="text-danger"></span>
+        {{ Form::text('author', null, ['class' => 'form-control','required']) }}
+    </div>
 </div>
 
 <div class="text-left">

@@ -1,3 +1,9 @@
+{{--@if(session()->has('message'))
+    @php
+        $alertMessage = session()->get('message');
+    @endphp
+    @include('alerts.info')
+@endif--}}
 <div class="navbar-bg"></div>
 <nav class="navbar navbar-expand-lg main-navbar mb-0 pb-0">
     <a href="{{ route('front.home') }}" class="navbar-brand sidebar-gone-hide">{{ config('app.name') }}</a>
@@ -10,7 +16,7 @@
             <li class="dropdown">
                 <a href="#" data-toggle="dropdown"
                    class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                    <img alt="image" src="{{ getLoggedInUser()->avatar }}"
+                    <img alt="image" src="{{ str_replace('htts:', 'https:', getLoggedInUser()->avatar) }}"
                          class="rounded-circle mr-1 user-thumbnail">
                     <div class="d-sm-none d-lg-inline-block">
                         {{ __('messages.common.hi') }}, {{\Illuminate\Support\Facades\Auth::user()->first_name}}</div>
@@ -80,7 +86,7 @@
             </li>
             <li class="nav-item {{ Request::is('employer/followers*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('followers.index') }}">
-                    <i class="fab fa-foursquare"></i>
+                    <i class="fas fa-users"></i>
                     <span>{{ __('messages.employer_menu.followers') }}</span>
                 </a>
             </li>
@@ -96,12 +102,34 @@
                     <span>{{ __('messages.employer_menu.transactions') }}</span>
                 </a>
             </li>
-            <li class="nav-item {{ Request::is('company/verify*') ? 'active' : ''}}">
+            {{--<li class="nav-item {{ Request::is('company/verify*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('company.verify') }}">
                     <i class="fas fa-check"></i>
-                    <span>{{ __('messages.employer_menu.verification') }}</span>
+                    <span>{{ Request::path().__('messages.employer_menu.verification') }}</span>
                 </a>
+            </li>--}}
+            <li class="nav-item dropdown {{ in_array(Request::path(), ['company/verify', 'company/email-templates']) ? 'active' : ''}}">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{{ route('company.verify') }}">
+                    <i class="fas fa-plus"></i>
+                    <span>{{ __('messages.common.extras') }}</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="{{route('front.candidate.lists')}}">
+                        <i class="fas fa-users"></i>
+                        <span>{{__('messages.job.job_seekers')}}</span>
+                    </a>
+                    <a class="dropdown-item" href="{{route('company.email-templates')}}">
+                        <i class="fas fa-at"></i>
+                        <span>{{__('messages.common.email_templates')}}</span>
+                    </a>
+                    <a class="dropdown-item" href="{{ route('company.verify') }}">
+                        <i class="fas fa-check"></i>
+                        <span>{{ __('messages.employer_menu.verification') }}</span>
+                    </a>
+                </div>
             </li>
         </ul>
     </div>
 </nav>
+
+

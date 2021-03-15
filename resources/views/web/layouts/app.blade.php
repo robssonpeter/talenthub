@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('web/css/font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('web/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('web/css/style.css') }}">
+    {{--<link rel="stylesheet" type="text/css" href="{{ asset('assets/web/css/style.css') }}">--}}
     <link rel="stylesheet" type="text/css" href="{{ asset('web/css/responsive.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('web/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset(mix('assets/css/flex.css')) }}">

@@ -4,25 +4,41 @@
         {{ Form::text('job_title', null, ['class' => 'form-control','required']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('job_type_id', __('messages.job.job_type').':') }}<span class="text-danger">*</span>
-        {{ Form::select('job_type_id', $data['jobType'],null, ['id'=>'jobTypeId','class' => 'form-control','placeholder' => 'Select Job Type','required']) }}
+        {{ Form::label('job_type_id', __('messages.job.job_family').':') }}<span class="text-danger">*</span>
+        {{ Form::select('job_type_id', $data['jobType'],null, ['id'=>'jobTypeId','class' => 'form-control','placeholder' => 'Select Job Family','required']) }}
     </div>
-    <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('job_category_id', __('messages.job_category.job_category').':') }}<span
+    <div class="form-group col-xl-4 col-md-4 col-sm-12">
+        {{ Form::label('industry_id', __('messages.job.industry').':') }}<span class="text-danger">*</span>
+        {{ Form::select('industry_id', $data['industries'],null, ['id'=>'industries','class' => 'form-control','placeholder' => 'Select Industry','required']) }}
+    </div>
+    <div class="form-group col-xl-4 col-md-4 col-sm-12">
+        {{ Form::label('job_category_id', __('messages.job_category.job_function').':') }}<span
                 class="text-danger">*</span>
-        {{ Form::select('job_category_id', $data['jobCategory'],null, ['id'=>'jobCategoryId','class' => 'form-control','placeholder' => 'Select Job Category','required']) }}
+        {{ Form::select('job_category_id', $data['jobCategory'],null, ['id'=>'jobCategoryId','class' => 'form-control','placeholder' => 'Select Job Function','required']) }}
     </div>
-    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+    <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('skill_id', __('messages.job.job_skill').':') }} <span class="text-danger">*</span>
         {{Form::select('jobsSkill[]',$data['jobSkill'], null, ['class' => 'form-control','id'=>'SkillId','multiple'=>true,'required'])}}
     </div>
     <div class="form-group col-xl-12 col-md-12 col-sm-12">
-        {{ Form::label('description', __('messages.job.description').':') }}<span class="text-danger">*</span>
+        {{ Form::label('summary', __('messages.candidate.summary').':') }}<span class="text-danger">*</span>
+        {{ Form::textarea('summary', null, ['class' => 'form-control' , 'id' => 'summary', 'rows' => '5']) }}
+    </div>
+    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+        {{ Form::label('description', __('messages.job.responsibilities').':') }}<span class="text-danger">*</span>
         {{ Form::textarea('description', null, ['class' => 'form-control' , 'id' => 'details', 'rows' => '5']) }}
     </div>
+    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+        {{ Form::label('qualifications', __('messages.job.qualifications').':') }}<span class="text-danger">*</span>
+        {{ Form::textarea('qualifications', null, ['class' => 'form-control' , 'id' => 'qualifications', 'rows' => '5']) }}
+    </div>
+    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+        {{ Form::label('additional_information', __('messages.job.additional_information').':') }}<span class="text-danger">*</span>
+        {{ Form::textarea('additional_information', null, ['class' => 'form-control' , 'id' => 'additional_information', 'rows' => '5']) }}
+    </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('no_preference', __('messages.candidate.gender').':') }}
-        {{ Form::select('no_preference', $data['preference'], null, ['id'=>'preferenceId','class' => 'form-control','placeholder' => 'Select Gender']) }}
+        {{ Form::label('reports_to', __('messages.job.reports_to').':') }}
+        {{ Form::text('reports_to', null, ['id'=>'reports_to','class' => 'form-control']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('job_expiry_date', __('messages.job.job_expiry_date').':') }} <span class="text-danger">*</span>
@@ -37,13 +53,14 @@
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('salary_from', __('messages.job.salary_from').':') }}<span class="text-danger">*</span>
-        {{ Form::text('salary_from', null, ['class' => 'form-control salary', 'id' => 'fromSalary', 'required']) }}
+        {{ Form::text('salary_from', null, ['class' => 'form-control salary', 'placeholder' => __('messages.job.net_amount'), 'id' => 'fromSalary', 'required']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('salary_to', __('messages.job.salary_to').':') }}<span class="text-danger">*</span>
-        {{ Form::text('salary_to', null, ['class' => 'form-control salary', 'id' => 'toSalary', 'required']) }}
+        {{ Form::text('salary_to', null, ['class' => 'form-control salary','placeholder' => __('messages.job.net_amount'), 'id' => 'toSalary', 'required']) }}
         <span id="salaryToErrorMsg" class="text-danger"></span>
     </div>
+
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('currency_id', __('messages.job.currency').':') }}<span class="text-danger">*</span>
         {{ Form::select('currency_id', $data['currencies'], null, ['id'=>'currencyId','class' => 'form-control','placeholder' => 'Select Currency','required']) }}
@@ -57,8 +74,8 @@
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-control','placeholder' => 'Select Country','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('state', __('messages.company.state').':') }}<span class="text-danger">*</span>
-        {{ Form::select('state_id', [], null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select State','required']) }}
+        {{ Form::label('state', __('messages.company.region').':') }}<span class="text-danger">*</span>
+        {{ Form::select('state_id', [], null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('city', __('messages.company.city').':') }}<span class="text-danger">*</span>
@@ -68,10 +85,10 @@
         {{ Form::label('career_level_id', __('messages.job.career_level').':') }}
         {{ Form::select('career_level_id', $data['careerLevels'],null, ['id'=>'careerLevelsId','class' => 'form-control','placeholder' => 'Select Career Level']) }}
     </div>
-    <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('job_shift_id', __('messages.job.job_shift').':') }}
-        {{ Form::select('job_shift_id', $data['jobShift'], null, ['id'=>'jobShiftId','class' => 'form-control','placeholder' => 'Select Job Shift']) }}
-    </div>
+{{--    <div class="form-group col-xl-6 col-md-6 col-sm-12">--}}
+{{--        {{ Form::label('job_shift_id', __('messages.job.job_shift').':') }}--}}
+{{--        {{ Form::select('job_shift_id', $data['jobShift'], null, ['id'=>'jobShiftId','class' => 'form-control','placeholder' => 'Select Job Shift']) }}--}}
+{{--    </div>--}}
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('tagId', __('messages.job_tag.show_job_tag').':') }}
         {{Form::select('jobTag[]',$data['jobTag'], null, ['class' => 'form-control','id'=>'tagId','multiple'=>true])}}
@@ -86,8 +103,8 @@
         {{ Form::select('functional_area_id', $data['functionalArea'], null, ['id'=>'functionalAreaId','class' => 'form-control','placeholder' => 'Select Functional Area','required']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('position', __('messages.job.position').':') }}<span class="text-danger">*</span>
-        {{ Form::number('position',  null, ['id'=>'positionId','class' => 'form-control','placeholder' => 'Select Position','required', 'min' => 0]) }}
+        {{ Form::label('position', __('messages.job.number_of_positions').':') }}<span class="text-danger">*</span>
+        {{ Form::number('position',  null, ['id'=>'positionId','class' => 'form-control','required', 'min' => 0]) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('experience', __('messages.job_experience.job_experience').':') }}<span
@@ -122,7 +139,7 @@
     <!-- Submit Field -->
     <div class="form-group col-sm-12">
         <button type="submit" value="saveDraft" class="btn btn-primary mr-1" name="saveDraft">Save As Draft</button>
-        {{ Form::submit(__('messages.common.save'), ['class' => 'btn btn-primary','name' => 'save', 'id' => 'saveJob']) }}
+        {{ Form::submit(__('messages.common.save_publish'), ['class' => 'btn btn-primary','name' => 'save', 'id' => 'saveJob']) }}
         <a href="{{ route('job.index') }}" class="btn btn-secondary text-dark">{{__('messages.common.cancel')}}</a>
     </div>
 

@@ -9,7 +9,7 @@
     <section class="section">
         <div class="section-header d-md-flex flex-md-row">
             <h1 class="flex-md-fill">{{ __('messages.favourite_jobs') }}</h1>
-            <a href="{{ route('front.search.jobs') }}" class="btn btn-primary">{{ __('messages.front_home.browse_jobs') }}</a>
+            <a href="{{ route('front.search.jobs') }}" class="btn btn-primary hover-orange">{{ __('messages.front_home.browse_jobs') }}</a>
         </div>
         <div class="section-body">
             @include('flash::message')

@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                             <div class="col-md-offset-4 blog-desc">
-                                <h5><a href="{{ route('front.posts.details',$blog->id) }}">{{ $blog->title }}</a>
+                                <h5><a class="hover-text-orange" href="{{ route('front.posts.details',$blog->id) }}">{{ $blog->title }}</a>
                                 </h5>
                                 <div class="post-detail pt10 pb20">
                                     <span><i class="fa fa-user"></i>{{ $blog->user->full_name }}</span>

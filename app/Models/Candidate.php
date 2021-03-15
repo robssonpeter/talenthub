@@ -99,7 +99,9 @@ class Candidate extends Model implements HasMedia
         'salary_currency',
         'address',
         'immediate_available',
-        'profile_completion'
+        'profile_completion',
+        'dob_visible',
+        'professional_title'
     ];
 
     /**
@@ -134,7 +136,7 @@ class Candidate extends Model implements HasMedia
     ];
 
     protected $appends = ['country_name', 'state_name', 'city_name', 'full_location', 'candidate_url'];
-    protected $with = ['user'];
+    protected $with = ['user', 'objective', 'achievements'];
 
     public function getCountryNameAttribute()
     {
@@ -257,5 +259,17 @@ class Candidate extends Model implements HasMedia
     public function penddingJobApplications()
     {
         return $this->hasMany(JobApplication::class, 'candidate_id')->where('status', JobApplication::STATUS_APPLIED);
+    }
+
+    public function referees(){
+        return $this->hasMany(CandidateReferee::class, 'candidate_id', 'id');
+    }
+
+    public function objective(){
+        return $this->hasOne(CandidateObjective::class, 'candidate_id', 'id');
+    }
+
+    public function achievements(){
+        return $this->hasMany(CandidateAchievement::class, 'candidate_id', 'id');
     }
 }

@@ -8,6 +8,15 @@
         </div>
     </div>
     <div class="col-md-12">
+        @if($user->candidate->objective && strlen($user->candidate->objective->description))
+            <h1 class="text-center"><i class="fas fa-comment graduate-icon text-primary"></i></h1>
+            <div class="section_title">
+                <div class="section_header_title">{{ __('messages.candidate.career_objective') }}</div>
+            </div>
+            <p>{{$user->candidate->objective->description}}</p>
+        @endif
+    </div>
+    <div class="col-md-12">
         @if($user->candidateSkill->count())
             <h1 class="text-center"><i class="fas fa-list-ul graduate-icon text-primary"></i></h1>
             <div class="section_title">
@@ -32,7 +41,7 @@
                 <div class="col-6 mt-3">
                     <h5 class="">{{ $candidateEducation->degreeLevel->name }}</h5>
                     <h6 class="text-muted">{{ $candidateEducation->degree_title }}</h6>
-                    <span class="text-muted">{{ $candidateEducation->year }} | {{ $candidateEducation->country }}</span>
+                    <span class="text-muted">{{ $candidateEducation->currently_studying?'Ongoing':$candidateEducation->year }} | {{ $candidateEducation->country }}</span>
                     <p class="mb-0">{{ $candidateEducation->institute }}</p>
                 </div>
             @endforeach

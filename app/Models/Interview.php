@@ -17,6 +17,6 @@ class Interview extends Model
     ];
 
     protected $fillable = [
-        'application_id', 'date', 'time', 'type', 'venue', 'status'
+        'application_id', 'date', 'time', 'type', 'venue', 'status', 'template_id'
     ];
 }

@@ -79,7 +79,6 @@ class LoginController extends Controller
             if (Auth::user()->hasRole('Candidate') && $type == Candidate::CANDIDATE_LOGIN_TYPE) {
                 $this->redirectTo = RouteServiceProvider::CANDIDATE_HOME;
             } else {
-
                 Auth::logout();
                 $section = ($type == Company::COMPANY_LOGIN_TYPE) ? 'employer' : 'candidate';
 

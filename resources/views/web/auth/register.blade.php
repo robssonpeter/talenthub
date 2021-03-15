@@ -28,7 +28,7 @@
 
                         <!-- Candidate Tab -->
                         <li role="presentation" class="active">
-                            <a href="#candidate" aria-controls="candidate" role="tab" data-toggle="tab"
+                            <a href="#candidate" id="candidate-tab" aria-controls="candidate" role="tab" data-toggle="tab"
                                aria-expanded="true">
                                 <h6>{{ __('web.register_menu.candidate') }}</h6>
                             </a>
@@ -36,7 +36,7 @@
 
                         <!-- Employer Tab -->
                         <li role="presentation" class="">
-                            <a href="#employer" aria-controls="employer" role="tab" data-toggle="tab"
+                            <a href="#employer" id="employer-tab" aria-controls="employer" role="tab" data-toggle="tab"
                                aria-expanded="false">
                                 <h6>{{ __('web.register_menu.employer') }}</h6>
                             </a>
@@ -83,8 +83,14 @@
                                         <input type="password" name="password_confirmation"
                                                id="candidateConfirmPassword" class="form-control" required>
                                     </div>
+                                    <div class="form-check mb30">
+                                        <input required class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            I accept the <a href="{{route('terms.conditions')}}" class="text-purple" target="_blank">terms and conditions</a>
+                                        </label>
+                                    </div>
                                     <div class="form-group text-center nomargin">
-                                        <button type="submit" class="btn btn-purple btn-effect" id="btnCandidateSave"
+                                        <button type="submit" class="btn bg-purple form-control" id="btnCandidateSave"
                                                 data-loading-text="<span class='spinner-border spinner-border-sm'></span> Processing...">
                                             {{ __('web.register_menu.create_account') }}
                                         </button>
@@ -105,7 +111,7 @@
                             <div class="row">
                                 <div class="col-md-8 col-md-offset-2">
                                     <div class="form-group">
-                                        <label>{{ __('web.common.name').":" }} <span
+                                        <label>{{ __('messages.company.company_name').":" }} <span
                                                     class="required asterisk-size">*</span></label>
                                         <input type="text" name="first_name" id="employerFirstName" class="form-control"
                                                required>
@@ -128,8 +134,16 @@
                                         <input type="password" name="password_confirmation" id="employerConfirmPassword"
                                                class="form-control" required>
                                     </div>
+
+                                    <div class="form-check mb30">
+                                        <input required class="form-check-input" type="checkbox" value="" id="flexCheckDefaultEmployer">
+                                        <label class="form-check-label" for="flexCheckDefaultEmployer">
+                                            I accept the <a href="{{route('terms.conditions')}}" class="text-purple" target="_blank">terms and conditions</a>
+                                        </label>
+                                    </div>
+
                                     <div class="form-group text-center nomargin">
-                                        <button type="submit" class="btn btn-purple btn-effect" id="btnEmployerSave"
+                                        <button type="submit" class="btn bg-purple form-control" id="btnEmployerSave"
                                                 data-loading-text="<span class='spinner-border spinner-border-sm'></span> Processing...">
                                             {{ __('web.register_menu.create_account') }}
                                         </button>
@@ -153,6 +167,12 @@
     <script>
         let registerSaveUrl = "{{ route('front.save.register') }}";
         let logInUrl = "{{ route('login') }}";
+        let hash = window.location.hash;
+        if(hash === '#employer'){
+            $('#employer-tab').click();
+        }else if(hash === '#candidate'){
+            $('#candidate-tab').click();
+        }
     </script>
     <script src="{{mix('assets/js/front_register/front_register.js')}}"></script>
 @endsection

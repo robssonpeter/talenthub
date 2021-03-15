@@ -56,6 +56,24 @@
                                     @include('candidate.profile.career_informations.edit_experience')
                                 </div>
                             </div>
+                            {{-- Achievement Section --}}
+                            <div class="border-bottom my-3 d-flex justify-content-between">
+                                <h5 class="mt-2">{{ __('messages.candidate_profile.career_achievements') }}</h5>
+                                <a href="javascript:void(0)" class="addAchievementBtn">
+                                    <i class="fas fa-plus-circle text-25px"></i>
+                                </a>
+                            </div>
+                            <div class="section-body">
+                                <div class="row candidate-achievement-container" id="candidateAchievementDiv">
+                                    @include('candidate.profile.career_informations.show_achievement')
+                                </div>
+                                <div class="d-none" id="createAchievementDiv">
+                                    @include('candidate.profile.career_informations.create_achievement')
+                                </div>
+                                <div class="d-none" id="editAchievementDiv">
+                                    @include('candidate.profile.career_informations.edit_achievement')
+                                </div>
+                            </div>
                             {{-- Online Profile Section --}}
                             <div class="border-bottom my-3 d-flex justify-content-between">
                                 <h5 class="mt-2">{{ __('messages.candidate_profile.online_profile') }}</h5>
@@ -83,13 +101,16 @@
 @push('page-scripts')
     <script>
         let candidateProfileUrl = "{{ route('candidate.edit.profile') }}";
+        let candidateProgressUrl = "{{route('candidate.profile.completion')}}";
         let updateCandidateUrl = "{{ route('candidate.general.profile.update') }}";
         let updateonlineProfileUrl = "{{ route('candidate.online.profile.update') }}";
         let addExperienceUrl = "{{ route('candidate.create-experience') }}";
         let experienceUrl = "{{ url('candidate/candidate-experience') }}/";
         let addEducationUrl = "{{ route('candidate.create-education') }}";
+        let addAchievementUrl = "{{ route('candidate.create-achievement') }}";
         let candidateUrl = "{{ url('candidate') }}/";
         let educationUrl = "{{ url('candidate/candidate-education') }}/";
+        let achievementUrl = "{{ url('candidate/candidate-achievement') }}/";
         let present = "{{ __('messages.candidate_profile.present') }}";
         let countryId = '{{$user->country_id}}';
         let stateId = '{{$user->state_id}}';
@@ -101,6 +122,7 @@
         let styleCssUrl = "{{ asset('assets/web/css/style.css') }}";
         let fontCssUrl = "{{ asset('assets/css/font-awesome.min.css') }}";
         let cvTemplateUrl = "{{ route('candidate.cv.template') }}";
+        let userId = "{{auth()->user()->id}}";
     </script>
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>

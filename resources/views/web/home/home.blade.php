@@ -11,11 +11,11 @@
         <div class="owl-carousel image-slider" id="image-slider-carousel">
             @foreach($imageSliders as $imageSlider)
                 <div class="item">
-                    <div class="container">
+                    <div class="">
                         <div class="display-text">
                             <img src="{{ $imageSlider->image_slider_url }}" alt="" class="image-height">
                             @if($imageSlider->description)
-                                <div class="content slider-description">
+                                <div class="content slider-description text-center">
                                     {!! Str::limit($imageSlider->description, 495, ' ...') !!}
                                 </div>
                             @endif

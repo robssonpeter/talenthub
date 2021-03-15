@@ -16,6 +16,21 @@
                         {{ Form::text('experience_title', null, ['class' => 'form-control','required']) }}
                     </div>
                     <div class="form-group col-sm-6">
+                        {{ Form::label('career_level_id', __('messages.job.career_level').':') }}<span
+                            class="text-danger"></span>
+                        {{ Form::select('career_level_id', $data['careerLevels'], null, ['class' => 'form-control','placeholder' => 'Select Level']) }}
+                    </div>
+                    <div class="form-group col-sm-6">
+                        {{ Form::label('industry_id', __('messages.company.industry').':') }}<span
+                            class="text-danger"></span>
+                        {{ Form::select('industry_id', $data['industry'], null, ['class' => 'form-control','placeholder' => 'Select Industry']) }}
+                    </div>
+                    <div class="form-group col-sm-6">
+                        {{ Form::label('job_category_id', __('messages.job_category.job_category').':') }}<span
+                            class="text-danger"></span>
+                        {{ Form::select('job_category_id', $data['jobCategories'], null, ['class' => 'form-control','placeholder' => 'Select Category']) }}
+                    </div>
+                    <div class="form-group col-sm-12">
                         {{ Form::label('company',__('messages.candidate_profile.company').':') }}<span
                                 class="text-danger">*</span>
                         {{ Form::text('company', null, ['class' => 'form-control','required']) }}
@@ -26,8 +41,8 @@
                         {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-control','placeholder' => 'Select Country', 'data-modal-type' => 'experience']) }}
                     </div>
                     <div class="form-group col-sm-6">
-                        {{ Form::label('state', __('messages.company.state').':') }}
-                        {{ Form::select('state_id', [], null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select State', 'data-modal-type' => 'experience']) }}
+                        {{ Form::label('state', __('messages.company.region').':') }}
+                        {{ Form::select('state_id', [], null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region', 'data-modal-type' => 'experience']) }}
                     </div>
                     <div class="form-group col-sm-6">
                         {{ Form::label('city', __('messages.company.city').':') }}
@@ -53,8 +68,18 @@
                         </div>
                     </div>
                     <div class="form-group col-sm-12">
-                        {{ Form::label('description', __('messages.candidate_profile.description').':') }}
-                        {{ Form::textarea('description', null, ['class' => 'form-control textarea-sizing','rows'=>'5']) }}
+                        <label for="notes">{{ __('messages.candidate_profile.achievements').':' }}</label>
+                        <div id="addExperienceAchievement" class="mb-3">
+
+                        </div>
+                        {{--<input type="hidden" rows="5" id="cover_letter" name="cover_letter"
+                               placeholder="{{$job->require_cover_letter?'Required':'Optional'}}"
+                               class="form-control" value="{{ ($isJobDrafted) ? $draftJobDetails->cover_letter : '' }}">--}}
+                    </div>
+                    <div class="form-group col-sm-12">
+                        {{--{{ Form::label('description', __('messages.candidate_profile.achievements').':') }}--}}
+                        {{ Form::hidden('description', null, ['id' => 'addExperienceAchievementOriginal', 'class' => 'form-control textarea-sizing','rows'=>'5']) }}
+                        <textarea name="" class="invisible" id="" cols="30" rows="2"></textarea>
                     </div>
                 </div>
                 <div class="text-right">
@@ -67,3 +92,9 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).on('click', '#btnExperienceSave', function(){
+        let markdown = turndownService.turndown(qNewExperience.root.innerHTML);
+        $('#addExperienceAchievementOriginal').val(qNewExperience.root.innerHTML);
+    });
+</script>

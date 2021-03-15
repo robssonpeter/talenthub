@@ -73,17 +73,45 @@
                                     </ul>
                                     @endrole
                                 @endauth
-                                <div class="pt10">
-                                    @if($job->description)
-                                        <p>{!! nl2br($job->description) !!} </p>
-                                    @else
-                                        <p>N/A</p>
-                                    @endif
-                                </div>
+
 
                             </div>
                         </div>
+                        <div class="form-group pt10 col-md-12 pt-20 text-justify">
+                            @if($job->summary)
+                                <h5>Summary</h5>
+                            <div class="form-group">
+                                <p class="mt-2">
+                                    {!! nl2br($job->summary) !!}
+                                </p>
+                            </div>
+                            @endif
 
+                            @if($job->description)
+                                <h5>{{__('messages.job.responsibilities')}}</h5>
+                                <div class="form-group">
+                                <p class="mt-2">{!! nl2br($job->description) !!} </p>
+                                </div>
+                            @else
+                                <p>N/A</p>
+                            @endif
+                                @if($job->qualifications)
+                                    <h5>{{__('messages.job.qualifications')}}</h5>
+                                <div class="form-group">
+                                    <p class="mt-2">
+                                        {!! nl2br($job->qualifications) !!}
+                                    </p>
+                                </div>
+                                @endif
+                                @if($job->additional_information)
+                                    <h5>{{__('messages.job.additional_information')}}</h5>
+                                    <div class="form-group">
+                                        <p class="mt-2">
+                                            {!! nl2br($job->additional_information) !!}
+                                        </p>
+                                    </div>
+                                @endif
+                        </div>
 
                     </div>
                     <div class="row mt40">
@@ -188,12 +216,12 @@
                     <div class="job-sidebar">
                         <ul class="job-overview nopadding mt5 mb5">
                             <li>
-                                <h5><i class="fa fa-calendar"></i>{{ __('web.job_details.date_posted') }}:</h5>
+                                <h5><i class="fa fa-calendar text-purple"></i>{{ __('web.job_details.date_posted') }}:</h5>
                                 <span>{{ date('jS M, Y', strtotime($job->created_at)) }}</span>
                             </li>
 
                             <li>
-                                <h5><i class="fa fa-map-marker"></i>{{ __('web.common.location') }}:</h5>
+                                <h5><i class="fa fa-map-marker text-purple"></i>{{ __('web.common.location') }}:</h5>
                                 <span>
                                     @if (!empty($job->city_id))
                                         {{$job->city_name}} ,
@@ -213,12 +241,12 @@
                                 </span>
                             </li>
                             <li>
-                                <h5><i class="fa fa-calendar"></i>{{ __('messages.job.expires_on') }}:</h5>
+                                <h5><i class="fa fa-calendar text-purple"></i>{{ __('messages.job.expires_on') }}:</h5>
                                 <span>{{ date('jS M, Y', strtotime($job->job_expiry_date)) }}</span>
                             </li>
 
                             <li>
-                                <h5><i class="fa fa-cogs"></i> {{ __('web.job_details.job_skills') }}:</h5>
+                                <h5><i class="fa fa-cogs text-purple"></i> {{ __('web.job_details.job_skills') }}:</h5>
                                 @if($job->jobsSkill->isNotEmpty())
                                     <span>{{$job->jobsSkill->pluck('name')->implode(', ') }}</span>
                                 @else
@@ -228,9 +256,10 @@
 
                             @if(!$job->hide_salary)
                                 <li>
-                                    <h5><i class="fa fa-money"></i> {{ __('web.job_details.salary') }}:</h5>
-                                    <span>{{ formatCurrency($job->salary_from) . '-' . formatCurrency($job->salary_to) }}</span>
+                                    <h5><i class="fa fa-money text-purple"></i> {{ __('web.job_details.salary') }}:</h5>
+                                    <span>{{ number_format($job->salary_from) . ' - ' . number_format($job->salary_to) }}</span>
                                     <b>({{ $job->currency->currency_name }})</b>
+                                    <p><small class="text-danger">This is a net figure</small></p>
                                 </li>
                             @endif
                         </ul>
@@ -284,29 +313,39 @@
                         </ul>
                         @auth
                             @role('Candidate')
-                            @if(!$isApplied && !$isJobApplicationRejected && ! $isJobApplicationCompleted)
-                                <div class="mt20">
-                                    @if(isset($candidate->profile_completion) && $candidate->profile_completion<80)
-                                        <button
-                                            class="btn {{ $isJobDrafted ? 'btn-red' : 'btn-purple' }} btn-block btn-effect"
-                                            onclick="profileIncomplete()">
-                                            {{ $isJobDrafted ? __('web.job_details.edit_draft') : __('web.job_details.apply_for_job') }}
-                                        </button>
-                                    @elseif($isActive && !$job->is_suspended && \Carbon\Carbon::today()->toDateString() < $job->job_expiry_date->toDateString())
-                                        <button
-                                            class="btn {{ $isJobDrafted ? 'btn-red' : 'btn-purple' }} btn-block btn-effect"
-                                            onclick="window.location='{{ route('show.apply-job-form', $job->job_id) }}'">
-                                            {{ $isJobDrafted ? __('web.job_details.edit_draft') : __('web.job_details.apply_for_job') }}
-                                        </button>
-                                    @endif
-                                </div>
-                            @else
-                                <div class="mt20">
-                                    <p>
-                                        <button class="btn btn-green btn-block btn-effect">{{ __('web.job_details.already_applied') }}</button>
-                                    </p>
-                                </div>
-                            @endif
+                                @if(!$isApplied && !$isJobApplicationRejected && ! $isJobApplicationCompleted)
+                                    <div class="mt20">
+                                        @if(isset($candidate->profile_completion) && $candidate->profile_completion<80)
+                                            <button
+                                                class="btn {{ $isJobDrafted ? 'btn-red' : 'btn-purple' }} btn-block btn-effect"
+                                                onclick="profileIncomplete()">
+                                                {{ $isJobDrafted ? __('web.job_details.edit_draft') : __('web.job_details.apply_for_job') }}
+                                            </button>
+                                        @elseif($isActive && !$job->is_suspended && \Carbon\Carbon::today()->toDateString() < $job->job_expiry_date->toDateString())
+                                            <button
+                                                class="btn {{ $isJobDrafted ? 'btn-red' : 'btn-purple' }} btn-block btn-effect"
+                                                onclick="window.location='{{ route('show.apply-job-form', $job->job_id) }}'">
+                                                {{ $isJobDrafted ? __('web.job_details.edit_draft') : __('web.job_details.apply_for_job') }}
+                                            </button>
+                                        @endif
+                                        @if(!$isApplied && \Carbon\Carbon::today()->toDateString() > $job->job_expiry_date->toDateString() || $job->is_suspended)
+                                                {{--<div class="text-danger bg-danger py-4">
+                                                    <span>This job no longer accepts applications</span>
+                                                </div>--}}
+                                                <div class="mt20">
+                                                    <p>
+                                                        <button class="btn btn-danger btn-block btn-effect">{{ __('web.job_details.applications_closed') }}</button>
+                                                    </p>
+                                                </div>
+                                        @endif
+                                    </div>
+                                @else
+                                    <div class="mt20">
+                                        <p>
+                                            <button class="btn btn-green btn-block btn-effect">{{ __('web.job_details.already_applied') }}</button>
+                                        </p>
+                                    </div>
+                                @endif
                             @endrole
                         @else
                             @if($isActive && !$job->is_suspended && \Carbon\Carbon::today()->toDateString() < $job->job_expiry_date->toDateString())
@@ -315,6 +354,7 @@
                                             onclick="window.location='{{ route('front.register') }}'">{{ __('web.job_details.register_to_apply') }}
                                     </button>
                                 </div>
+                            @else
                             @endif
                         @endauth
                     </div>
@@ -336,7 +376,7 @@
                                     <a href="{{ route('front.company.details', $job->company->unique_id) }}">
                                         <h5 class="text-primary">
                                             {{ $job->company->user->first_name }}
-                                            @if($job->company->has('verification'))
+                                            @if($job->company->verification)
                                                 <img src="{{asset('assets/images/002-check.svg')}}" title="{{__('messages.verification.verified_employer')}}" style="margin-left:5px; height: 15px; width: 15px" alt="">
                                             @endif
                                         </h5>

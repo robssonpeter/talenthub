@@ -17,6 +17,21 @@
                         {{ Form::text('experience_title', null, ['class' => 'form-control','required', 'id' => 'editTitle']) }}
                     </div>
                     <div class="form-group col-sm-6">
+                        {{ Form::label('career_level_id', __('messages.job.career_level').':') }}<span
+                            class="text-danger">*</span>
+                        {{ Form::select('career_level_id', $data['careerLevels'], null, ['id'=>'editCareerLevel','class' => 'form-control','placeholder' => 'Select Level']) }}
+                    </div>
+                    <div class="form-group col-sm-6">
+                        {{ Form::label('industry_id', __('messages.company.industry').':') }}<span
+                            class="text-danger"></span>
+                        {{ Form::select('industry_id', $data['industry'], null, ['id'=> 'editIndustryId', 'class' => 'form-control','placeholder' => 'Select Industry']) }}
+                    </div>
+                    <div class="form-group col-sm-6">
+                        {{ Form::label('job_category_id', __('messages.job_category.job_category').':') }}<span
+                            class="text-danger"></span>
+                        {{ Form::select('job_category_id', $data['jobCategories'], null, ['id'=> 'editJobCategoryId', 'class' => 'form-control','placeholder' => 'Select Category']) }}
+                    </div>
+                    <div class="form-group col-sm-12">
                         {{ Form::label('company',__('messages.candidate_profile.company').':') }}<span
                                 class="text-danger">*</span>
                         {{ Form::text('company', null, ['class' => 'form-control','required', 'id' => 'editCompany']) }}
@@ -27,8 +42,8 @@
                         {{ Form::select('country_id', $data['countries'], null, ['id'=>'editCountry','class' => 'form-control','placeholder' => 'Select Country', 'data-modal-type' => 'experience', 'data-is-edit' => 'true']) }}
                     </div>
                     <div class="form-group col-sm-6">
-                        {{ Form::label('state', __('messages.company.state').':') }}
-                        {{ Form::select('state_id', [], null, ['id'=>'editState','class' => 'form-control','placeholder' => 'Select State', 'data-modal-type' => 'experience', 'data-is-edit' => 'true']) }}
+                        {{ Form::label('region', __('messages.company.region').':') }}
+                        {{ Form::select('state_id', [], null, ['id'=>'editState','class' => 'form-control','placeholder' => 'Select Region', 'data-modal-type' => 'experience', 'data-is-edit' => 'true']) }}
                     </div>
                     <div class="form-group col-sm-6">
                         {{ Form::label('city', __('messages.company.city').':') }}
@@ -52,12 +67,22 @@
                         </label>
                     </div>
                     <div class="form-group col-sm-12">
-                        {{ Form::label('description', __('messages.candidate_profile.description').':') }}
-                        {{ Form::textarea('description', null, ['class' => 'form-control textarea-sizing','rows'=>'5','id' => 'editDescription']) }}
+                        <label for="notes">{{ __('messages.candidate_profile.achievements').':' }}</label>
+                        <div id="editExperienceAchievement" class="mb-3">
+
+                        </div>
+                        {{--<input type="hidden" rows="5" id="cover_letter" name="cover_letter"
+                               placeholder="{{$job->require_cover_letter?'Required':'Optional'}}"
+                               class="form-control" value="{{ ($isJobDrafted) ? $draftJobDetails->cover_letter : '' }}">--}}
                     </div>
+                    <div class="form-group col-sm-12">
+                        {{--{{ Form::label('description', __('messages.candidate_profile.achievements').':') }}--}}
+                        {{ Form::hidden('description', null, ['class' => 'form-control textarea-sizing','rows'=>'5','id' => 'editDescription']) }}
+                    </div>
+                    <textarea name="" class="invisible" id="" cols="30" rows="2"></textarea>
                 </div>
                 <div class="text-right">
-                    {{ Form::button(__('messages.common.save'), ['type'=>'submit','class' => 'btn btn-primary','id'=>'btnEditExperienceSave','data-loading-text'=>"<span class='spinner-border spinner-border-sm'></span> Processing..."]) }}
+                    {{ Form::button(__('messages.common.save'), ['type'=>'submit','class' => 'btn btn-primary', 'id'=>'btnEditExperienceSave', 'data-loading-text'=>"<span class='spinner-border spinner-border-sm'></span> Processing..."]) }}
                     <button type="button" id="btnEditCancel" class="btn btn-light ml-1"
                             data-dismiss="modal">{{ __('messages.common.cancel') }}</button>
                 </div>
@@ -66,3 +91,9 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).on('click', '#btnEditExperienceSave', function(){
+        let markdown = turndownService.turndown(qEditExperience.root.innerHTML);
+        $('#editDescription').val(qEditExperience.root.innerHTML);
+    });
+</script>

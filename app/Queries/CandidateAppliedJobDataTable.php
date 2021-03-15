@@ -15,7 +15,7 @@ class CandidateAppliedJobDataTable
     public function get()
     {
         /** @var JobApplication $query */
-        $query = JobApplication::with(['candidate.user', 'job'])->select('job_applications.*')->where('candidate_id',
+        $query = JobApplication::with(['candidate.user', 'job', 'company'])->select('job_applications.*')->where('candidate_id',
             getLoggedInUser()->owner_id);
 
         return $query;

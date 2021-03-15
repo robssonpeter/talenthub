@@ -8,11 +8,15 @@
         {{ Form::text('job_title', null, ['class' => 'form-control','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('job_type_id', __('messages.job.job_type').':') }}<span class="text-danger">*</span>
+        {{ Form::label('job_type_id', __('messages.job.job_family').':') }}<span class="text-danger">*</span>
         {{ Form::select('job_type_id', $data['jobType'],null, ['id'=>'jobTypeId','class' => 'form-control','placeholder' => 'Select Job Type','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('job_category_id', __('messages.job_category.job_category').':') }}<span
+        {{ Form::label('industry_id', __('messages.job.industry').':') }}<span class="text-danger">*</span>
+        {{ Form::select('industry_id', $data['industries'],null, ['id'=>'industries','class' => 'form-control','placeholder' => 'Select Industry','required']) }}
+    </div>
+    <div class="form-group col-xl-4 col-md-4 col-sm-12">
+        {{ Form::label('job_category_id', __('messages.job_category.job_function').':') }}<span
                 class="text-danger">*</span>
         {{ Form::select('job_category_id', $data['jobCategory'],null, ['id'=>'jobCategoryId','class' => 'form-control','placeholder' => 'Select Job Category','required']) }}
     </div>
@@ -20,10 +24,10 @@
         {{ Form::label('skill_id', __('messages.job.job_skill').':') }} <span class="text-danger">*</span>
         {{Form::select('jobsSkill[]',$data['jobSkill'], null, ['class' => 'form-control','id'=>'SkillId','multiple'=>true,'required'])}}
     </div>
-    <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('no_preference', __('messages.candidate.gender').':') }}
-        {{ Form::select('no_preference', $data['preference'], null, ['id'=>'preferenceId','class' => 'form-control','placeholder' => 'Select Gender']) }}
-    </div>
+{{--    <div class="form-group col-xl-4 col-md-4 col-sm-12">--}}
+{{--        {{ Form::label('no_preference', __('messages.candidate.gender').':') }}--}}
+{{--        {{ Form::select('no_preference', $data['preference'], null, ['id'=>'preferenceId','class' => 'form-control','placeholder' => 'Select Gender']) }}--}}
+{{--    </div>--}}
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('job_expiry_date', __('messages.job.job_expiry_date').':') }} <span class="text-danger">*</span>
         <div class="input-group">
@@ -57,11 +61,11 @@
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-control','placeholder' => 'Select Country','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('state', __('messages.company.state').':') }}<span class="text-danger">*</span>
-        {{ Form::select('state_id', [], null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select State','required']) }}
+        {{ Form::label('state', __('messages.company.region').':') }}<span class="text-danger">*</span>
+        {{ Form::select('state_id', [], null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('city', __('messages.company.city').':') }}<span class="text-danger">*</span>
+        {{ Form::label('city', __('messages.company.district').':') }}<span class="text-danger">*</span>
         {{ Form::select('city_id', [], null, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
@@ -86,7 +90,7 @@
         {{ Form::select('functional_area_id', $data['functionalArea'], null, ['id'=>'functionalAreaId','class' => 'form-control','placeholder' => 'Select Functional Area','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('position', __('messages.job.position').':') }}<span class="text-danger">*</span>
+        {{ Form::label('position', __('messages.job.number_of_positions').':') }}<span class="text-danger">*</span>
         {{ Form::number('position',  null, ['id'=>'positionId','class' => 'form-control','placeholder' => 'Select Position','required', 'min' => 0]) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
@@ -95,8 +99,16 @@
         {{ Form::number('experience',  null, ['id'=>'experienceId','class' => 'form-control','placeholder' => 'Enter experience In Year','required', 'min' => 0]) }}
     </div>
     <div class="form-group col-xl-12 col-md-12 col-sm-12">
-        {{ Form::label('description', __('messages.job.description').':') }}<span class="text-danger">*</span>
+        {{ Form::label('description', __('messages.job.responsibilities').':') }}<span class="text-danger">*</span>
         {{ Form::textarea('description', null, ['class' => 'form-control' , 'id' => 'details', 'rows' => '5']) }}
+    </div>
+    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+        {{ Form::label('qualifications', __('messages.job.qualifications').':') }}<span class="text-danger">*</span>
+        {{ Form::textarea('qualifications', null, ['class' => 'form-control' , 'id' => 'qualifications', 'rows' => '5']) }}
+    </div>
+    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+        {{ Form::label('additional_information', __('messages.job.additional_information').':') }}<span class="text-danger">*</span>
+        {{ Form::textarea('additional_information', null, ['class' => 'form-control' , 'id' => 'additional_information', 'rows' => '5']) }}
     </div>
     <div class="form-group col-xl-3 col-md-3 col-sm-12">
         <label>{{ __('messages.job.hide_salary') }}</label>

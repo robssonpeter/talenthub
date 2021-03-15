@@ -3,8 +3,10 @@
 namespace App\Repositories\Candidates;
 
 use App\Models\Candidate;
+use App\Models\CandidateAchievement;
 use App\Models\CandidateEducation;
 use App\Models\CandidateExperience;
+use App\Models\CandidateReferee;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -93,4 +95,39 @@ class CandidateProfileRepository extends BaseRepository
         return CandidateEducation::with('degreeLevel')
             ->where('id', $candidateEducation->id)->first();
     }
+
+    public function createReferee($input)
+    {
+        $input['candidate_id'] = Auth::user()->owner_id;
+
+        /** @var CandidateEducation $education */
+        $referee = CandidateReferee::create($input);
+
+        CandidateFunction::profileCompletion(Auth::user()->id);
+
+        return $this->getReferee($referee);
+    }
+
+    public function getReferee(CandidateReferee $candidateReferee)
+    {
+        return CandidateReferee::where('id', $candidateReferee->id)->first();
+    }
+
+    public function createAchievement($input)
+    {
+        $input['candidate_id'] = Auth::user()->owner_id;
+
+        /** @var CandidateEducation $education */
+        $achievement = CandidateAchievement::create($input);
+
+        CandidateFunction::profileCompletion(Auth::user()->id);
+
+        return $this->getAchievement($achievement);
+    }
+
+    public function getAchievement(CandidateAchievement $candidateAchievement)
+    {
+        return CandidateAchievement::where('id', $candidateAchievement->id)->first();
+    }
+
 }

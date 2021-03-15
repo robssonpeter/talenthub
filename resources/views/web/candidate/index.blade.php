@@ -26,5 +26,9 @@
             $("#All").prop("checked", true);
             $("#searchBy").prop("selectedIndex", 0);
         });
+        $(document).on('click', '.clickable-card', function(){
+            //alert(this.id);
+            window.location = this.id;
+        })
     </script>
 @endsection

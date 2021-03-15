@@ -52,7 +52,7 @@
         }
 
         .circular-chart.blue .circle {
-            stroke: #3c9ee5;
+            stroke: #fe9004;
         }
 
         .percentage {

@@ -14,7 +14,7 @@
                 </span>
                 <span> | {{ $candidateExperience->country }}</span>
                 @if(!empty($candidateExperience->description))
-                    <p class="mb-0">{{ Str::limit($candidateExperience->description,225,'...') }}</p>
+                    <p class="mb-0">{!! Str::limit($candidateExperience->description,225,'...') !!} </p>
                 @endif
 
                 <div class="article-cta candidate-experience-edit-delete">

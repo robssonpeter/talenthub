@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\EmailJob;
 use App\Models\FavouriteJob;
 use App\Models\FunctionalArea;
+use App\Models\Industry;
 use App\Models\Job;
 use App\Models\JobApplication;
 use App\Models\JobCategory;
@@ -76,6 +77,9 @@ class JobRepository extends BaseRepository
         $data['genders'] = Job::NO_PREFERENCE;
         $data['careerLevels'] = CareerLevel::pluck('level_name', 'id');
         $data['functionalAreas'] = FunctionalArea::pluck('name', 'id');
+        $data['payCurrencies'] = SalaryCurrency::pluck('currency_name', 'id');
+        $data['payCurrencies'][0] = 'Any Currency';
+        $data['payCurrencies'] =$data['payCurrencies']->sort();
 
         return $data;
     }
@@ -93,6 +97,7 @@ class JobRepository extends BaseRepository
         $data['currencies'] = SalaryCurrency::pluck('currency_name', 'id');
         $data['salaryPeriods'] = SalaryPeriod::pluck('period', 'id');
         $data['functionalArea'] = FunctionalArea::pluck('name', 'id');
+        $data['industries'] = Industry::pluck('name', 'id');
         $data['preference'] = Job::NO_PREFERENCE;
         $data['jobSkill'] = Skill::pluck('name', 'id');
         $data['jobTag'] = Tag::pluck('name', 'id');
@@ -328,6 +333,7 @@ class JobRepository extends BaseRepository
             /** @var EmailJob $emailJob */
             $emailJob = EmailJob::create($input);
             Mail::to($input['friend_email'])->send(new EmailJobToFriend($emailJob));
+
 
             DB::commit();
 

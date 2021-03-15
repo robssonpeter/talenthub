@@ -31,7 +31,7 @@
                     <!-- Employer Tab -->
                     <li role="presentation" class="">
                         <a href="#employer" aria-controls="employer" role="tab" data-toggle="tab"
-                           aria-expanded="false" id="linkEmpolyee">
+                           aria-expanded="false" id="linkEmployer">
                             <h6>{{ __('web.register_menu.employer') }}</h6>
                         </a>
                     </li>
@@ -78,13 +78,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group text-center pb15">
-                                    <button class="btn btn-purple btn-effect">{{ __('web.login') }}</button>
-                                    <a href="{{ route('front.register') }}"
-                                       class="btn btn-purple btn-effect">{{ __('web.sign_up') }}</a>
+                                    <button class="btn bg-purple btn-effect form-control">{{ __('web.login') }}</button>
                                 </div>
-                                <div class="form-group text-center ml20">
-                                    <div class="social-login-buttons d-flex flex-md-wrap justify-content-center">
-                                        <a class="google-login" href="{{ url('/login/google?type=1') }}"><i
+                                <div class="form-group">
+                                    <span>{{__('web.no_account_quest')}} <a href="{{ route('front.register')."#candidate" }}"
+                                       class="">{{ __('web.sign_up_here') }}</a></span>
+                                </div>
+                                <div class="form-group text-center">
+                                    <div class="social-login-buttons d-flex flex-md-wrap justify-content-between">
+                                        <a class="google-login flex-fill" href="{{ url('/login/google?type=1') }}"><i
                                                     class="fa fa-google"></i>
                                             {{ __('web.login_menu.login_via_google') }}</a>
                                         <a class="facebook-login" href="{{ url('/login/facebook?type=1') }}"><i
@@ -136,12 +138,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group text-center pb15">
-                                    <button class="btn btn-purple btn-effect">{{ __('web.login') }}</button>
-                                    <a href="{{ route('front.register') }}"
-                                       class="btn btn-purple btn-effect">{{ __('web.sign_up') }}</a>
+                                    <button class="btn bg-purple btn-effect form-control">{{ __('web.login') }}</button>
+
                                 </div>
-                                <div class="form-group text-center ml20">
-                                    <div class="social-login-buttons d-flex flex-md-wrap justify-content-center">
+                                <div class="form-group d-flex">
+                                    <span>{{__('web.no_account_quest')}} <a href="{{ route('front.register')."#employer" }}"
+                                                                            class="">{{ __('web.sign_up') }}</a></span>
+                                </div>
+                                <div class="form-group text-center">
+                                    <div class="social-login-buttons d-flex flex-md-wrap justify-content-between">
                                         <a class="google-login" href="{{ url('/login/google?type=0') }}"><i
                                                     class="fa fa-google"></i>
                                             {{ __('web.login_menu.login_via_google') }}</a>
@@ -162,8 +167,21 @@
         </div>
     </section>
 @endsection
+@if(session()->has('registered'))
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        swal('Success', 'Successfully registered, Please follow the verification link sent to <strong>peterrobsson@gmail.com</strong>', 'success')
+    </script>
+@endif
 
 @section('scripts')
+    @if(session()->has('registered'))
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        swal({html: true, title:'Registration Successful', text: '{{session()->get('registered')}}', icon: 'success'})
+        //swal('Registration Successful', 'Please follow the verification link sent to \n peterrobsson@gmail.com', 'success')
+    </script>
+    @endif
     <script>
         let registerSaveUrl = "{{ route('front.save.register') }}";
     </script>

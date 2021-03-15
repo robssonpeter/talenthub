@@ -26,8 +26,8 @@
                         {{ Form::select('country_id', $data['countries'], null, ['id'=>'educationCountryId','class' => 'form-control','placeholder' => 'Select Country', 'data-modal-type' => 'education']) }}
                     </div>
                     <div class="form-group col-sm-6">
-                        {{ Form::label('state', __('messages.company.state').':') }}
-                        {{ Form::select('state_id', [], null, ['id'=>'educationStateId','class' => 'form-control','placeholder' => 'Select State', 'data-modal-type' => 'education']) }}
+                        {{ Form::label('state', __('messages.company.region').':') }}
+                        {{ Form::select('state_id', [], null, ['id'=>'educationStateId','class' => 'form-control','placeholder' => 'Select Region', 'data-modal-type' => 'education']) }}
                     </div>
                     <div class="form-group col-sm-6">
                         {{ Form::label('city', __('messages.company.city').':') }}
@@ -45,14 +45,29 @@
                         {{--{{ Form::select('institute', null, ['class' => 'form-control','required']) }}--}}
                     </div>
                     <div class="form-group col-sm-6">
-                        {{ Form::label('result', __('messages.candidate_profile.result').':') }}<span
+                        {{ Form::label('start_year', __('messages.candidate_profile.start_year').':') }}<span
                                 class="text-danger">*</span>
-                        {{ Form::text('result', null, ['class' => 'form-control', 'required']) }}
+                        {{ Form::selectYear('start_year', date('Y'), 1950, null, ['class' => 'form-control']) }}
                     </div>
                     <div class="form-group col-sm-6">
                         {{ Form::label('year', __('messages.candidate_profile.year').':') }}<span
-                                class="text-danger">*</span>
-                        {{ Form::selectYear('year', date('Y'), 2000, null, ['class' => 'form-control']) }}
+                                class="text-danger" id="newEducationEndYearRequired">*</span>
+                        {{ Form::selectYear('year', date('Y'), 2000, null, ['class' => 'form-control', 'id' => 'newEducationEndYear']) }}
+                    </div>
+                    <div class="form-group col-sm-6 mb-0 pt-3">
+                        <label>{{ __('messages.candidate_profile.currently_studying') }}</label>
+                        <div class="col-6 pl-0">
+                            <label class="custom-switch pl-0">
+                                <input type="checkbox" name="currently_studying" class="custom-switch-input"
+                                       value="1" id="newCurrentlyStudying">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        {{ Form::label('result', __('messages.candidate_profile.result').':') }}<span
+                            class="text-danger" id="newEducationResultRequired"></span>
+                        {{ Form::text('result', null, ['id' => 'newEducationResult', 'class' => 'form-control', 'required']) }}
                     </div>
                 </div>
                 <div class="text-right">

@@ -37,6 +37,12 @@
 
     <!-- Main Content -->
         <div class="main-content">
+            @if(session()->has('message') && \Route::currentRouteName() != 'company.verify')
+                @php
+                    $alertMessage = session()->get('message');
+                @endphp
+                @include('alerts.info-alternative')
+            @endif
             @yield('content')
         </div>
         <footer class="main-footer">

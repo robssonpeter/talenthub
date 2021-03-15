@@ -10,9 +10,9 @@
 @endpush
 @section('content')
     <section class="section">
-        <div class="section-header d-md-flex flex-md-row">
-            <h1 class="flex-md-fill">{{ __('messages.candidate.dashboard') }}</h1>
-            <a href="{{ route('front.search.jobs') }}" class="btn btn-primary">{{ __('messages.front_home.browse_jobs') }}</a>
+        <div class="section-header d-flex flex-md-row">
+            <h1 class="flex-fill">{{ __('messages.candidate.dashboard') }}</h1>
+            <a href="{{ route('front.search.jobs') }}" class="btn btn-primary hover-orange">{{ __('messages.front_home.browse_jobs') }}</a>
         </div>
         <div class="section-body">
             <div class="tickets dashboard">
@@ -29,14 +29,14 @@
                             </div>
                             <div class="ticket-info">
                                 <h6 class="location"><i
-                                            class="fa fa-map-marker"></i>&nbsp;{{ !empty($candidate->city_name) ?  $candidate->city_name. ', '. $candidate->state_name . ', ' . $candidate->country_name : (!empty($candidate->country_id) ? $candidate->country_name : __('messages.candidate_dashboard.location_information')) }}
+                                            class="fa fa-map-marker text-warning"></i>&nbsp;{{ !empty($candidate->city_name) ?  $candidate->city_name. ', '. $candidate->state_name . ', ' . $candidate->country_name : (!empty($candidate->country_id) ? $candidate->country_name : __('messages.candidate_dashboard.location_information')) }}
                                 </h6>
                             </div>
                             <div class="font-weight-600 cell-phone">
-                                <p class="mb-0 text-warning"><i
-                                            class="fa fa-phone"></i>&nbsp;{{ !empty($user->phone) ?  $user->phone : __('messages.candidate_dashboard.no_not_available') }}
+                                <p class="mb-0"><i
+                                            class="fa fa-phone text-warning"></i>&nbsp;{{ !empty($user->phone) ?  $user->phone : __('messages.candidate_dashboard.no_not_available') }}
                                 </p>
-                                <p class="text-red"><i class="fa fa-envelope"></i>&nbsp;{{ $user->email }}</p>
+                                <p class="text-red"><i class="fa fa-envelope text-warning"></i>&nbsp;{{ $user->email }}</p>
                             </div>
                         </div>
                         <div class="ml-auto col-md-3 col-xl-2 col-sm-12 edit-profile candidate-edit-profile">
@@ -49,7 +49,60 @@
                 </div>
             </div>
             <div class="row mt-5">
-                <div class="col-12 col-md-4 col-lg-4">
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <div class="card card-statistic-1 shadow-success">
+                        <div class="card-icon bg-success">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>{{ __('messages.candidate_dashboard.profile_views') }}</h4>
+                            </div>
+                            <div class="card-body employer-dashboard-card">
+                                {{ $user->profile_views }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <a href="{{route('favourite.companies')}}">
+                    <div class="card card-statistic-1 shadow-primary">
+                        <div class="card-icon bg-primary">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>{{ __('messages.candidate_dashboard.followings') }}</h4>
+                            </div>
+                            <div class="card-body employer-dashboard-card">
+                                {{ $followings }}
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                    <a href="{{route('candidate.profile')."?section=resumes"}}">
+                    <div class="card card-statistic-1 shadow-dark">
+                        <div class="card-icon bg-dark">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>{{ __('messages.apply_job.resume') }}</h4>
+                            </div>
+                            <div class="card-body employer-dashboard-card">
+                                {{ $resumes }}
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+
+                {{--<div class="col-12 col-md-4 col-lg-4">
                     <div class="pricing">
                         <div class="pricing-padding">
                             <h3><i class="fa fa-eye"></i></h3>
@@ -81,7 +134,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
             </div>
         </div>
     </section>

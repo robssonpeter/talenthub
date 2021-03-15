@@ -47,6 +47,8 @@
 @push('scripts')
     <script>
         let jobsUrl = "{{ route('admin.jobs.index') }}";
+        let companyUrl = "{{url('company-details')}}";
+        //alert(companyUrl)
     </script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>

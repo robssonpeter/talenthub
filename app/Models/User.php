@@ -136,11 +136,15 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'email',
         'password',
         'dob',
+        'dob_visible',
         'gender',
         'country_id',
         'state_id',
         'city_id',
         'is_active',
+        'address_line_1',
+        'address_line_2',
+        'zip_code',
         'is_verified',
         'phone',
         'email_verified_at',
@@ -153,6 +157,9 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'google_plus_url',
         'pinterest_url',
         'region_code',
+    ];
+    public static $rules = [
+        'phone' => 'required'
     ];
 
     /**

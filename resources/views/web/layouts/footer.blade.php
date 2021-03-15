@@ -48,6 +48,8 @@
                         <li><a href="{{ route('front.register') }}"><i
                                         class="fa fa-angle-double-right"></i>{{ __('web.register') }}</a></li>
                     @endif
+                    <li><a href="{{ route('terms.conditions') }}"><i
+                                class="fa fa-angle-double-right"></i>Terms and Conditions</a></li>
                 </ul>
             </div>
 
@@ -83,7 +85,7 @@
 
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <span>{{ __('web.footer.copyright') }} &copy; <a href="//{{ getSettingValue('company_url') }}/"
-                                                                 class="text-blue">{{ $settings['application_name'] }}.</a> {{ __('web.footer.all_rights_reserved') }}</span>
+                                                                 class="text-orange">{{ $settings['application_name'] }}.</a> {{ __('web.footer.all_rights_reserved') }}</span>
             </div>
 
             <div class="col-md-6 col-sm-6 col-xs-12">

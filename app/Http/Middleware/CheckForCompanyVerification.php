@@ -26,8 +26,15 @@ class CheckForCompanyVerification
 
         if(\Auth::check() && \Auth::user()->owner_type == 'App\Models\Company'){
             $company = Company::where('user_id', \Auth::user()->id)->with('verification_attempt')->first();
+            $disAllowRoutes = [
+              'front.candidate.details'
+            ];
+            $noMessageRoutes = [
+                'company.verify'
+            ];
+            $routeName = \Route::currentRouteName();
 
-            if(!$company->has('verification')){
+            if(!$company->verification){
                 $message = [
                     'message' => __('messages.alert.company_verify'),
                     'dismissable' => false,
@@ -37,9 +44,15 @@ class CheckForCompanyVerification
                     'type' => 'info'
                 ];
 
-                if(!$company->has('verification_attempt')){
-                    session()->flash('message', $message);
+                if(!$company->verification_attempt){
+                    if(!in_array($routeName, $noMessageRoutes)){
+                        session()->flash('message', $message);
+                    }
                 }
+                if(in_array($routeName, $disAllowRoutes)){
+                    return response(view('web.verified-only'));
+                }
+                /*dd(\Route::currentRouteName());*/
             }
         }
         return $next($request);

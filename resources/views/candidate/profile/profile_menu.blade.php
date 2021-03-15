@@ -1,6 +1,6 @@
 <div class="row mt-3">
     <div class="col-md-3">
-        <div class="card">
+        <div class="card position-sticky sticky-top">
             @php
                 $candidate = \App\Models\Candidate::where('user_id', Auth::user()->id)->first()
             @endphp
@@ -30,7 +30,7 @@
                     <li class="nav-item">
                         <a href="{{ route('candidate.profile',['section' => 'general']) }}"
                            class="nav-link {{ (isset($data['sectionName']) && $data['sectionName'] == 'general') ? 'active' : ''}}">
-                            {{ __('messages.general') }}
+                            {{ __('messages.personal_information') }}
                         </a>
                     </li>
                     <li class="nav-item">
@@ -42,13 +42,13 @@
                     <li class="nav-item">
                         <a href="{{ route('candidate.profile',['section' => 'career_informations']) }}"
                            class="nav-link {{ (isset($data['sectionName']) && $data['sectionName'] == 'career_informations') ? 'active' : ''}}">
-                            {{ __('messages.career_informations') }}
+                            {{ __('messages.career_information') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('candidate.profile',['section' => 'certifications']) }}"
                            class="nav-link {{ (isset($data['sectionName']) && $data['sectionName'] == 'certifications') ? 'active' : ''}}">
-                            {{ __('messages.apply_job.certification') }}
+                            {{ __('messages.attachments') }}
                         </a>
                     </li>
                     <li class="nav-item">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\AppBaseController;
 use App\Models\Candidate;
+use App\Models\SalaryCurrency;
 use App\Models\User;
 use App\Repositories\Candidates\CandidateRepository;
 use Illuminate\Contracts\Foundation\Application;
@@ -42,7 +43,10 @@ class CandidateController extends AppBaseController
      */
     public function getCandidatesLists(Request $request)
     {
-        return view('web.candidate.index');
+        $payCurrencies = SalaryCurrency::pluck('currency_name', 'id');
+        $payCurrencies[0] = 'Any Currency';
+        $payCurrencies = $payCurrencies->sort();
+        return view('web.candidate.index')->with('payCurrencies');
     }
 
 

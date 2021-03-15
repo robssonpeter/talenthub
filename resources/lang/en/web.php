@@ -16,16 +16,19 @@ return [
     'jobs'            => 'Jobs',
     'companies'       => 'Companies',
     'about_us'        => 'About Us',
+    'term_and_conditions' => 'Terms and Conditions',
     'contact_us'      => 'Contact Us',
     'blogs'           => 'Blogs',
     'register'        => 'Register',
     'login'           => 'Login',
     'sign_up'         => 'SignUp',
+    'sign_up_here'    => 'Signup Here',
     'logout'          => 'Logout',
     'go_to_dashboard' => 'Go to Dashboard',
     'post_of'         => 'Post Of ',
     'reset_filter'    => 'Reset Filter',
     'job_seekers'     => 'Job Seekers',
+    'no_account_quest'=> 'Don\'t have an account?',
 
     //common keys
     'common'          => [
@@ -86,6 +89,7 @@ return [
         'no_results_found'       => 'No Results Found',
         'full_time'              => 'Full Time',
         'none'                   => 'None',
+        'pay_currency'           => 'Pay Currency'
     ],
 
     //job details keys
@@ -101,6 +105,7 @@ return [
         'edit_draft'                => 'Edit Draft',
         'apply_for_job'             => 'Apply For Job',
         'already_applied'           => 'Already Applied',
+        'applications_closed'       => 'Applications Closed',
         'company_overview'          => 'Company Overview',
         'job_title'                 => 'Job Title',
         'posted_on'                 => 'Posted On',

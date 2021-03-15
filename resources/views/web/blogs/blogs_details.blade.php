@@ -16,7 +16,7 @@
     <!-- ===== End of Candidate Header Section ===== -->
 
     <section class="ptb80" id="blog-post">
-        <div class="container">
+        <div class="container-fluid">
             <div class="col-md-8 col-xs-12 post-content-wrapper">
 
                 <div class="post-title">

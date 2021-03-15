@@ -18,7 +18,11 @@
         {{ Form::label('phone',__('messages.candidate.phone').':') }}
         {{ Form::number('phone', null, ['class' => 'form-control','id'=>'phone']) }}
     </div>
-    <div class="form-group col-sm-12">
+    <div class="form-group col-sm-6">
+        {{ Form::label('professional_title',__('messages.candidate_profile.professional_title').':') }}<span class="text-danger">*</span>
+        {{ Form::text('professional_title', $user->candidate->professional_title, ['class' => 'form-control','required','id'=>'professional_title']) }}
+    </div>
+    <div class="form-group col-sm-6">
         {{ Form::label('skillId',__('messages.candidate.candidate_skill').':') }}<span
                 class="text-danger">*</span>
         {{Form::select('candidateSkills[]',$data['skills'], (count($candidateSkills) > 0)?$candidateSkills:null, ['class' => 'form-control  ','id'=>'skillId','multiple'=>true,'required'])}}
@@ -29,12 +33,17 @@
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'candidateCountryId','class' => 'form-control','placeholder' => 'Select Country','required']) }}
     </div>
     <div class="form-group col-sm-12">
-        {{ Form::label('state', __('messages.company.state').':') }}
-        {{ Form::select('state_id', [], null, ['id'=>'candidateStateId','class' => 'form-control','placeholder' => 'Select State']) }}
+        {{ Form::label('region', __('messages.company.region').':') }}
+        {{ Form::select('state_id', [], null, ['id'=>'candidateStateId','class' => 'form-control','placeholder' => 'Select Region']) }}
     </div>
     <div class="form-group col-sm-12">
         {{ Form::label('city', __('messages.company.city').':') }}
         {{ Form::select('city_id', [], null, ['id'=>'candidateCityId','class' => 'form-control','placeholder' => 'Select City']) }}
+    </div>
+    <div class="form-group col-sm-12">
+        {{ Form::label('objective',__('messages.candidate.career_objective').':') }}
+        {{ Form::textarea('objective', $user->candidate->objective?$user->candidate->objective->description:'', ['class' => 'form-control', 'onkeyup' => 'document.getElementById(\'objective-characters\').innerText = event.target.value.length','id'=>'candidate_objective', 'maxLength' => \App\Models\CandidateObjective::MAX_CHARACTERS, 'placeholder' => 'Max '.\App\Models\CandidateObjective::MAX_CHARACTERS.' characters']) }}
+        <small><strong>Characters: </strong></small><small id="objective-characters">{{$user->candidate->objective?strlen($user->candidate->objective->description):0}}</small>
     </div>
 </div>
 <div class="text-right">

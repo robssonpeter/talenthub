@@ -377,6 +377,8 @@ Route::group(['middleware' => ['auth', 'role:Employer', 'xss', 'verified.user'],
     Route::post('schedule-interview', 'JobApplicationController@scheduleInterview')->name('interview.schedule');
     Route::delete('job-applications/{jobApplication}',
         'JobApplicationController@destroy')->name('job.application.destroy');
+    Route::delete('job-applications/{jobApplications}/delete/{jobId}',
+        'JobApplicationController@destroyBulk')->name('job.applications.destroy');
     Route::get('resume-download/{jobApplication}', 'JobApplicationController@downloadMedia');
 
     // Jobs
@@ -417,6 +419,8 @@ Route::group(['namespace' => 'Web', 'middleware' => ['xss', 'setLanguage']], fun
         'CandidateController@getCandidatesLists')->name('front.candidate.lists')->middleware('role:Admin|Employer');
     Route::get('/company-details/{uniqueId?}', 'CompanyController@getCompaniesDetails')->name('front.company.details');
     Route::get('/about-us', 'AboutUsController@FAQLists')->name('front.about.us');
+    Route::get('/terms-and-conditions', 'AboutUsController@termsAndConditions')->name('terms.conditions');
+    Route::get('/terms-and-conditions/sale', 'AboutUsController@termsAndConditionSale')->name('terms.conditions.sale');
     Route::get('/candidate-profile', function () {
         return view('web.profile.candidate_profile');
     })->name('front.candidate.profile');
@@ -479,6 +483,30 @@ Route::group(['middleware' => ['auth', 'role:Candidate', 'xss', 'verified.user']
         Route::delete('candidate-education/{candidateEducation}',
             'CandidateProfileController@destroyEducation')->name('education.destroy');
 
+        // candidate referee
+        Route::post('referee', 'CandidateProfileController@createReferee')->name('candidate.create-referee');
+        Route::get('/{candidateEducation}/edit-referee',
+            'CandidateProfileController@editReferee')->name('candidate.edit-referee');
+        Route::put('candidate-referee/{candidateReferee}', 'CandidateProfileController@updateReferee');
+        Route::delete('candidate-referee/{candidateReferee}',
+            'CandidateProfileController@destroyReferee')->name('referee.destroy');
+
+        // candidate achievement
+        Route::post('achievement', 'CandidateProfileController@createAchievement')->name('candidate.create-achievement');
+        Route::get('/candidate-achievement/{candidateAchievement}/edit-achievement',
+            'CandidateProfileController@editAchievement')->name('candidate.edit-achievement');
+        Route::put('candidate-achievement/{candidateAchievement}', 'CandidateProfileController@updateAchievement');
+        Route::delete('candidate-achievement/{candidateAchievement}',
+            'CandidateProfileController@destroyAchievement')->name('achievement.destroy');
+
+        // candidate objective
+        Route::post('objective', 'CandidateProfileController@createObjective')->name('candidate.create-objective');
+        /*Route::get('/candidate-achievement/{candidateAchievement}/edit-achievement',
+            'CandidateProfileController@editAchievement')->name('candidate.edit-achievement');
+        Route::put('candidate-achievement/{candidateAchievement}', 'CandidateProfileController@updateAchievement');
+        Route::delete('candidate-achievement/{candidateAchievement}',
+            'CandidateProfileController@destroyAchievement')->name('achievement.destroy');*/
+
         // favourite jobs listing routes.
         Route::get('favourite-jobs', 'CandidateController@showFavouriteJobs')->name('favourite.jobs');
         Route::delete('favourite-jobs/{favouriteJob}',
@@ -531,5 +559,12 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::get('company/verify', 'CompanyController@verificationAttempt')->name('company.verify')->middleware(['auth']);
+Route::get('company/email-templates', 'CompanyController@emailTemplates')->name('company.email-templates')->middleware(['auth','role:Employer']);
+Route::get('company/email-template/get', 'CompanyController@getEmailTemplates')->name('email.templates.get')->middleware(['auth','role:Employer']);
+Route::get('company/{template_id}/email-template', 'CompanyController@showEmailTemplate')->name('email.template.get')->middleware(['auth','role:Employer']);
+Route::get('company/available-templates/{type}', 'CompanyController@availableTemplates')->name('templates.available')->middleware(['auth','role:Employer']);
+Route::get('company/{type}/get-placeholder', 'CompanyController@templatePlaceholder')->name('email.template-placeholder.get')->middleware(['auth','role:Employer']);
+Route::post('company/save-template', 'CompanyController@saveEmailTemplate')->name('email.template.save')->middleware(['auth','role:Employer']);
+Route::delete('company/delete-template/{template_id}', 'CompanyController@deleteEmailTemplate')->name('email.template.delete')->middleware(['auth','role:Employer']);
 Route::post('company/verify', 'CompanyController@verificationSave')->name('company.verification.save')->middleware(['auth']);
 Route::post('company/verification/upload', 'CompanyController@uploadVerificationAttachment')->name('company.verification.upload')->middleware(['auth']);

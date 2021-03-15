@@ -26,6 +26,10 @@
             {{ Form::text('first_name', $user->first_name, ['class' => 'form-control','required']) }}
         </div>
         <div class="form-group col-sm-6">
+            {{ Form::label('father_name',__('messages.candidate.father_name').':', ['class' => 'font-weight-bolder']) }}
+            {{ Form::text('father_name', $user->candidate->father_name, ['class' => 'form-control']) }}
+        </div>
+        <div class="form-group col-sm-6">
             {{ Form::label('last_name',__('messages.candidate.last_name').':', ['class' => 'font-weight-bolder']) }}<span class="text-danger">*</span>
             {{ Form::text('last_name', $user->last_name, ['class' => 'form-control','required']) }}
         </div>
@@ -33,14 +37,18 @@
             {{ Form::label('email',__('messages.candidate.email').':', ['class' => 'font-weight-bolder']) }}<span class="text-danger">*</span>
             {{ Form::text('email', $user->email, ['class' => 'form-control','required']) }}
         </div>
-
-        <div class="form-group col-sm-6">
-            {{ Form::label('father_name',__('messages.candidate.father_name').':', ['class' => 'font-weight-bolder']) }}
-            {{ Form::text('father_name', $user->candidate->father_name, ['class' => 'form-control']) }}
-        </div>
         <div class="form-group col-sm-6">
             {{ Form::label('dob', __('messages.candidate.birth_date').':', ['class' => 'font-weight-bolder']) }}
+            <div class="input-group mb-3">
             {{ Form::text('dob', $user->dob, ['class' => 'form-control','id' => 'birthDate','autocomplete' => 'off']) }}
+                <div class="input-group-append">
+                    <select name="dob_visible" class="form-control" id="dob_visible">
+                        <option value="">Visibility</option>
+                        <option value="1" {{$user->dob_visible?'selected':''}}>Visible</option>
+                        <option value="0" {{!$user->dob_visible?'selected':''}}>Invisible</option>
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('gender', __('messages.candidate.gender').':', ['class' => 'font-weight-bolder']) }}<span class="text-danger">*</span>
@@ -92,12 +100,24 @@
             {{ Form::select('country_id', $data['countries'], !empty($user->country_id) ? $user->candidate->country_name : null, ['id'=>'countryId','class' => 'form-control','placeholder' => 'Select Country']) }}
         </div>
         <div class="form-group col-sm-6">
-            {{ Form::label('state', __('messages.company.state').':', ['class' => 'font-weight-bolder']) }}
-            {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), isset($user->state_id) ? $user->state_name : null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select State']) }}
+            {{ Form::label('state', __('messages.company.region').':', ['class' => 'font-weight-bolder']) }}
+            {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), isset($user->state_id) ? $user->state_name : null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region']) }}
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('city', __('messages.company.city').':', ['class' => 'font-weight-bolder']) }}
             {{ Form::select('city_id', (isset($cities) && $cities!=null?$cities:[]), isset($user->city_id) ? $user->city_name : null, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City']) }}
+        </div>
+        <div class="form-group col-sm-6">
+            {{ Form::label('address_line_1', __('messages.company.address_line_1').':', ['class' => 'font-weight-bolder']) }}
+            {{ Form::text('address_line_1', $user->address_line_1, ['class' => 'form-control']) }}
+        </div>
+        <div class="form-group col-sm-6">
+            {{ Form::label('address_line_2', __('messages.company.address_line_2').':', ['class' => 'font-weight-bolder']) }}
+            {{ Form::text('address_line_2', $user->address_line_2, ['class' => 'form-control']) }}
+        </div>
+        <div class="form-group col-sm-6">
+            {{ Form::label('zip_code', __('messages.company.zip_code').':', ['class' => 'font-weight-bolder']) }}
+            {{ Form::text('zip_code', $user->zip_code, ['class' => 'form-control']) }}
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('phone', __('messages.candidate.phone').':', ['class' => 'font-weight-bolder']) }}</br>
@@ -107,10 +127,14 @@
             <span id="valid-msg" class="hide">✓ &nbsp; Valid</span>
             <span id="error-msg" class="hide"></span>
         </div>
-        <div class="form-group col-sm-6">
+        {{--<div class="form-group col-sm-6">
             {{ Form::label('experience', __('messages.candidate.experience').':', ['class' => 'font-weight-bolder']) }}
             <span>({{ __('messages.candidate.in_years') }})</span>
             {{ Form::number('experience', isset($user->candidate->experience) ? $user->candidate->experience : null, ['class' => 'form-control','min' => '0', 'max' => '15']) }}
+        </div>--}}
+        <div class="form-group col-sm-6">
+            {{ Form::label('professional_title', __('messages.candidate_profile.professional_title').':', ['class' => 'font-weight-bolder']) }}
+            {{ Form::text('professional_title', isset($user->candidate->professional_title) ? $user->candidate->professional_title : null, ['class' => 'form-control', 'placeholder' => 'e.g Accountant']) }}
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('career_level', __('messages.candidate.career_level').':', ['class' => 'font-weight-bolder']) }}
@@ -125,11 +149,11 @@
             {{ Form::select('functional_area_id', $data['functionalArea'], isset($user->candidate->functional_area_id) ? $user->candidate->functional_area_id : null, ['class' => 'form-control','id' => 'functionalAreaId','placeholder'=>'Select functional area']) }}
         </div>
         <div class="form-group col-sm-6">
-            {{ Form::label('current_salary', __('messages.candidate.current_salary').':', ['class' => 'font-weight-bolder']) }}
+            {{ Form::label('current_salary', __('messages.candidate.current_salary').': ('.__('messages.job.net_amount').')', ['class' => 'font-weight-bolder']) }}
             {{ Form::text('current_salary', isset($user->candidate->current_salary) ? $user->candidate->current_salary : null, ['class' => 'form-control price-input', 'id' => 'current_salary']) }}
         </div>
         <div class="form-group col-sm-6">
-            {{ Form::label('expected_salary', __('messages.candidate.expected_salary').':', ['class' => 'font-weight-bolder']) }}
+            {{ Form::label('expected_salary', __('messages.candidate.expected_salary').': ('.__('messages.job.net_amount').')', ['class' => 'font-weight-bolder']) }}
             {{ Form::text('expected_salary', isset($user->candidate->expected_salary) ? $user->candidate->expected_salary : null, ['class' => 'form-control price-input']) }}
         </div>
 

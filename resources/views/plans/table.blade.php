@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th scope="col">{{ __('messages.skill.name') }}</th>
+        <th scope="col">{{ __('messages.plan.subscription_duration')." (days)" }}</th>
         <th scope="col">{{ __('messages.plan.allowed_jobs') }}</th>
         <th scope="col">{{ __('messages.plan.currency') }}</th>
         <th scope="col">{{ __('messages.plan.amount') }}</th>

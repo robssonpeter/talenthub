@@ -44,7 +44,7 @@ class PostRepository extends BaseRepository
         try {
             /** @var Post $post */
             $input['created_by'] = getLoggedInUserId();
-            $blogInput = Arr::only($input, ['title', 'description', 'created_by']);
+            $blogInput = Arr::only($input, ['title', 'description', 'author', 'created_by']);
             $post = $this->create($blogInput);
 
             //update blog assign Categories

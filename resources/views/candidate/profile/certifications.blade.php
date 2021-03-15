@@ -6,7 +6,7 @@
                 <div class="card-header d-flex justify-content-end">
                     <div class="section-header-breadcrumb mb-3">
                         <a href="#"
-                           class="btn btn-primary form-btn uploadResumeModal">{{ __('messages.candidate_profile.upload_certificate') }}
+                           class="btn btn-primary form-btn uploadResumeModal">{{ __('messages.upload_attachment') }}
                             <i class="fas fa-plus"></i></a>
                     </div>
                 </div>

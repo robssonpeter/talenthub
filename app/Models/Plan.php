@@ -52,6 +52,7 @@ class Plan extends Model
      */
     protected $fillable = [
         'name',
+        'subscription_duration',
         'stripe_plan_id',
         'allowed_jobs',
         'amount',

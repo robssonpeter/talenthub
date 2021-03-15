@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th scope="col">{{ __('messages.job.job_title') }}</th>
+        <th scope="col">{{ __('messages.common.company') }}</th>
         <th scope="col">{{ __('messages.common.created_on') }}</th>
         <th scope="col">{{ __('messages.job.job_expiry_date') }}</th>
         <th scope="col">{{ __('messages.job.is_featured') }}</th>

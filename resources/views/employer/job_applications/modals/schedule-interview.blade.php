@@ -31,6 +31,9 @@
                     {{Form::checkbox('email_notification', false, false, ['id' => 'email_notification'])}}
                     {{Form::label('email_notification_label', 'Send an email notification to candidate')}}
                 </div>
+                <div class="form-group col-sm-12" id="template-type-div">
+
+                </div>
 
 
             </div>

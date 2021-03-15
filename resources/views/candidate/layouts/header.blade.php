@@ -4,7 +4,7 @@
     <div class="navbar-nav">
         <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
     </div>
-    <ul class="navbar-nav navbar-right ml-auto">
+    <ul class="navbar-nav navbar-right ml-auto nav-item">
         @if(\Illuminate\Support\Facades\Auth::user())
             <li class="dropdown">
                 <a href="#" data-toggle="dropdown"

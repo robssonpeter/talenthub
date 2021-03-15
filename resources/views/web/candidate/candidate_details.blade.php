@@ -10,6 +10,8 @@
         <div class="container">
             <div class="row candidate-profile">
 
+                @include('web.verified-only')
+
                 <div class="col-md-3 col-xs-12">
                     <div class="profile-photo ticket-sender-picture">
                         <img src="{{ $candidateDetails->user->avatar }}" class="img-responsive" alt="">
@@ -118,10 +120,12 @@
                                 <i class="fa fa-envelope"></i>
                                 <span>{{ $candidateDetails->user->email }}</span>
                             </div>
+                            @if($candidateDetails->user->dob_visible)
                             <div class="col-lg-4 mb10">
                                 <i class="fa fa-birthday-cake"></i>
                                 <span>{{ date('jS M, Y', strtotime($candidateDetails->user->dob)) }}</span>
                             </div>
+                            @endif
                             <div class="col-lg-4">
                                 <i class="fa fa-phone"></i>
                                 <span>{{ isset($candidateDetails->user->phone) ? $candidateDetails->user->phone : __('messages.candidate_dashboard.no_not_available')}}</span>

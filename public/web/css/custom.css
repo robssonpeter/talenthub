@@ -5,7 +5,9 @@
 }
 
 .j-nav-item:hover {
-    border-bottom: 5px solid #6777ef !important;
+    /*border-bottom: 5px solid #6777ef !important;*/
+    color: #fe9004 !important;
+    border-bottom: 5px solid #fe9004 !important;
 }
 
 /* job categories css */

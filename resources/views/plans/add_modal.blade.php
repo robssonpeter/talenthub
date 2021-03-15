@@ -16,6 +16,10 @@
                         {!! Form::text('name', null, ['id'=>'name','class' => 'form-control','required']) !!}
                     </div>
                     <div class="form-group col-sm-12">
+                        {!! Form::label('subscription_duration', __('messages.plan.subscription_duration').' (in days)'.':') !!}<span class="text-danger">*</span>
+                        {!! Form::number('subscription_duration', null, ['id'=>'subscriptionDuration', 'class' => 'form-control subscription-duration', 'required', 'min' => '1']) !!}
+                    </div>
+                    <div class="form-group col-sm-12">
                         {!! Form::label('allowed_jobs', __('messages.plan.allowed_jobs').':') !!}<span class="text-danger">*</span>
                         {!! Form::number('allowed_jobs', null, ['id'=>'allowedJobs', 'class' => 'form-control allowed-jobs', 'required', 'min' => '1']) !!}
                     </div>

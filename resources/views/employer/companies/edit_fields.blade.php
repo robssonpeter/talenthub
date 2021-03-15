@@ -9,25 +9,25 @@
         {{ Form::email('email', isset($user)?$user->email:null, ['class' => 'form-control', 'required']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('phone', __('messages.user.phone').':') }}<br>
-        {{ Form::tel('phone', isset($user)?$user->phone:null, ['class' => 'form-control','onkeyup' => 'if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")','id'=>'phoneNumber']) }}
+        {{ Form::label('phone', __('messages.user.phone').':') }}<span class="text-danger">*</span><br>
+        {{ Form::tel('phone', isset($user)?$user->phone:null, ['class' => 'form-control','onkeyup' => 'if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")','id'=>'phoneNumber', 'required']) }}
         {{ Form::hidden('region_code',null,['id'=>'prefix_code']) }}
         <br>
         <span id="valid-msg" class="hide">✓ &nbsp; Valid</span>
         <span id="error-msg" class="hide"></span>
     </div>
-    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+    {{--<div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('ceo', __('messages.company.ceo_name').':') }}<span class="text-danger">*</span>
         {{ Form::text('ceo', null, ['class' => 'form-control','required']) }}
-    </div>
+    </div>--}}
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('industry_id', __('messages.company.industry').':') }}<span class="text-danger">*</span>
         {{ Form::select('industry_id', $data['industries'],null, ['id'=>'industryId','class' => 'form-control','placeholder' => 'Select Industry','required']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('ownership_type_id', __('messages.company.ownership_type').':') }}<span
+        {{ Form::label('ownership_type_id', __('messages.company.organization_type').':') }}<span
                 class="text-danger">*</span>
-        {{ Form::select('ownership_type_id', $data['ownerShipTypes'], null, ['id'=>'ownershipTypeId','class' => 'form-control','placeholder' => 'Select OwnerShip Type','required']) }}
+        {{ Form::select('ownership_type_id', $data['ownerShipTypes'], null, ['id'=>'ownershipTypeId','class' => 'form-control','placeholder' => 'Select Organization Type','required']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('company_size_id', __('messages.company.company_size').':') }}<span class="text-danger">*</span>
@@ -38,8 +38,8 @@
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-control','placeholder' => 'Select Country']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('state', __('messages.company.state').':') }}
-        {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select State']) }}
+        {{ Form::label('state', __('messages.company.region').':') }}
+        {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('city', __('messages.company.city').':') }}
@@ -49,14 +49,26 @@
         {{ Form::label('established_in', __('messages.company.established_in').':') }}<span class="text-danger">*</span>
         {{ Form::selectYear('established_in', date('Y'), 2000, (isset($company->established_in)) ? $company->established_in : '', ['class' => 'form-control', 'id' => 'establishedIn']) }}
     </div>
-    <div class="form-group col-xl-12 col-md-12 col-sm-12">
-        {{ Form::label('details', __('messages.about_us').':') }}
-        {{ Form::textarea('details', null, ['class' => 'form-control' , 'id' => 'editDetails', 'rows' => '5']) }}
+    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+        {{ Form::label('address_line_1', __('messages.company.address_line_1').':') }}<span class="text-danger">*</span>
+        {{ Form::text('address_line_1', null, ['class' => 'form-control']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
+        {{ Form::label('address_line_2', __('messages.company.address_line_2').':') }}<span class="text-danger"></span>
+        {{ Form::text('address_line_2', null, ['class' => 'form-control']) }}
+    </div>
+    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+        {{ Form::label('zip_code', __('messages.company.zip_code').':') }}<span class="text-danger"></span>
+        {{ Form::text('zip_code', null, ['class' => 'form-control']) }}
+    </div>
+    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+        {{ Form::label('postal_address', __('messages.company.postal_address').':') }}<span class="text-danger"></span>
+        {{ Form::text('postal_address', null, ['class' => 'form-control']) }}
+    </div>
+    {{--<div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('location', __('messages.company.location').':') }}<span class="text-danger">*</span>
         {{ Form::text('location', null, ['class' => 'form-control']) }}
-    </div>
+    </div>--}}
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('no_of_offices', __('messages.company.no_of_offices').':') }}<span class="text-danger">*</span>
         {{ Form::number('no_of_offices', null, ['class' => 'form-control', 'required']) }}
@@ -124,10 +136,14 @@
             {{ Form::text('pinterest_url', isset($company->user->pinterest_url)?$company->user->pinterest_url:null, ['class' => 'form-control']) }}
         </div>
     </div>
+    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+        {{ Form::label('details', __('messages.about_us').':') }}
+        {{ Form::textarea('details', null, ['class' => 'form-control' , 'id' => 'editDetails', 'rows' => '5']) }}
+    </div>
 
     <!-- Submit Field -->
     <div class="form-group col-sm-12">
-        {{ Form::submit(__('messages.common.save'), ['class' => 'btn btn-primary']) }}
+        {{ Form::submit(__('messages.common.save'), ['class' => 'btn btn-primary', 'id' =>'submit-form', 'data-loading-text'=>"<span class='spinner-border spinner-border-sm'></span> Processing..."]) }}
         <a href="{{ route('company.edit.form', \Illuminate\Support\Facades\Auth::user()->owner_id) }}"
            class="btn btn-secondary text-dark">{{__('messages.common.cancel')}}</a>
     </div>

@@ -68,6 +68,7 @@ class PostController extends AppBaseController
     public function store(CreatePostRequest $request)
     {
         $input = $request->all();
+        //dd($input);
         $blog = $this->postRepository->store($input);
 
         Flash::success('Post saved successfully.');

@@ -59,8 +59,8 @@ class CandidateEducation extends Model
         'degree_title' => 'required',
         'country_id'   => 'required',
         'institute'    => 'required',
-        'result'       => 'required',
-        'year'         => 'required',
+        /*'result'       => 'required',*/
+        /*'year'         => 'required',*/
     ];
     public $table = 'candidate_educations';
     public $fillable = [
@@ -73,6 +73,8 @@ class CandidateEducation extends Model
         'institute',
         'result',
         'year',
+        'start_year',
+        'currently_studying'
     ];
     /**
      * The attributes that should be casted to native types.

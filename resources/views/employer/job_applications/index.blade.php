@@ -4,6 +4,7 @@
 @endsection
 @push('css')
     <link href="{{ asset('assets/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 @endpush
 @section('content')
     <section class="section ">
@@ -24,6 +25,24 @@
             @include('flash::message')
             <div class="card">
                 <div class="card-body">
+                    @php
+                        $types = \App\Models\JobApplication::STATUS;
+                        $draftedIndex = array_search('Drafted', $types);
+                        $appliedIndex = array_search('Applied', $types);
+                        unset($types[$draftedIndex]);
+                        unset($types[$appliedIndex]);
+                        $types = array_values($types);
+                    @endphp
+                    <div class="w-25 float-right pb-2 d-none" id="bulk-action-div">
+                        <select class="form-control" id="bulk-action-select">
+                            <option value="">Bulk Action</option>
+                            <option value="shortlisted">Shortlisted</option>
+                            <option value="schedule_interview">Schedule Interview</option>
+                            <option value="interviewed">Interviewed</option>
+                            <option value="selected">Selected</option>
+                            <option value="delete">Delete</option>
+                        </select>
+                    </div>
                     @include('employer.job_applications.table')
                 </div>
             </div>
@@ -58,6 +77,7 @@
 @endsection
 @push('scripts')
     <script>
+        let jobId = "{{$jobId}}";
         let jobApplicationsUrl = "{{  route('job-applications', ['jobId' => $jobId]) }}";
         let view = "{{  __('messages.common.view') }}";
         let jobApplicationStatusUrl = "{{  url('employer/job-applications') }}/";
@@ -71,18 +91,53 @@
         let currentUser = "{{auth()->user()->id}}";
         let transApplicationNote = "{{__('messages.apply_job.application_note')}}";
         let interviewScheduleUrl = "{{route('interview.schedule')}}";
+        let availableTemplatesUrl = "{{route('templates.available', '**type**')}}";
+        let selectedApplications = [];
+        let statuses = "{{json_encode(\App\Models\JobApplication::STATUS)}}";
+        let parser = new DOMParser();
     </script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ mix('assets/js/custom/custom-datatable.js') }}"></script>
     <script src="{{ asset('assets/js/custom/currency.js') }}"></script>
     <script src="{{mix('assets/js/job_applications/job_applications.js')}}"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+    <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
+    <script>
+        var toolbarOptions = [
+            'bold', 'italic', 'underline',
+            { 'list': 'ordered'},
+            { 'list': 'bullet' },
+            {'align': 'center'},
+            {'align': 'right'},
+            {'align': 'justify'}];
+        /*var quill = new Quill('#coverLetterContent', {
+            modules: {
+                toolbar: toolbarOptions
+            },
+            placeholder: 'Type your cover letter here',
+            theme: 'snow',
+        });*/
+    </script>
+    {{--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+        let vue =  new Vue({
+            el: "#coverLetterContent",
+            data: {
+                coverLetter: 'hellow',
+            }
+        })
+    </script>--}}
     <script>
         function viewCoverLetter(content){
-            document.getElementById('coverLetterContent').innerHTML = content;
+            let markdown = new showdown.Converter();
+            let html = markdown.makeHtml(content);
+            $('#coverLetterContent').html(html);
         }
-        /*$(document).on('click', '.coverLetter', function (){
-            $('#dialog').dialog();
-        });*/
+        $(document).on('click', '.coverLetter', function(){
+            let content = $(this).attr('data-content');
+            viewCoverLetter(content);
+        })
     </script>
 @endpush
 

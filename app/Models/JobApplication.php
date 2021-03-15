@@ -76,6 +76,7 @@ class JobApplication extends Model
         'cover_letter',
         'status',
         'currency_id',
+        'immediately_available'
     ];
 
     /**
@@ -150,5 +151,13 @@ class JobApplication extends Model
 
     public function interview(){
         return $this->hasOne(Interview::class, 'application_id', 'id');
+    }
+
+    public function user() {
+        return $this->hasOneThrough(User::class, Candidate::class, 'id', 'id', 'candidate_id', 'user_id');
+    }
+
+    public function company(){
+        return $this->hasOneThrough(Company::class, Job::class, 'id', 'id', 'job_id', 'company_id');
     }
 }

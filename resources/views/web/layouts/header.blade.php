@@ -11,7 +11,7 @@
         <div class="container">
 
             <!-- Logo -->
-            <div class="col-md-2 col-sm-6 col-xs-8 nopadding">
+            <div class="col-md-2 col-sm-6 col-xs-8 nopadding mai">
                 <a class="navbar-brand nomargin" href="{{url('/')}}">
                     <img src="{{ asset($settings['logo']) }}" alt="logo">
                 </a>
@@ -19,7 +19,7 @@
             </div>
 
             <!-- ======== Start of Main Menu ======== -->
-            <div class="col-md-10 col-sm-6 col-xs-4 nopadding">
+            <div class="col-md-10 col-sm-6 col-xs-4 nopadding owl-sta">
                 <div class="navbar-header page-scroll">
                     <button type="button" class="navbar-toggle toggle-menu menu-right push-body" data-toggle="collapse"
                             data-target="#main-nav" aria-expanded="false">
@@ -65,7 +65,7 @@
                                class="j-nav-item">{{ __('messages.post.blog') }}</a>
                         </li>
                         @auth
-                            <li class="dropdown simple-menu language-menu">
+                            {{--<li class="dropdown simple-menu language-menu">
                                 <a href="#" class="dropdown-toggle language-text current-language"
                                    data-toggle="dropdown" role="button">
                                     {{ getCurrentLanguageName() }}
@@ -78,10 +78,10 @@
                                         @endif
                                     @endforeach
                                 </ul>
-                            </li>
+                            </li>--}}
                             <li class="dropdown simple-menu">
                                 <a href="#" class="dropdown-toggle user-avatar" data-toggle="dropdown" role="button">
-                                    <img src="{{ getLoggedInUser()->avatar }}"
+                                    <img src="{{ str_replace('htts:', 'https:', getLoggedInUser()->avatar) }}"
                                          class="thumbnail-rounded front-thumbnail"/>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
@@ -105,7 +105,7 @@
                             <li class="simple-menu {{ Request::is('front-register') ? 'active' : '' }}">
                                 <a href="{{ route('front.register') }}" class="j-nav-item"> {{ __('web.register') }}</a>
                             </li>
-                            <li class="dropdown simple-menu language-menu">
+                            {{--<li class="dropdown simple-menu language-menu">
                                 <a href="#" class="dropdown-toggle language-text current-language"
                                    data-toggle="dropdown" role="button">
                                     {{ getCurrentLanguageName() }}
@@ -118,7 +118,7 @@
                                         @endif
                                     @endforeach
                                 </ul>
-                            </li>
+                            </li>--}}
                             <a href="{{ route('login') }}"
                                class="btn btn-purple btn-effect mobileLoginButton login-btn"><i
                                         class="fa fa-lock"></i> {{ __('web.login') }}</a>

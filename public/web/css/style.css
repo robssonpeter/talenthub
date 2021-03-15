@@ -118,14 +118,15 @@ Author URI: gnodesign.com
 @import url(magnific-popup.css);
 @import url(bootstrap-select.min.css);
 @import url(jquery-ui.min.css);
-
+@import url("//fonts.googleapis.com/css?family=Nunito:400,600,700,800");
 /* --------------------------------------
     1. Default Typography
 -------------------------------------- */
 
 *,
 body {
-    font-family: 'Raleway', sans-serif;
+    /*font-family: 'Raleway', sans-serif;*/
+    font-family: "Nunito", "Segoe UI", arial;
 }
 
 h1,
@@ -135,7 +136,7 @@ h4,
 h5,
 h6 {
     font-family: 'Varela Round', sans-serif;
-    margin: 0 !important;
+    /*margin: 0 !important;*/
 }
 
 h1 {
@@ -230,8 +231,8 @@ input {
     -moz-border-radius: 5px;
     border-radius: 5px;
     height: auto;
-    box-shadow: none;
-    -webkit-appearance: none;
+    /*box-shadow: none;
+    -webkit-appearance: none;*/
 }
 
 .form-control:focus {
@@ -278,6 +279,18 @@ ul {
     list-style: none;
 }
 
+div.post-content ul{
+    list-style: circle;
+    font-size: 16px;
+    color: #666;
+}
+
+div.form-group ul{
+    list-style: circle;
+    font-size: 16px;
+    color: #666;
+}
+
 img {
     -moz-user-select: none;
     /* These user-select properties are inheritable, used to prevent text selection */
@@ -317,6 +330,7 @@ img {
 
 .overlay-black:before {
     background-image: linear-gradient(to right top, #587db3, #6686c2, #758fd0, #8597de, #96a0ec);
+    color: red;
     width: 100%;
     height: 100%;
     display: block;
@@ -452,7 +466,11 @@ img {
 }
 
 .text-purple {
-    color: #6777ef !important;
+    color: #fe9004 !important;
+}
+
+.bg-purple {
+    background-color: #fe9004 !important;
 }
 
 .text-orange {
@@ -478,7 +496,7 @@ img {
     content: '';
     width: 50px;
     height: 3px;
-    background: #6777ef;
+    background: #fe9004;
     display: block;
     margin: 0 auto;
     margin-top: 20px;
@@ -507,7 +525,7 @@ ul.list {
     display: block;
     width: 8px;
     height: 8px;
-    background: #29b1fd;
+    background: #fe9004;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
@@ -1212,14 +1230,15 @@ ul.list {
 /*** ====== 4.1.1 Button Colors ====== ***/
 
 .btn-blue {
-    box-shadow: 0 2px 6px #82d3f8;
-    background-color: #3abaf4;
-    border-color: #3abaf4;
+    box-shadow: 0 2px 6px #fe9004;
+    background-color: #0f2944;
+    border-color: #0f2944;
     color: #fff;
 }
 
 .btn-blue:hover {
-    background-color: #0da8ee !important;
+    border-color: #fe9004;
+    background-color: #fe9004 !important;
 }
 
 .btn-green {
@@ -1235,13 +1254,14 @@ ul.list {
 
 .btn-purple {
     box-shadow: 0 2px 6px #acb5f6;
-    background-color: #6777ef;
-    border-color: #6777ef;
+    background-color: #0f2944;
+    border-color: #0f2944;
     color: #fff;
 }
 
 .btn-purple:hover {
-    background-color: #394eea !important;
+    border-color: #fe9004;
+    background-color: #fe9004 !important;
 }
 
 .btn-orange {
@@ -1303,6 +1323,9 @@ ul.list {
     width: 45px;
     text-align: center;
     line-height: 45px;
+    /*background: -moz-linear-gradient(to right top, #587db3, #6686c2, #758fd0, #8597de, #96a0ec);
+    background: -webkit-linear-gradient(to right top, #587db3, #6686c2, #758fd0, #8597de, #96a0ec);
+    background: linear-gradient(to right top, #587db3, #6686c2, #758fd0, #8597de, #96a0ec);*/
     background: -moz-linear-gradient(to right top, #587db3, #6686c2, #758fd0, #8597de, #96a0ec);
     background: -webkit-linear-gradient(to right top, #587db3, #6686c2, #758fd0, #8597de, #96a0ec);
     background: linear-gradient(to right top, #587db3, #6686c2, #758fd0, #8597de, #96a0ec);
@@ -1925,7 +1948,7 @@ div#main-nav {
 .navbar-default .navbar-nav > .active > a:focus,
 .navbar-default .navbar-nav > .active > a:hover {
     background: none !important;
-    color: #6777ef;
+    color: #fe9004;
 }
 
 .navbar .navbar-nav > li > a i {
@@ -2558,7 +2581,8 @@ footer .footer-info .footer-links a {
 }
 
 footer .footer-info .footer-links a:hover {
-    color: #29b1fd;
+    /*color: #29b1fd;*/
+    color: #fe9004;
     padding-left: 10px;
 }
 
@@ -3484,6 +3508,10 @@ section#job-post {
     padding-left: 20px;
 }
 
+div.job-title a {
+
+}
+
 .job-post-wrapper .single-job-post .job-title a {
     font-size: 18px;
     text-transform: capitalize;
@@ -3507,6 +3535,10 @@ section#job-post {
 
 .job-post-wrapper .single-job-post .job-info span.location {
     margin-left: 5px;
+}
+
+span.location {
+    color: #29b2fe;
 }
 
 .job-post-wrapper .single-job-post .job-category a {
@@ -3562,7 +3594,7 @@ ul.pagination li.active .page-link {
     font-size: 16px !important;
     color: #6777ef;
     background: none;
-    border: 2px solid #6777ef;
+    border: 2px solid #0f2944;
     box-shadow: 0 2px 6px #acb5f6;
     padding: 9px 15px !important;
     margin-left: 1px;
@@ -4472,7 +4504,7 @@ section.find-candidate .candidate-wrapper .single-candidate {
 /*}*/
 
 section.find-candidate .candidate-wrapper .single-candidate:hover {
-    border: 1px solid #6777ef;
+    border: 1px solid #fe9004;
 }
 
 section.find-candidate .candidate-wrapper .single-candidate .candidate-img {
@@ -4515,7 +4547,7 @@ section.find-candidate .candidate-wrapper .single-candidate .candidate-name a {
 }
 
 section.find-candidate .candidate-wrapper .single-candidate .candidate-name a:hover {
-    color: #29b2fe;
+    color: #fe9004;
 }
 
 section.find-candidate .candidate-wrapper .single-candidate .candidate-info {
@@ -4568,7 +4600,7 @@ section.about-process .process-icon {
 
 section.about-process .process-icon i {
     font-size: 50px;
-    color: #fff;
+    color: #fe9004;
     line-height: 120px;
 }
 
@@ -5785,7 +5817,7 @@ section.blog-listing article.blog-post .blog-thumbnail:hover img {
 }
 
 section.blog-listing article.blog-post .date {
-    background: #29b2fe;
+    background: #fe9004;
     display: block;
     position: absolute;
     top: 0;
@@ -5876,9 +5908,9 @@ section#version1.blog-listing article.blog-post:last-of-type {
 }
 
 section#version1.blog-listing article.blog-post .blog-thumbnail {
-    background: -moz-linear-gradient(left, #29b2fe -20%, #443088 120%);
-    background: -webkit-linear-gradient(left, #29b2fe -20%, #443088 120%);
-    background: linear-gradient(to right, #29b2fe -20%, #443088 120%);
+    background: -moz-linear-gradient(left, #3e5369 -20%, #0f2944 120%);
+    background: -webkit-linear-gradient(left, #3e5369 -20%, #0f2944 120%);
+    background: linear-gradient(to right, #3e5369 -20%, #0f2944 120%);
     padding: 0;
     overflow: hidden;
 }
@@ -6037,7 +6069,7 @@ section#version2.blog-listing article.blog-post .blog-desc {
 }
 
 .blog-sidebar .sidebar-blog-post .post-info a:hover {
-    color: #29b2fe;
+    color: #fe9004;
 }
 
 .blog-sidebar .sidebar-blog-post .post-info span {
@@ -6102,7 +6134,7 @@ section#version2.blog-listing article.blog-post .blog-desc {
 }
 
 .blog-sidebar .sidebar-list li a:hover {
-    color: #29b2fe;
+    color: #fe9004;
     padding-left: 10px;
 }
 

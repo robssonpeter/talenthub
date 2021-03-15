@@ -13,7 +13,10 @@ use App\Models\Candidate;
 use App\Models\CandidateEducation;
 use App\Models\CandidateExperience;
 use App\Models\CandidateLanguage;
+use App\Models\CandidateObjective;
+use App\Models\CandidateReferee;
 use App\Models\CandidateSkill;
+use App\Models\CareerLevel;
 use App\Models\FavouriteCompany;
 use App\Models\FavouriteJob;
 use App\Models\Job;
@@ -69,6 +72,11 @@ class CandidateController extends AppBaseController
         if (isset($user->state_id)) {
             $cities = getCities($user->state_id);
         }
+        $careerLevels = CareerLevel::get();
+        $data['careerLevels'] = [];
+        foreach($careerLevels as $careerLevel){
+            $data['careerLevels'][$careerLevel->id] = $careerLevel->level_name;
+        }
         $candidateSkills = $user->candidateSkill()->pluck('skill_id')->toArray();
         $candidateLanguage = $user->candidateLanguage()->pluck('language_id')->toArray();
         $sectionName = ($request->section === null) ? 'general' : $request->section;
@@ -89,6 +97,10 @@ class CandidateController extends AppBaseController
         }
 
         if ($sectionName == 'career_informations' || $sectionName == 'cv_builder') {
+            $data['jobCategories'] = App\Models\JobCategory::pluck('name', 'id');
+            $data['candidateObjective'] = CandidateObjective::where('candidate_id', $user->owner_id)->first();
+            $data['candidateReferees'] = CandidateReferee::where('candidate_id',
+                $user->owner_id)->orderByDesc('id')->get();
             $data['candidateExperiences'] = CandidateExperience::where('candidate_id',
                 $user->owner_id)->orderByDesc('id')->get();
             foreach ($data['candidateExperiences'] as $experience) {
@@ -100,7 +112,10 @@ class CandidateController extends AppBaseController
                 $education->country = getCountryName($education->country_id);
             }
             $data['degreeLevels'] = RequiredDegreeLevel::pluck('name', 'id');
+            $data['candidateAchievements'] = App\Models\CandidateAchievement::where('candidate_id',
+                $user->owner_id)->orderByDesc('id')->get();
         }
+        //dd($data);
 
         return view("candidate.profile.$sectionName",
             compact('user', 'data', 'countries', 'states', 'cities', 'candidateSkills', 'candidateLanguage'));
@@ -144,6 +159,7 @@ class CandidateController extends AppBaseController
      */
     public function updateProfile(CandidateUpdateProfileRequest $request)
     {
+        //dd($request->all());
         $this->candidateRepository->updateProfile($request->all());
         CandidateFunction::profileCompletion(Auth::user()->id);
         Flash::success('Candidate profile updated successfully.');
@@ -215,8 +231,10 @@ class CandidateController extends AppBaseController
     public function uploadResume(Request $request)
     {
         $input = $request->all();
+        $this->sendSuccess('done');
 
-        $this->candidateRepository->uploadResume($input);
+
+        $this->candidateRepository->uploadResume($input, true);
 
         CandidateFunction::profileCompletion(Auth::user()->id);
 

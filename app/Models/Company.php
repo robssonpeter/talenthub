@@ -113,6 +113,10 @@ class Company extends Model implements HasMedia
         'fax',
         'user_id',
         'unique_id',
+        'address_line_1',
+        'address_line_2',
+        'zip_code',
+        'postal_address',
     ];
 
     /**
@@ -130,13 +134,13 @@ class Company extends Model implements HasMedia
      * @var array
      */
     public static $rules = [
-        'ceo'               => 'required',
         'industry_id'       => 'required',
+        'phone'             => 'required',
         'ownership_type_id' => 'required',
         'company_size_id'   => 'required',
         'established_in'    => 'required',
         'website'           => 'required',
-        'location'          => 'required',
+        'address_line_1'    => 'required',
         'no_of_offices'     => 'required|numeric|min:1|max:1000',
     ];
 
@@ -176,7 +180,7 @@ class Company extends Model implements HasMedia
         /** @var Media $media */
         $media = $this->user->getMedia(User::PROFILE)->first();
         if (! empty($media)) {
-            return $media->getFullUrl();
+            return str_replace('htts:', 'https:', $media->getFullUrl());
         }
 
         return asset('assets/img/infyom-logo.png');

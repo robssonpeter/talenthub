@@ -1,8 +1,10 @@
 <?php
 namespace App\Functionalities;
 use App\Models\Candidate as Candid;
+use App\Models\CandidateAchievement;
 use App\Models\CandidateEducation as Education;
 use App\Models\CandidateExperience as Experience;
+use App\Models\CandidateReferee as Reference;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -12,6 +14,8 @@ class Candidate
     public static function profileCompletion($user_id){
         $candidate = Candid::where('user_id', $user_id)->first();
         $user = User::find($user_id);
+        $achievements = CandidateAchievement::where('candidate_id', $candidate->id)->get();
+        $reference = Reference::where('candidate_id', $candidate->id)->get();
         $education = Education::where('candidate_id', $candidate->id)->get();
         $experience = Experience::where('candidate_id', $candidate->id)->get();
         $language = DB::table('candidate_language')->where('user_id', $user_id)->get();
@@ -21,11 +25,14 @@ class Candidate
         $certifications = DB::table('media')->where('collection_name', 'certifications')->where('model_id', $candidate->id)->get();
         $percentages = [
             'personal' => ['value' => 5, 'eligible' => $user->first_name],
-            'personal_extra' => ['value' => 15, 'eligible' => $user->gender],
+            'personal_extra' => ['value' => 5, 'eligible' => $user->gender],
+            'career_objective' => ['value' => 5, 'eligible' => isset($candidate->objective->description)?strlen($candidate->objective->description):0],
             'skills' => ['value' => 10, 'eligible' => $skills->count()],
             'experience' => ['value' => 10, 'eligible' => $experience->count()],
             'education' => ['value' => 20, 'eligible' => $education->count()],
-            'languages' => ['value' => 10, 'eligible' => $language->count()],
+            'reference' => ['value' => 5, 'eligible' => $reference->count()],
+            'achievements' => ['value' => 5, 'eligible' => $achievements->count()],
+            'languages' => ['value' => 5, 'eligible' => $language->count()],
             'picture' => ['value' => 3, 'eligible' => $pictures->count()],
             'social' => ['value' => 2, 'eligible' => Self::hasSocialAccount(User::find($user_id))],
             'resumes' => ['value' => 20, 'eligible' => $resumes->count()],

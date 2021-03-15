@@ -25,6 +25,7 @@
 @push('scripts')
     <script>
         let favouriteCompaniesUrl = "{{ route('favourite.companies') }}";
+        let companyUrl = "{{route('front.company.details', '**uniqid**')}}";
     </script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ mix('assets/js/custom/custom-datatable.js') }}"></script>

@@ -23,7 +23,7 @@
         {{if !interviewScheduled && isShortlisted}}
              <a class="dropdown-item action-interview-schedule" href="#" data-id="{{:id}}"><?php echo __('messages.apply_job.schedule_interview') ?></a>
         {{else}}
-            {{if !interviewed}}
+            {{if !interviewed && interviewScheduled && !isRejected}}
              <a class="dropdown-item action-interview-schedule" href="#" data-id="{{:id}}"><?php echo __('messages.apply_job.reschedule_interview') ?></a>
             {{/if}}
         {{/if}}

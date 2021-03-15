@@ -66,6 +66,7 @@ class Post extends Model implements HasMedia
         'title',
         'description',
         'created_by',
+        'author'
     ];
 
     /**

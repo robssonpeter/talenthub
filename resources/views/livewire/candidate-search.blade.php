@@ -30,6 +30,21 @@
                            wire:model="location">
                 </div>
             </div>
+
+            <div class="sidebar-widget mt20">
+                <h3>{{ __('messages.candidate.pay_currency') }}</h3>
+                @php
+                $payCurrencies = \App\Models\SalaryCurrency::pluck('currency_name', 'id');
+                $payCurrencies[0] = 'Any Currency';
+                $payCurrencies = $payCurrencies->sort();
+                $keys = array_keys($payCurrencies->toArray());
+                @endphp
+                <select wire:model="payCurrency" name="payCurrency" id="payCurrency" class="form-control">
+                    @foreach($keys as $key)
+                        <option value="{{$key}}">{{$payCurrencies[$key]}}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="sidebar-widget mt20">
                 <h3>{{ __('messages.candidate.expected_salary') }}</h3>
                 <div class="range-widget">
@@ -38,7 +53,7 @@
                         <input type="text" placeholder="Max" name="max" wire:model="max">
                     </div>
                 </div>
-                <small>{{ __('messages.candidate.salary_per_month') }}</small>
+                <small>{{ __('messages.candidate.net_salary_per_month') }}</small>
             </div>
             <div class="sidebar-widget mt30">
                 <h3>{{ __('messages.candidate.gender') }}</h3>
@@ -73,12 +88,12 @@
                 <!-- ===== Start of Single Candidate 1 ===== -->
                 <div class="row mt10">
                     @forelse($candidates as $candidate)
-                        <div class="single-candidate  col-md-6 col-xs-12 mb20 ">
+                        <div class="single-candidate  col-md-6 col-xs-12 mb20 clickable-card" id="{{ route('front.candidate.details',$candidate->unique_id) }}">
                             <div class="d-flex">
                                 <!-- Candidate Image -->
                                 <div class="candidate-img">
                                     <a href="{{ route('front.candidate.details',$candidate->unique_id) }}">
-                                        <img src="{{ $candidate->candidate_url }}" class="img-responsive" alt="">
+                                        <img src="{{ str_replace('htts:', 'https:', $candidate->candidate_url) }}" class="img-responsive" alt="">
                                     </a>
                                 </div>
                                 <!-- Start of Candidate Name & Info -->

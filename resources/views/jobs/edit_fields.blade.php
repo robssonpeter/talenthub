@@ -12,6 +12,10 @@
         {{ Form::select('job_type_id', $data['jobType'],null, ['id'=>'jobTypeId','class' => 'form-control','placeholder' => 'Select Job Type','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
+        {{ Form::label('industry_id', __('messages.job.industry').':') }}<span class="text-danger">*</span>
+        {{ Form::select('industry_id', $data['industries'],null, ['id'=>'industries','class' => 'form-control','placeholder' => 'Select Industry','required']) }}
+    </div>
+    <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('job_category_id', __('messages.job_category.job_category').':') }}<span
                 class="text-danger">*</span>
         {{ Form::select('job_category_id', $data['jobCategory'],null, ['id'=>'jobCategoryId','class' => 'form-control','placeholder' => 'Select Job Category','required']) }}
@@ -20,10 +24,10 @@
         {{ Form::label('skill_id', __('messages.job.job_skill').':') }} <span class="text-danger">*</span>
         {{Form::select('jobsSkill[]',$data['jobSkill'], null, ['class' => 'form-control','id'=>'SkillId','multiple'=>true,'required'])}}
     </div>
-    <div class="form-group col-xl-4 col-md-4 col-sm-12">
+    {{--<div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('no_preference', __('messages.candidate.gender').':') }}
         {{ Form::select('no_preference', $data['preference'], null, ['id'=>'preferenceId','class' => 'form-control','placeholder' => 'Select Gender']) }}
-    </div>
+    </div>--}}
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('job_expiry_date', __('messages.job.job_expiry_date').':') }} <span class="text-danger">*</span>
         <div class="input-group">
@@ -97,6 +101,14 @@
     <div class="form-group col-xl-12 col-md-12 col-sm-12">
         {{ Form::label('description', __('messages.job.description').':') }}<span class="text-danger">*</span>
         {{ Form::textarea('description', null, ['class' => 'form-control' , 'id' => 'details', 'rows' => '5']) }}
+    </div>
+    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+        {{ Form::label('qualifications', __('messages.job.qualifications').':') }}<span class="text-danger">*</span>
+        {{ Form::textarea('qualifications', null, ['class' => 'form-control' , 'id' => 'qualifications', 'rows' => '5']) }}
+    </div>
+    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+        {{ Form::label('additional_information', __('messages.job.additional_information').':') }}<span class="text-danger">*</span>
+        {{ Form::textarea('additional_information', null, ['class' => 'form-control' , 'id' => 'additional_information', 'rows' => '5']) }}
     </div>
     <div class="form-group col-xl-3 col-md-3 col-sm-12">
         <label>{{ __('messages.job.hide_salary') }}</label>

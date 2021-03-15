@@ -11,7 +11,7 @@ class CandidateSearch extends Component
 {
     use WithPagination;
 
-    public $searchByCandidate = '', $gender = '', $searchBy = 'byJobTitle', $location, $min, $max;
+    public $searchByCandidate = '', $gender = '', $searchBy = 'byJobTitle', $location, $min, $max, $payCurrency;
 
     public function paginationView()
     {
@@ -77,6 +77,7 @@ class CandidateSearch extends Component
         $this->max = '';
         $this->searchByCandidate = '';
         $this->searchBy = 'byJobTitle';
+        $this->payCurrency = 0;
 
     }
 
@@ -130,6 +131,10 @@ class CandidateSearch extends Component
             $q->whereHas('user', function (Builder $q) {
                 $q->where('gender', '=', 1);
             });
+        });
+
+        $query->when(!empty($this->payCurrency), function(Builder $q){
+            $q->where('salary_currency', '=', $this->payCurrency);
         });
 
         $query->when(! empty($this->min), function (Builder $q) {

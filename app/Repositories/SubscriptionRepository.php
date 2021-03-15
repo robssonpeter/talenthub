@@ -3,6 +3,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\Transaction;
@@ -44,7 +45,6 @@ class SubscriptionRepository
                 'current_period_start' => Carbon::now()->toDateTimeString(),
                 'current_period_end'   => Carbon::now()->addYears(10)->toDateTimeString(),
             ]);
-
             $userSubscription->save();
 
             DB::commit();
@@ -65,48 +65,69 @@ class SubscriptionRepository
      */
     public function purchaseSubscription($sessionId)
     {
-        try {
-            setStripeApiKey();
-            /** @var Session $sessionData */
-            $sessionData = Session::retrieve($sessionId);
 
-            $subscriptionId = $sessionData->subscription;
+        try {
+
+            //setStripeApiKey();
+            $paymentStatus = 1;
+            /** @var Session $sessionData */
+            /*$sessionData = Session::retrieve($sessionId);*/
+            $sessionData = Payment::find($sessionId);
+            $planId = json_decode($sessionData->items)[0]->plan;
+            $planInfo = Plan::find($planId);
+            $user_id = Auth::user()->id;
+            //$subscriptionId = $sessionData->subscription;
+            $subscription = Subscription::where('user_id', $user_id)->orderBy('id', 'DESC')->first();
+
+            $subscriptionId = $subscription->id;
             $stripe = new StripeClient(
                 config('services.stripe.secret_key')
             );
 
             /** @var \Stripe\Subscription $subscription */
-            $subscription = $stripe->subscriptions->retrieve(
+            /*$subscription = $stripe->subscriptions->retrieve(
                 $subscriptionId,
                 []
-            );
+            );*/
 
-            $customerId = $sessionData->customer;
+            //$customerId = $sessionData->customer;
+            $customerId = $user_id;
 
             /** @var Subscription $userSubscription */
-            $userSubscription = Subscription::whereStripeId($subscriptionId)->exists();
-
+            //$userSubscription = Subscription::whereStripeId($subscriptionId)->exists();
+            $userSubscription = Subscription::where('user_id', $customerId)->where('plan_id', $planId)->exists();
+            /*dd($userSubscription);
+            dd('hellow');*/
             if ($userSubscription) {
                 throw new UnprocessableEntityHttpException('Account Subscription already exists.');
             }
 
             /** @var User $user */
             $user = Auth::user();
-            $stripePlan = $subscription->items->first()->plan;
+
+            //dd($subscription);
+            //$stripePlan = $subscription->items->first()->plan;
+            $stripePlan = Plan::where('id', $subscription->plan_id)->first();
+            //dd($stripePlan);
+            //dd($subscriptionId);
 
             /** @var Plan $plan */
-            $plan = Plan::whereStripePlanId($stripePlan->id)->firstOrFail();
+            //$plan = Plan::whereStripePlanId($stripePlan->id)->firstOrFail();
+            $plan = Plan::where('id', $planId)->firstOrFail();
+
 
             /** @var \Stripe\Subscription $subscription */
-            $subscription = \Stripe\Subscription::retrieve(
+            /*$subscription = \Stripe\Subscription::retrieve(
                 $subscriptionId
-            );
+            );*/
 
             /** @var Subscription $existingSubscription */
             $existingSubscription = Subscription::NotOnTrial()
                 ->whereUserId($user->id)
                 ->active()
                 ->first();
+
+            //dd($existingSubscription);
 
             // end trial subscription
             Subscription::whereUserId($user->id)->where(function (Builder $query) {
@@ -116,47 +137,66 @@ class SubscriptionRepository
                     'ends_at'       => Carbon::now(),
                     'trial_ends_at' => Carbon::now(),
                 ]);
-
+            //dd(Carbon::createFromTimestamp($subscription->current_period_start));
             /** @var Subscription $tsSubscription */
+            /*dd($plan);*/
             $tsSubscription = Subscription::create([
                 'name'                 => $plan->name,
                 'stripe_id'            => $subscriptionId,
-                'stripe_status'        => $subscription->status,
+                //'stripe_status'        => $subscription->status,
+                'stripe_status'        => $paymentStatus,
                 'stripe_plan'          => $stripePlan->id,
                 'user_id'              => $user->id,
                 'plan_id'              => $plan->id,
-                'current_period_start' => isset($subscription->current_period_start) ? Carbon::createFromTimestamp($subscription->current_period_start) : null,
-                'current_period_end'   => isset($subscription->current_period_start) ? Carbon::createFromTimestamp($subscription->current_period_end) : null,
+                //'current_period_start' => isset($subscription->current_period_start) ? Carbon::createFromTimestamp($subscription->current_period_start) : null,
+                'current_period_start' => Carbon::now(),
+                //'current_period_end'   => isset($subscription->current_period_start) ? Carbon::createFromTimestamp($subscription->current_period_end) : null,
+                'current_period_end'   => Carbon::now()->addDays($planInfo->subscription_duration),
             ]);
 
-            $price = $subscription->items->data[0]->price;
+            //$price = $subscription->items->data[0]->price;
+            $price = $plan->amount;
             $invoiceId = $subscription->latest_invoice;
-            $transaction = (new Transaction())->fill([
+            /*$transaction = (new Transaction())->fill([
                 'user_id'    => $tsSubscription->user_id,
                 'owner_id'   => $tsSubscription->id,
                 'owner_type' => Subscription::class,
                 'amount'     => intval($price->unit_amount / 100),
                 'invoice_id' => $invoiceId,
+            ]);*/
+            $transaction =  Transaction::create([
+                'user_id'    => $tsSubscription->user_id,
+                'owner_id'   => $tsSubscription->id,
+                'owner_type' => Subscription::class,
+                'amount'     => $price,
+                'invoice_id' => $sessionData->id,
             ]);
 
-            $transaction->save();
 
-            if (empty($user->stripe_id)) {
+            // update the status of the payment that it is paid
+            if($transaction){
+                $paid = Payment::where('id', $sessionId)->update(['paid'=>1]);
+            }
+
+
+            //$transaction->save();
+
+            /*if (empty($user->stripe_id)) {
                 $user->stripe_id = $customerId;
                 $user->save();
-            }
+            }*/
 
             // if another account subscription already running than cancel it
             if ($existingSubscription && $existingSubscription->user_id === $user->id) {
                 // immediately cancel old subscription from strip
-                $subscription = \Stripe\Subscription::retrieve(
+                /*$subscription = \Stripe\Subscription::retrieve(
                     $existingSubscription->stripe_id
-                );
+                );*/
 
-                $subscription->delete([
+                /*$subscription->delete([
                     'prorate'     => true,
                     'invoice_now' => true,
-                ]);
+                ]);*/
 
                 $existingSubscription->update(['ends_at' => Carbon::now()]);
             }
@@ -166,7 +206,7 @@ class SubscriptionRepository
             return $tsSubscription;
         } catch (Exception $e) {
             DB::rollBack();
-            throw new Exception($e->getMessage(), $e->getCode());
+            //throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
