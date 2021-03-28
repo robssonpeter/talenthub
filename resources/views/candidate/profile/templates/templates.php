@@ -124,7 +124,6 @@
           </div>
       </article>
   </div>
-
 </script>
 
 <script id="CVcandidateEducationTemplate" type="text/x-jsrender">

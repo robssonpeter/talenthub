@@ -95,7 +95,7 @@ class SubscriptionRepository
 
             /** @var Subscription $userSubscription */
             //$userSubscription = Subscription::whereStripeId($subscriptionId)->exists();
-            $userSubscription = Subscription::where('user_id', $customerId)->where('plan_id', $planId)->exists();
+            $userSubscription = Subscription::where('user_id', $customerId)->whereNull('ends_at')->where('plan_id', $planId)->exists();
             /*dd($userSubscription);
             dd('hellow');*/
             if ($userSubscription) {
@@ -186,7 +186,7 @@ class SubscriptionRepository
                 $user->save();
             }*/
 
-            // if another account subscription already running than cancel it
+            // if another account subscription already running then cancel it
             if ($existingSubscription && $existingSubscription->user_id === $user->id) {
                 // immediately cancel old subscription from strip
                 /*$subscription = \Stripe\Subscription::retrieve(
@@ -197,6 +197,7 @@ class SubscriptionRepository
                     'prorate'     => true,
                     'invoice_now' => true,
                 ]);*/
+                $existingSubscription->Cancel();
 
                 $existingSubscription->update(['ends_at' => Carbon::now()]);
             }

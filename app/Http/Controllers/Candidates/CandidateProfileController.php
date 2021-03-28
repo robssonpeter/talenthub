@@ -33,7 +33,9 @@ class CandidateProfileController extends AppBaseController
     {
         $input = $request->all();
         $input['end_date'] = empty($input['end_date']) ? date('Y-m-d') : $input['end_date'];
+        $input['functional_areas'] = json_encode($input['functional_areas']);
         $candidateExperience = $this->candidateProfileRepository->createExperience($input);
+        CandidateExperience::syncFunctionalAreas($candidateExperience->id);
 
         return $this->sendResponse($candidateExperience, 'Candidate Experience added successfully.');
     }
@@ -64,9 +66,12 @@ class CandidateProfileController extends AppBaseController
         $input['end_date'] = empty($input['end_date']) ? date('Y-m-d') : $input['end_date'];
         $data['id'] = $candidateExperience->id;
         $input['industry_id'] = request()->industry_id;
+        $input['functional_areas'] = json_encode($input['functional_areas']);
         $candidateExperience->delete();
 
         $data['candidateExperience'] = $this->candidateProfileRepository->createExperience($input);
+
+        CandidateExperience::syncFunctionalAreas($data['candidateExperience']->id);
 
         return $this->sendResponse($data, 'Candidate Experience updated successfully.');
     }

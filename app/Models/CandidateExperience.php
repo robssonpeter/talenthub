@@ -76,7 +76,8 @@ class CandidateExperience extends Model
         'description',
         'career_level_id',
         'job_category_id',
-        'industry_id'
+        'industry_id',
+        'functional_areas'
     ];
     /**
      * The attributes that should be casted to native types.
@@ -98,6 +99,8 @@ class CandidateExperience extends Model
 
     protected $appends = ['duration'];
 
+    protected $with = ['areasOfFunction'];
+
     /**
      * @return string
      */
@@ -111,5 +114,34 @@ class CandidateExperience extends Model
     public function candidate()
     {
         return $this->belongsTo(Candidate::class, 'candidate_id');
+    }
+
+    public function areasOfFunction(){
+        return $this->hasMany(ExperienceFunctionalArea::class, 'experience_id', 'id');
+    }
+
+    public static function syncFunctionalAreas($experience_id){
+        $experience = CandidateExperience::find($experience_id);
+        $functionalAreas = json_decode($experience->functional_areas);
+        $exceptions = [];
+        $savingFunction = new ExperienceFunctionalArea();
+        foreach($functionalAreas as $area){
+            $check = ExperienceFunctionalArea::where('experience_id', $experience->id)->where('functional_area_id', $area)->first();
+            if(!$check){
+                $data = [
+                    'experience_id'=> $experience->id,
+                    'functional_area_id'=> $area
+                ];
+                //$check = ExperienceFunctionalArea::create($data);
+                $check = $savingFunction->create($data);
+
+            }
+            if($check){
+                array_push($exceptions, $check->id);
+            }
+        }
+        // Delete non-existing functions
+        ExperienceFunctionalArea::where('experience_id', $experience->id)->whereNotIn('functional_area_id', $exceptions)->delete();
+        return $exceptions;
     }
 }

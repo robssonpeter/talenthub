@@ -7,6 +7,7 @@ use App\Models\CandidateAchievement;
 use App\Models\CandidateEducation;
 use App\Models\CandidateExperience;
 use App\Models\CandidateReferee;
+use App\Models\ExperienceFunctionalArea;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -62,6 +63,9 @@ class CandidateProfileRepository extends BaseRepository
 
         $candidateExperience = CandidateExperience::create($input);
         $candidateExperience->country = getCountryName($candidateExperience->country_id);
+
+        // add functional Areas
+        $experience = CandidateExperience::find($candidateExperience->id);
 
         CandidateFunction::profileCompletion(Auth::user()->id);
 

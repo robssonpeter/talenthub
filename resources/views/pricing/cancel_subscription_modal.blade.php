@@ -11,6 +11,7 @@
                 <div class="alert alert-danger d-none" id="validationErrorsBox"></div>
                 <div class="row">
                     <div class="form-group col-sm-12 mb-0">
+                        {!! Form::hidden('subscription_id', '', ['id' => 'cancel_subscription_id']) !!}
                         {!! Form::label('cancellation_reason', __('messages.plan.cancel_reason').':') !!}<span
                                 class="text-danger">*</span>
                         {!! Form::textarea('cancellation_reason', null, ['id'=>'reason','class' => 'form-control textarea-height','required']) !!}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Functionalities\FeedData;
+use App\Models\City;
 use App\Models\Company;
 use App\Models\Payment;
 use App\Models\Plan;
@@ -86,6 +87,13 @@ class SubscriptionController extends AppBaseController
         ];
         $payment = Payment::create($data);
 
+        if(Auth::user()->city_id){
+            $city = City::find(Auth::user()->city_id)->name;
+        }else{
+            $city = 'Dar es Salaam';
+        }
+
+
         $xmlRequest = ArrayToXml::convert([
             'CompanyToken' => env('DPO_COMPANY_TOKEN'),
             'Request' => 'createToken',
@@ -100,13 +108,13 @@ class SubscriptionController extends AppBaseController
                 'customerFirstName' => Auth::user()->first_name,
                 'customerLastName' => isset(Auth::user()->first_name[0])?Auth::user()->first_name[0]:'',
                 'customerAddress' => $company->address_line_1,
-                'customerCity' => $company->location,
+                'customerCity' => $city,
                 'customerCountry' => 'TZ',
                 'customerPhone' => Auth::user()->phone,
             ],
             'Services' => [
                 'Service' => [
-                    'ServiceType' => 5525,
+                    'ServiceType' => 34467,
                     'ServiceDescription' => 'Subscription',
                     'ServiceDate' => '2013/12/20 19:00'
                 ]
@@ -196,12 +204,8 @@ class SubscriptionController extends AppBaseController
         $subscriptionRepo = app(SubscriptionRepository::class);
         $subscriptionRepo->purchaseSubscription($sessionId);
 
-        if($paid){
-            return redirect(route('manage-subscription.index'))->with('success', 'Payment Successfully Processed');
-        }else{
-            return redirect(route('manage-subscription.index'));
-        }
-
+        session()->put('success', 'Payment Successfully Processed');
+        return redirect(route('manage-subscription.index'));
     }
 
     /**
@@ -220,13 +224,15 @@ class SubscriptionController extends AppBaseController
     public function cancelSubscription(Request $request)
     {
         $input = $request->all();
+        $subscription_id = $input['subscription_id'];
 
         /** @var User $user */
         $user = Auth::user();
 
-        setStripeApiKey();
+        //setStripeApiKey();
         /** @var Subscription $subscription */
-        $subscription = $user->subscriptions()->active()->first();
+        //$subscription = $user->subscriptions()->active()->first();
+        $subscription = Subscription::whereId($subscription_id)->where('user_id', Auth::user()->id)->first();
 
         if (! $subscription) {
             return $this->sendError('Yor are not author of subscription. so you are not allowed to cancel this subscription.');
@@ -235,7 +241,7 @@ class SubscriptionController extends AppBaseController
         $subscription->cancellation_reason = $input['cancellation_reason'];
         $subscription->save();
 
-        $subscription->cancel();
+        $subscription->Cancel();
 
         return $this->sendSuccess('Subscription cancelled successfully.');
     }

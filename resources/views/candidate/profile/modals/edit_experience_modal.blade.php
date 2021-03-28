@@ -31,6 +31,10 @@
                             class="text-danger"></span>
                         {{ Form::select('job_category_id', $data['jobCategories'], null, ['id'=> 'editJobCategoryId', 'class' => 'form-control','placeholder' => 'Select Category']) }}
                     </div>
+                    <div class="form-group col-12">
+                        {{ Form::label('functionAreas', __('messages.job.functional_areas').':') }}
+                        {{ Form::select('functional_areas[]', $data['functionalArea'], null, ['id'=>'editModalFunctionalAreas', 'class' => 'form-control', 'multiple']) }}
+                    </div>
                     <div class="form-group col-sm-12">
                         {{ Form::label('company',__('messages.candidate_profile.company').':') }}<span
                                 class="text-danger">*</span>

@@ -563,14 +563,14 @@ window.renderExperienceData = function (id) {
     });
 };
 window.renderExperienceTemplate = function (experienceArray) {
-    var converter = new showdown.Converter();
+    //var converter = new showdown.Converter();
     let candidateExperienceCount =
         $('.candidate-experience-container .candidate-experience:last').
             data('experience-id') != undefined ?
             $('.candidate-experience-container .candidate-experience:last').
                 data('experience-id') + 1 : 0;
     let template = $.templates('#CVcandidateExperienceTemplate');
-    let endDate = experienceArray.currently_working == 1
+    let endDate = experienceArray.currently_working === 1
         ? present
         : moment(experienceArray.end_date, 'YYYY-MM-DD').
             format('Do MMM, YYYY');
@@ -582,7 +582,7 @@ window.renderExperienceTemplate = function (experienceArray) {
         startDate: moment(experienceArray.start_date, 'YYYY-MM-DD').
             format('Do MMM, YYYY'),
         endDate: endDate,
-        description: converter.makeHTML(experienceArray.description),
+        description: experienceArray.description,
         country: experienceArray.country,
     };
     let stageTemplateHtml = template.render(data);

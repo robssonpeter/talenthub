@@ -92,8 +92,6 @@ class Candidate extends Model implements HasMedia
         'national_id_card',
         'experience',
         'career_level_id',
-        'industry_id',
-        'functional_area_id',
         'current_salary',
         'expected_salary',
         'salary_currency',
@@ -115,8 +113,8 @@ class Candidate extends Model implements HasMedia
         'current_salary'     => 'double',
         'expected_salary'    => 'double',
         'career_level_id'    => 'integer',
-        'industry_id'        => 'integer',
-        'functional_area_id' => 'integer',
+        /*'industry_id'        => 'integer',
+        'functional_area_id' => 'integer',*/
     ];
 
     /**
@@ -204,10 +202,10 @@ class Candidate extends Model implements HasMedia
     /**
      * @return BelongsTo
      */
-    public function industry()
+    /*public function industry()
     {
         return $this->belongsTo(Industry::class, 'industry_id');
-    }
+    }*/
 
     /**
      * @return BelongsTo
@@ -228,10 +226,10 @@ class Candidate extends Model implements HasMedia
     /**
      * @return BelongsTo
      */
-    public function functionalArea()
+    /*public function functionalArea()
     {
         return $this->belongsTo(FunctionalArea::class, 'functional_area_id');
-    }
+    }*/
 
     /**
      * @return BelongsToMany
@@ -271,5 +269,9 @@ class Candidate extends Model implements HasMedia
 
     public function achievements(){
         return $this->hasMany(CandidateAchievement::class, 'candidate_id', 'id');
+    }
+
+    public function experiences(){
+        return $this->hasMany(CandidateExperience::class, 'candidate_id', 'id');
     }
 }

@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row candidate-profile">
 
-                @include('web.verified-only')
+{{--                @include('web.verified-only')--}}
 
                 <div class="col-md-3 col-xs-12">
                     <div class="profile-photo ticket-sender-picture">
@@ -138,6 +138,15 @@
 
             <div class="job-header mt30 box-shadow">
                 <div class="contentbox">
+                    <h3>{{ __('messages.candidate.objective') }}</h3>
+                    <div>
+                        <p>{{$candidateDetails->objective->description}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-header mt30 box-shadow">
+                <div class="contentbox">
                     <h3>{{ __('messages.skills') }}</h3>
                     <div class="row skillbar">
                         @if($candidateDetails->user->candidateSkill->count())
@@ -201,15 +210,22 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <h4>{{$candidateExperience->company}}</h4>
+                                        <h4>{{$candidateExperience->experience_title}}</h4>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                @if(!empty($candidateExperience->country_name))
+                                                @if(!empty($candidateExperience->company))
                                                     <label class="text-muted">
+                                                        <i class="fa fa-building"></i>
+                                                        {{ htmlspecialchars_decode($candidateExperience->company) }}
+                                                    </label>
+                                                @endif
+                                                @if(!empty($candidateExperience->country_name))
+                                                    <label class="text-muted ml-5">
                                                         <i class="fa fa-map-marker"></i>
                                                         {{ $candidateExperience->country_name }}
                                                     </label>
                                                 @endif
+
                                             </div>
                                         </div>
                                         @if(!empty($candidateExperience->description))
@@ -223,6 +239,52 @@
                             <h6 class="text-center">{{ __('messages.candidate.experience_not_found') }}</h6>
                         @endforelse
                     </ul>
+                </div>
+            </div>
+
+            <div class="job-header mt30 box-shadow">
+                <div class="contentbox">
+                    <h3>{{ __('messages.candidate_profile.career_achievements') }}</h3>
+                    <div>
+                        <ul class="experienceList">
+                        @foreach($candidateDetails->achievements as $achievement)
+                            {{--<article class="article ">
+                                <div class="article-details">
+                                    <div class="article-title">
+                                        <h6 class="text-primary"><strong>{{$achievement->title}}</strong></h6>
+                                    </div>
+                                    <p>{{$achievement->description}}</p>
+                                </div>
+                                --}}{{--{{dd($candidateDetails)}}--}}{{--
+                            </article>--}}
+                                <li>
+{{--                                    <div class="date">--}}
+{{--                                        {{ \Carbon\Carbon::parse($candidateExperience->start_date)->format('Y') }}--}}
+{{--                                        <br>-<br>--}}
+{{--                                        {{($candidateExperience->currently_working) ? 'present' : \Carbon\Carbon::parse($candidateExperience->end_date)->format('Y') }}--}}
+{{--                                    </div>--}}
+                                    <div class="row">
+
+                                        <div class="col-md-11">
+                                            <h4>{{$achievement->title}}</h4>
+                                            @if(!empty($achievement->description))
+                                                <p class="text-muted"
+                                                   data-toggle="tooltip">{!! nl2br($achievement->description) !!}</p>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-1 text-center" style="margin-top: 15px; align-self: center">
+                                            @if($achievement->attachment_id)
+                                                @php
+                                                    $media = \Spatie\MediaLibrary\Models\Media::find(($achievement->attachment_id))
+                                                @endphp
+                                            <a class="align-middle font-20 document" data-toggle="modal" id="{{$media->getFullUrl()}}" data-target="#document" title="View Attachment"><i class="fa fa-paperclip"></i></a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+                        @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

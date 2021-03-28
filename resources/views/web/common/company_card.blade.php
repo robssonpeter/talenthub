@@ -6,7 +6,7 @@
             </div>
             <div class="col-md-10 col-xs-6 pt5 nopadding-right ">
                 <div class="job-title d-flex flex-row">
-                    <h6 class="text-dark flex-fill mr-3">{{ $company->user->first_name }}</h6>
+                    <h6 class="text-dark flex-fill mr-3">{{ htmlspecialchars_decode($company->user->first_name) }}</h6>
                     @if($company->verification)
                     <img src="{{asset('assets/images/002-check.svg')}}" title="{{__('messages.verification.verified_employer')}}" style="height: 17px; width: 17px" alt="">
                     @endif

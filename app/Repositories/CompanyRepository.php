@@ -156,9 +156,12 @@ class CompanyRepository extends BaseRepository
                     'facebook_url', 'twitter_url', 'linkedin_url', 'google_plus_url', 'pinterest_url', 'region_code',
                 ]);
             /** @var User $user */
+
             $user = $company->user;
+            //dd($user);
             $user->phone = preparePhoneNumber($user->phone, $user->region_code);
             $user->update($userInput);
+            User::find($user->id)->update($userInput);
 
             if ((isset($input['image']))) {
                 $user->clearMediaCollection(User::PROFILE);

@@ -70,6 +70,20 @@
         </div>
     </div>
     <div class="col-md-12">
+        @if($candidateAchievements->count())
+            <h1 class="text-center"><i class="fas fa-handshake graduate-icon text-primary"></i></h1>
+            <div class="section_title">
+                <div class="section_header_title">{{ __('messages.candidate_profile.career_achievements') }}</div>
+            </div>
+        @endif
+            @foreach($candidateAchievements as $candidateAchievement)
+                <div class="col-12 mt-3 border-bottom pb-2 mb-2">
+                    <h5>{{ $candidateAchievement->title }}</h5>
+                    <span class="text-muted">{{ $candidateAchievement->description}}</span>
+                </div>
+            @endforeach
+    </div>
+    <div class="col-md-12">
         @if($user->is_online_profile_availbal)
         <h1 class="text-center"><i class="fas fa-link graduate-icon text-primary"></i></h1>
         <div class="section_title">

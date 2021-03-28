@@ -8,6 +8,25 @@
         {{ Form::text('experience_title', null, ['class' => 'form-control','required', 'id' => 'editTitle']) }}
     </div>
     <div class="form-group col-sm-6">
+        {{ Form::label('career_level_id', __('messages.job.career_level').':') }}<span
+            class="text-danger"></span>
+        {{ Form::select('career_level_id', $data['careerLevels'], null, ['id'=>'editExperienceCareerLevel', 'class' => 'form-control','placeholder' => 'Select Level']) }}
+    </div>
+    <div class="form-group col-sm-6">
+        {{ Form::label('industry_id', __('messages.company.industry').':') }}<span
+            class="text-danger"></span>
+        {{ Form::select('industry_id', $data['industry'], null, ['id'=>'editExperienceIndustry', 'class' => 'form-control','placeholder' => 'Select Industry']) }}
+    </div>
+    <div class="form-group col-sm-6">
+        {{ Form::label('job_category_id', __('messages.job_category.job_category').':') }}<span
+            class="text-danger"></span>
+        {{ Form::select('job_category_id', $data['jobCategories'], null, ['id'=>'editExperienceCategory', 'class' => 'form-control','placeholder' => 'Select Category']) }}
+    </div>
+    <div class="form-group col-12">
+        {{ Form::label('functionAreas', __('messages.job.functional_areas').':') }}
+        {{ Form::select('functional_areas[]', $data['functionalArea'], null, ['id'=>'editExperienceFunctionalAreasBuilder','class' => 'form-control', 'multiple']) }}
+    </div>
+    <div class="form-group col-sm-6">
         {{ Form::label('company',__('messages.candidate_profile.company').':') }}<span
                 class="text-danger">*</span>
         {{ Form::text('company', null, ['class' => 'form-control','required', 'id' => 'editCompany']) }}
@@ -42,9 +61,18 @@
             <span class="custom-switch-indicator"></span>
         </label>
     </div>
+
     <div class="form-group col-sm-12">
         {{ Form::label('description', __('messages.candidate_profile.achievements').':') }}
-        {{ Form::textarea('description', null, ['class' => 'form-control textarea-sizing','rows'=>'5','id' => 'editDescription']) }}
+        <div id="editExperienceAchievement" class="mb-3">
+
+        </div>
+
+
+    </div>
+    <div class="form-group col-sm-12">
+        {{ Form::hidden('description', null, ['class' => 'form-control textarea-sizing','rows'=>'5','id' => 'editDescriptionBuilder']) }}
+        <textarea name="" class="invisible" id="" cols="30" rows="2"></textarea>
     </div>
 </div>
 <div class="text-right">
@@ -52,3 +80,9 @@
     <button type="button" id="btnEditCancel" class="btn btn-light ml-1">{{ __('messages.common.cancel') }}</button>
 </div>
 {{ Form::close() }}
+<script>
+    $(document).on('click', '#btnEditExperienceSave', function(){
+        //let markdown = turndownService.turndown(qEditExperience.root.innerHTML);
+        $('#editDescriptionBuilder').val(qEditExperience.root.innerHTML);
+    });
+</script>

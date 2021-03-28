@@ -169,6 +169,10 @@
 
                                 <p class="mb-0">{{ $candidateAchievement->description }}</p>
                                 <div class="article-cta candidate-achievement-edit-delete">
+                                    @if($candidateAchievement->attachment_id)
+                                    <a href="javascript:void(0)" id="{{ \Spatie\MediaLibrary\Models\Media::find($candidateAchievement->attachment_id)->getFullUrl() }}" class="btn document btn-success action-btn view-achievement-attachment"
+                                       data-id="{{ $candidateAchievement->id }}" data-toggle="modal" data-target="#document" title="view attachment"><i class="fa fa-paperclip p-1"></i></a>
+                                    @endif
                                     <a href="javascript:void(0)" class="btn btn-warning action-btn edit-achievement"
                                        data-id="{{ $candidateAchievement->id }}"><i class="fa fa-edit p-1"></i></a>
                                     <a href="javascript:void(0)" class="btn btn-danger action-btn delete-achievement"
@@ -243,7 +247,7 @@
     @include('candidate.profile.modals.add_objective_modal')
     @include('candidate.profile.modals.edit_referee_modal')
     @include('candidate.profile.modals.edit_achievement_modal')
-    @include('candidate.profile.modals.edit_objective_modal')
+    {{--@include('candidate.profile.modals.edit_objective_modal')--}}
     @include('candidate.profile.modals.edit_experience_modal')
     @include('candidate.profile.modals.edit_education_modal')
     @include('candidate.profile.templates.templates')

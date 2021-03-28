@@ -64,6 +64,7 @@ class CandidateController extends AppBaseController
         $user = Auth::user();
         $user->phone = preparePhoneNumber($user->phone, $user->region_code);
         $data = $this->candidateRepository->prepareData();
+        //dd($data);
         $countries = getCountries();
         $states = $cities = null;
         if (!empty($user->country_id)) {
@@ -114,6 +115,8 @@ class CandidateController extends AppBaseController
             $data['degreeLevels'] = RequiredDegreeLevel::pluck('name', 'id');
             $data['candidateAchievements'] = App\Models\CandidateAchievement::where('candidate_id',
                 $user->owner_id)->orderByDesc('id')->get();
+            $candidate = Candidate::findOrFail($user->candidate->id);
+            $data['certifications'] = App\Models\Media::where('model_type', 'App\Models\Candidate')->where('collection_name', 'certifications')->where('model_id', $user->candidate->id)->pluck('custom_properties', 'id' )->toArray();
         }
         //dd($data);
 
@@ -219,7 +222,9 @@ class CandidateController extends AppBaseController
         foreach ($data['candidateEducations'] as $education) {
             $education->country = getCountryName($education->country_id);
         }
-
+        $data['candidateAchievements'] = App\Models\CandidateAchievement::where('candidate_id',
+            $user->owner_id)->orderByDesc('id')->get();
+        //dd($data);
         return view('candidate.profile.cv_template')->with($data)->render();
     }
 

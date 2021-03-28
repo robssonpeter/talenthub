@@ -31,7 +31,8 @@
         "yajra/laravel-datatables-oracle": "^9.10",
         "ext-curl": "*",
         "ext-simplexml": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

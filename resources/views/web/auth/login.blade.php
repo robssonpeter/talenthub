@@ -64,6 +64,7 @@
                                            placeholder="Your Password"
                                            value="{{ (Cookie::get('password') !== null) ? Cookie::get('password') : null }}"
                                            required>
+                                    <input type="hidden" name="type" value="candidate">
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
@@ -124,6 +125,7 @@
                                            placeholder="Your Password"
                                            value="{{ (Cookie::get('password') !== null) ? Cookie::get('password') : null }}"
                                            required>
+                                    <input type="hidden" name="type" value="employer">
                                 </div>
                                 <div class="form-group">
                                     <div class="row">

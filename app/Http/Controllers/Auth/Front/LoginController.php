@@ -68,6 +68,7 @@ class LoginController extends Controller
      */
     protected function sendLoginResponse(Request $request)
     {
+        //dd(request()->all());
         $type = $request->get('type');
         $request->session()->regenerate();
 
@@ -80,9 +81,7 @@ class LoginController extends Controller
                 $this->redirectTo = RouteServiceProvider::CANDIDATE_HOME;
             } else {
                 Auth::logout();
-                $section = ($type == Company::COMPANY_LOGIN_TYPE) ? 'employer' : 'candidate';
-
-                return redirect('/login#'.$section)->withInput()->withErrors([
+                return redirect('/login#'.$type)->withInput()->withErrors([
                     'error' => 'These credentials do not match our records.',
                 ]);
             }

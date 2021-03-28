@@ -1,6 +1,6 @@
 {{ Form::open(['id'=>'editAchievementForm']) }}
 <div class="alert alert-danger d-none" id="editValidationErrorsBox"></div>
-<input type="hidden" id="achievementId">
+<input type="hidden" name="id" id="achievementId">
 <div class="row">
     <div class="form-group col-sm-12">
         {{ Form::label('title', __('messages.candidate_profile.what_achieved').':', ['class' => 'font-weight-bolder']) }}<span

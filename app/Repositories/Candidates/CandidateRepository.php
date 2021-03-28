@@ -393,7 +393,7 @@ class CandidateRepository extends BaseRepository
      */
     public function getCandidateDetail($candidate)
     {
-        $candidateDetails = Candidate::with('user', 'functionalArea')->findOrFail($candidate);
+        $candidateDetails = Candidate::with('user')->findOrFail($candidate);
         // update profile views count
         if ($candidateDetails->user->id != getLoggedInUserId()) {
             $candidateDetails->user->increment('profile_views');

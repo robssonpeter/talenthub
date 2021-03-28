@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Candidate;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,7 +12,7 @@ class CandidateSearch extends Component
 {
     use WithPagination;
 
-    public $searchByCandidate = '', $gender = '', $searchBy = 'byJobTitle', $location, $min, $max, $payCurrency;
+    public $searchByCandidate = '', $gender = '', $searchBy = 'byJobTitle', $location, $min, $max, $payCurrency, $functionalArea, $industry, $minYears;
 
     public function paginationView()
     {
@@ -87,7 +88,7 @@ class CandidateSearch extends Component
     public function searchCandidates()
     {
         /** @var Candidate $query */
-        $query = Candidate::with(['user', 'jobApplications', 'industry']);
+        $query = Candidate::with(['user', 'jobApplications', 'experiences']);
 
         $query->when($this->searchByCandidate != '' && $this->searchBy == 'byName', function (Builder $q) {
             $q->whereHas('user', function (Builder $query) {
@@ -142,6 +143,34 @@ class CandidateSearch extends Component
         });
         $query->when(! empty($this->max), function (Builder $q) {
             $q->where('expected_salary', '<', $this->max);
+        });
+
+        /*$query->when(!empty($this->industry), function(Builder $q){
+            $q->whereHas('industry', function (Builder $query) {
+                $query->where('id', $this->industry);
+            });
+        });*/
+
+        $query->when(!empty($this->industry), function(Builder $q){
+            $q->whereHas('experiences', function (Builder $query) {
+                $query->where('industry_id', $this->industry);
+            });
+        });
+
+        $query->when(!empty($this->functionalArea), function(Builder $q){
+            $q->whereHas('experiences', function (Builder $query) {
+                $query->where('functional_areas', 'LIKE', "%\"".$this->functionalArea."\"%");
+            });
+        });
+
+        $query->when(!empty($this->minYears), function(Builder $q){
+            $q->whereHas('experiences', function (Builder $query) {
+                $years = (string) round($this->minYears);
+                $days = ((integer) $years)*365;
+                $ago = new Carbon($years." years ago");
+                $dateAgo = $ago->format('Y-m-d');
+                $query->where('start_date', '<=', $dateAgo)->where('currently_working', 1)->orWhereRaw('DATEDIFF(`start_date`, `end_date`) >= '.$days);
+            });
         });
 
         return $query->paginate(10);

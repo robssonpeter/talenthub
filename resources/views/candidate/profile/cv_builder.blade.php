@@ -1,6 +1,7 @@
 @extends('candidate.profile.index')
 @push('page-css')
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.css') }}">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 @endpush
 @section('section')
     <div class="row">
@@ -99,7 +100,18 @@
     @include('candidate.profile.templates.templates')
 @endsection
 @push('page-scripts')
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
     <script>
+        var qNewExperience = new Quill('#addExperienceAchievement', {
+            placeholder: 'Type your achievements here',
+            theme: 'snow'
+        });
+        var qEditExperience = new Quill('#editExperienceAchievement', {
+            placeholder: 'Type your achievements here',
+            theme: 'snow'
+        });
         let candidateProfileUrl = "{{ route('candidate.edit.profile') }}";
         let candidateProgressUrl = "{{route('candidate.profile.completion')}}";
         let updateCandidateUrl = "{{ route('candidate.general.profile.update') }}";

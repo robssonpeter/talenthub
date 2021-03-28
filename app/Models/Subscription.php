@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Cashier\Subscription as CashierSubscription;
@@ -55,5 +56,28 @@ class Subscription extends CashierSubscription
     public function plan()
     {
         return $this->belongsTo(Plan::class, 'stripe_plan', 'stripe_plan_id');
+    }
+
+    public function Cancel(){
+        //$subscription = $this->asStripeSubscription();
+
+        $this->cancel_at_period_end = true;
+
+        $subscription = $this->save();
+
+        //$this->stripe_status = $subscription->status;
+
+        // If the user was on trial, we will set the grace period to end when the trial
+        // would have ended. Otherwise, we'll retrieve the end of the billing period
+        // period and make that the end of the grace period for this current user.
+        if ($this->stripe_status == 'trialing') {
+            $this->ends_at = $this->trial_ends_at;
+        } else {
+            $this->ends_at = $this->current_period_end;
+        }
+
+        $this->save();
+
+        return $this;
     }
 }

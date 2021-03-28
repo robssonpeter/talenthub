@@ -64,7 +64,7 @@
                                                    class="subscription">{{ __('messages.plan.subscription_cancelled') }}</a>
                                             @else
                                                 <a href="javascript:void(0)"
-                                                   class="cancel-subscription">{{ __('messages.plan.cancel_subscription') }}</a>
+                                                   class="cancel-subscription" id="{{$subscription->id}}" >{{ __('messages.plan.cancel_subscription') }}</a>
                                             @endif
                                         @endif
                                     @else
@@ -103,6 +103,9 @@
         <script>
             success = "{{session()->get('success')}}";
         </script>
+        @php
+            session()->remove('success');
+        @endphp
     @endif
     <script src="{{ mix('assets/js/subscription/subscription.js') }}"></script>
 @endpush

@@ -52,6 +52,7 @@
 <!-- Header Start -->
 @include('web.layouts.header')
 <!-- Header End -->
+{{--@include('modals.document-modal')--}}
 
 <!-- Main Content Start -->
 @yield('content')
@@ -98,6 +99,22 @@
         $(target).modal('hide');
     });
     let createNewLetterUrl = "{{ route('news-letter.create') }}";
+
+    $(document).on('click', '.document', function(){
+        var link = this.id;
+        var doc = document.getElementById('doc');
+        $('#document').modal('show');
+        //alert(link);
+        //doc.data=link;
+        doc.innerHTML= "<object data='"+link+"'\n" +
+            "                          type='application/pdf'\n" +
+            "                          width='100%'\n" +
+            "                          height='500px'>\n" +
+            "                      <p>This browser does not support inline PDFs. Please download the PDF to view it: <a href=\"http://www.africau.edu/images/default/sample.pdf\">Download PDF</a></p>\n" +
+            "                  </object>"
+        //documentMode();
+    });
+    //alert('hell there')
 </script>
 <script src="{{ asset(mix('assets/js/web/js/news_letter/news_letter.js')) }}"></script>
 @livewireScripts
@@ -105,5 +122,6 @@
 
 @yield('page_scripts')
 @yield('scripts')
+@include('modals.document-modal');
 </body>
 </html>

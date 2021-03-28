@@ -97,15 +97,15 @@
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('country', __('messages.company.country').':', ['class' => 'font-weight-bolder']) }}
-            {{ Form::select('country_id', $data['countries'], !empty($user->country_id) ? $user->candidate->country_name : null, ['id'=>'countryId','class' => 'form-control','placeholder' => 'Select Country']) }}
+            {{ Form::select('country_id', $data['countries'], !empty($user->country_id) ? $user->country_id : null, ['id'=>'countryId','class' => 'form-control','placeholder' => 'Select Country']) }}
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('state', __('messages.company.region').':', ['class' => 'font-weight-bolder']) }}
-            {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), isset($user->state_id) ? $user->state_name : null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region']) }}
+            {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), isset($user->state_id) ? $user->state_id : null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region']) }}
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('city', __('messages.company.city').':', ['class' => 'font-weight-bolder']) }}
-            {{ Form::select('city_id', (isset($cities) && $cities!=null?$cities:[]), isset($user->city_id) ? $user->city_name : null, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City']) }}
+            {{ Form::select('city_id', (isset($cities) && $cities!=null?$cities:[]), isset($user->city_id) ? $user->city_id : null, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City']) }}
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('address_line_1', __('messages.company.address_line_1').':', ['class' => 'font-weight-bolder']) }}
@@ -136,18 +136,18 @@
             {{ Form::label('professional_title', __('messages.candidate_profile.professional_title').':', ['class' => 'font-weight-bolder']) }}
             {{ Form::text('professional_title', isset($user->candidate->professional_title) ? $user->candidate->professional_title : null, ['class' => 'form-control', 'placeholder' => 'e.g Accountant']) }}
         </div>
-        <div class="form-group col-sm-6">
+        <div class="form-group col-sm-12">
             {{ Form::label('career_level', __('messages.candidate.career_level').':', ['class' => 'font-weight-bolder']) }}
             {{ Form::select('career_level_id', $data['careerLevel'], isset($user->candidate->career_level_id) ? $user->candidate->career_level_id : null, ['class' => 'form-control','id' => 'careerLevelId','placeholder'=>'Select career level']) }}
         </div>
-        <div class="form-group col-sm-6">
+        {{--<div class="form-group col-sm-6">
             {{ Form::label('industry', __('messages.candidate.industry').':', ['class' => 'font-weight-bolder']) }}
             {{ Form::select('industry_id', $data['industry'], isset($user->candidate->industry_id) ? $user->candidate->industry_id : null, ['class' => 'form-control','id' => 'industryId','placeholder'=>'Select industry']) }}
         </div>
         <div class="form-group col-sm-6">
             {{ Form::label('functional_area', __('messages.candidate.functional_area').':', ['class' => 'font-weight-bolder']) }}
             {{ Form::select('functional_area_id', $data['functionalArea'], isset($user->candidate->functional_area_id) ? $user->candidate->functional_area_id : null, ['class' => 'form-control','id' => 'functionalAreaId','placeholder'=>'Select functional area']) }}
-        </div>
+        </div>--}}
         <div class="form-group col-sm-6">
             {{ Form::label('current_salary', __('messages.candidate.current_salary').': ('.__('messages.job.net_amount').')', ['class' => 'font-weight-bolder']) }}
             {{ Form::text('current_salary', isset($user->candidate->current_salary) ? $user->candidate->current_salary : null, ['class' => 'form-control price-input', 'id' => 'current_salary']) }}

@@ -35,15 +35,15 @@
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('country', __('messages.company.country').':') }}
-        {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-control','placeholder' => 'Select Country']) }}
+        {{ Form::select('country_id', $data['countries'], $user->country_id, ['id'=>'countryId','class' => 'form-control','placeholder' => 'Select Country']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('state', __('messages.company.region').':') }}
-        {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region']) }}
+        {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), $user->state_id, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('city', __('messages.company.city').':') }}
-        {{ Form::select('city_id', (isset($cities) && $cities!=null?$cities:[]), null, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City']) }}
+        {{ Form::select('city_id', (isset($cities) && $cities!=null?$cities:[]), $user->city_id, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('established_in', __('messages.company.established_in').':') }}<span class="text-danger">*</span>

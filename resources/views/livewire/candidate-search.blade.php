@@ -55,6 +55,31 @@
                 </div>
                 <small>{{ __('messages.candidate.net_salary_per_month') }}</small>
             </div>
+            <div class="sidebar-widget mt20">
+                <h3>{{ __('messages.job_experience.job_experience') }}</h3>
+                @php
+                    $functionalAreas = \App\Models\FunctionalArea::orderBy('id', 'ASC')->pluck('name', 'id');
+                    $industries = \App\Models\Industry::orderBy('id', 'ASC')->pluck('name', 'id');
+                    $functionalAreas[0] = 'Any Function';
+                    $functionalAreas = $functionalAreas->sort();
+                    unset($functionalAreas[0]);
+                    $keys = array_keys($functionalAreas->toArray());
+                    $industryKeys = array_keys($industries->toArray());
+                @endphp
+                <select wire:model="industry" name="industry" id="industry" class="form-control mb5">
+                    <option value="">Any Industry</option>
+                    @foreach($industryKeys as $key)
+                        <option value="{{$key}}">{{$industries[$key]}}</option>
+                    @endforeach
+                </select>
+                <select wire:model="functionalArea" name="functionalArea" id="functionalArea" class="form-control">
+                    <option value="">Any Function</option>
+                    @foreach($keys as $key)
+                        <option value="{{$key}}">{{$functionalAreas[$key]}}</option>
+                    @endforeach
+                </select>
+                <input type="number" class="form-control mt10" placeholder="Years of Experience" name="minYears" wire:model="minYears">
+            </div>
             <div class="sidebar-widget mt30">
                 <h3>{{ __('messages.candidate.gender') }}</h3>
                 <div class="radio ml20">

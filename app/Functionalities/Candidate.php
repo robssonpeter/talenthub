@@ -3,8 +3,10 @@ namespace App\Functionalities;
 use App\Models\Candidate as Candid;
 use App\Models\CandidateAchievement;
 use App\Models\CandidateEducation as Education;
+use App\Models\CandidateExperience;
 use App\Models\CandidateExperience as Experience;
 use App\Models\CandidateReferee as Reference;
+use App\Models\ExperienceFunctionalArea;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -59,5 +61,30 @@ class Candidate
             return true;
         }
         return false;
+    }
+
+    public static function syncFunctionalAreas($experience_id){
+        $experience = CandidateExperience::find($experience_id);
+        $functionalAreas = json_decode($experience->functional_areas);
+        $exceptions = [];
+        $savingFunction = new ExperienceFunctionalArea();
+        foreach($functionalAreas as $area){
+            $check = ExperienceFunctionalArea::where('experience_id', $experience->id)->where('functional_area_id', $area)->first();
+            if(!$check){
+                $data = [
+                    'experience_id'=> $experience->id,
+                    'functional_area_id'=> $area
+                ];
+                //$check = ExperienceFunctionalArea::create($data);
+                $check = $savingFunction->create($data);
+
+            }
+            if($check){
+                array_push($exceptions, $check->id);
+            }
+        }
+        // Delete non-existing functions
+        ExperienceFunctionalArea::where('experience_id', $experience->id)->whereNotIn('functional_area_id', $exceptions)->delete();
+        return $exceptions;
     }
 }

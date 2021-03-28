@@ -3,7 +3,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{ __('messages.candidate_profile.edit_referee') }}</h5>
+                <h5 class="modal-title">{{ __('messages.candidate_profile.edit_achievement') }}</h5>
                 <button type="button" aria-label="Close" class="close" data-dismiss="modal">×</button>
             </div>
             {{ Form::open(['id'=>'editAchievementForm']) }}
@@ -21,6 +21,17 @@
                         {{ Form::label('description', __('messages.common.description').':', ['class' => 'font-weight-bolder']) }}
                         {{ Form::textarea('description', null, ['class' => 'form-control', 'id' => 'editAchievementDescription', 'placeholder' => __('messages.candidate_profile.messages.what_achieved')]) }}
                     </div>
+
+                    <div class="form-group col-sm-12">
+                        {{ Form::label('attachment_id', __('messages.attachment').':', ['class' => 'font-weight-bolder']) }}
+                        <select name="attachment_id" id="editAchievementAttachment" class="form-control">
+                            <option value="">Select Attachment</option>
+                            @foreach(array_keys($data['certifications']) as $certification)
+                                <option value="{{$certification}}">{{json_decode($data['certifications'][$certification])->title}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                 </div>
                 <div class="text-right">
                     {{ Form::button(__('messages.common.save'), ['type'=>'submit','class' => 'btn btn-primary','id'=>'btnEditAchievementSave','data-loading-text'=>"<span class='spinner-border spinner-border-sm'></span> Processing..."]) }}

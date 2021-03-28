@@ -375,7 +375,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12 mt10">
                                     <a href="{{ route('front.company.details', $job->company->unique_id) }}">
                                         <h5 class="text-primary">
-                                            {{ $job->company->user->first_name }}
+                                            {{ htmlspecialchars_decode($job->company->user->first_name) }}
                                             @if($job->company->verification)
                                                 <img src="{{asset('assets/images/002-check.svg')}}" title="{{__('messages.verification.verified_employer')}}" style="margin-left:5px; height: 15px; width: 15px" alt="">
                                             @endif
