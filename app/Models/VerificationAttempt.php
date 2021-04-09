@@ -11,5 +11,13 @@ class VerificationAttempt extends Model
         'role', 'document', 'company_id', 'verified'
     ];
 
+    protected $appends = [
+        'documents'
+    ];
+
+    public function getDocumentsAttribute(){
+        return json_decode($this->document);
+    }
+
 }
 

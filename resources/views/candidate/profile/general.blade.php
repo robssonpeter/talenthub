@@ -240,10 +240,10 @@
                 {{ Form::text('pinterest_url', $user->pinterest_url, ['class' => 'form-control','id'=>'pinterestUrl','placeholder'=>'https://www.pinterest.com']) }}
             </div>
         </div>
-        <div class="form-group col-sm-12">
+        {{--<div class="form-group col-sm-12">
             {{ Form::label('address', __('messages.candidate.address').':', ['class' => 'font-weight-bolder']) }}
             {{ Form::textarea('address', isset($user->candidate->address) ? $user->candidate->address : null, ['class' => 'form-control','rows'=>'5']) }}
-        </div>
+        </div>--}}
     </div>
 
     <div class="row mt-4">

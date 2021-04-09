@@ -36,6 +36,10 @@
         {{ Form::label('additional_information', __('messages.job.additional_information').':') }}<span class="text-danger">*</span>
         {{ Form::textarea('additional_information', null, ['class' => 'form-control' , 'id' => 'additional_information', 'rows' => '5']) }}
     </div>
+    <div class="form-group col-12">
+        {{ Form::label('benefits', __('messages.benefits.benefits').':') }}<span class="text-danger">*</span>
+        {{ Form::select('benefits[]', $data['benefits'], json_decode($job->benefits), ['id'=>'benefits','class' => 'form-control','placeholder' => 'Select Benefits','required','multiple']) }}
+    </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('reports_to', __('messages.job.reports_to').':') }}<span class="text-danger">*</span>
         {{ Form::text('reports_to', null, ['class' => 'form-control ', 'id' => 'reports_to']) }}
@@ -99,7 +103,7 @@
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('functional_area_id', __('messages.job.functional_area').':') }}<span
                 class="text-danger">*</span>
-        {{ Form::select('functional_area_id', $data['functionalArea'], null, ['id'=>'functionalAreaId','class' => 'form-control','placeholder' => 'Select Functional Area','required']) }}
+        {{ Form::select('functional_area_id[]', $data['functionalArea'], null, ['id'=>'functionalAreaId','class' => 'form-control', 'multiple','required']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('position', __('messages.job.number_of_positions').':') }}<span class="text-danger">*</span>

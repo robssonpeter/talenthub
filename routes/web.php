@@ -70,6 +70,18 @@ Route::group(['middleware' => ['auth', 'role:Admin', 'xss', 'verified.user'], 'p
     Route::delete('skills/{skill}', 'SkillController@destroy')->name('skills.destroy');
 
 
+    // benefits
+    Route::get('benefit', 'BenefitsController@index')->name('benefit.index');
+    Route::post('benefit', 'BenefitsController@store')->name('benefit.store');
+    Route::get('benefit/{benefit}', 'BenefitsController@show')->name('benefit.show');
+    Route::get('benefit/{benefit}/edit',
+        'BenefitsController@edit')->name('benefit.edit');
+    Route::put('benefit/{benefit}',
+        'BenefitsController@update')->name('benefit.update');
+    Route::delete('benefit/{benefit}',
+        'BenefitsController@destroy')->name('benefit.destroy');
+
+
     // Marital Status
     Route::get('marital-status', 'MaritalStatusController@index')->name('maritalStatus.index');
     Route::post('marital-status', 'MaritalStatusController@store')->name('maritalStatus.store');
@@ -153,6 +165,9 @@ Route::group(['middleware' => ['auth', 'role:Admin', 'xss', 'verified.user'], 'p
     Route::get('companies', 'CompanyController@index')->name('company.index');
     Route::get('companies/verify', 'CompanyController@verify')->name('admin.company.verify');
     Route::post('companies/verify/{id}', 'CompanyController@verifySave')->name('admin.company.verify.save');
+    Route::post('companies/verify/{id}/revoke', 'CompanyController@verifyRevoke')->name('admin.company.verify.revoke');
+    Route::post('companies/required/verification-documents', 'CompanyController@saveVerificationDocuments')->name('admin.verification.documents.save');
+
     Route::get('companies/create', 'CompanyController@create')->name('company.create');
     Route::post('companies', 'CompanyController@store')->name('company.store');
     Route::get('companies/{company}', 'CompanyController@show')->name('company.show');
@@ -387,7 +402,7 @@ Route::group(['middleware' => ['auth', 'role:Employer', 'xss', 'verified.user'],
     Route::post('jobs', 'JobController@store')->name('job.store');
     Route::get('jobs/{job}', 'JobController@show')->name('job.show');
     Route::get('jobs/{job}/edit', 'JobController@edit')->name('job.edit');
-    Route::put('jobs/{job}', 'JobController@update')->name('job.update');
+        Route::put('jobs/{job}', 'JobController@update')->name('job.update');
     Route::delete('jobs/{job}', 'JobController@destroy')->name('job.destroy');
     Route::get('job/{id}/status/{status}', 'JobController@changeJobStatus');
 

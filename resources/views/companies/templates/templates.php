@@ -4,12 +4,7 @@
    </a>
    <a title="<?php echo __('messages.common.delete') ?>" class="btn btn-danger action-btn delete-btn" data-id="{{:id}}" href="#">
             <i class="fa fa-trash"></i>
-   </a>  
-
-
-
-
-
+   </a>
 </script>
 
 
@@ -19,14 +14,14 @@
     <div class="dropdown-menu w-100px">
         <a class="dropdown-item adminMakeFeatured" data-id="{{:id}}" href="#"><?php echo __('messages.front_settings.make_featured') ?></a>
     </div>
-   {{else}}   
+   {{else}}
     <div title="Expries On {{:expiryDate}}" data-toggle="tooltip" data-placement="top">
         <a class="btn btn-success action-btn w-100 dropdown-toggle text-white" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"><?php echo __('messages.front_settings.featured') ?><i class="far fa-check-circle pl-1 pt-1"></i></a>
         <div class="dropdown-menu w-100px">
             <a class="dropdown-item  adminUnFeatured" data-id="{{:id}}" href="#"><?php echo __('messages.front_settings.remove_featured') ?></a>
         </div>
     </div>
-          
+
    {{/if}}
 
 

@@ -41,11 +41,11 @@
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('salary_from', __('messages.job.salary_from').':') }}<span class="text-danger">*</span>
-        {{ Form::text('salary_from', null, ['class' => 'form-control salary', 'id' => 'fromSalary', 'required']) }}
+        {{ Form::text('salary_from', null, ['class' => 'form-control salary', 'placeholder' => __('messages.job.net_amount'), 'id' => 'fromSalary', 'required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('salary_to', __('messages.job.salary_to').':') }}<span class="text-danger">*</span>
-        {{ Form::text('salary_to', null, ['class' => 'form-control salary', 'id' => 'toSalary', 'required']) }}
+        {{ Form::text('salary_to', null, ['class' => 'form-control salary', 'placeholder' => __('messages.job.net_amount'), 'id' => 'toSalary', 'required']) }}
         <span id="salaryToErrorMsg" class="text-danger"></span>
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">

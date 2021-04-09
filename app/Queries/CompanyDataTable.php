@@ -48,6 +48,7 @@ class CompanyDataTable
                     //$q->whereDoesntHave('verification');
                 });
             });
+
         /*if(in_array('attempted', $input)){
             dd('hello there');
         }*/
@@ -68,7 +69,8 @@ class CompanyDataTable
                 'last_name'  => $company->user->last_name,
                 'email'      => $company->user->email,
                 'is_active'  => $company->user->is_active,
-                'document'   => isset($company->verification_attempt)?$company->verification_attempt->document:'',
+                'verification' => $company->verification,
+                'document'   => isset($company->verification_attempt)?$company->verification_attempt->documents:'hello',
             ];
             $data['company_url'] = $company->company_url;
             $data['active_featured'] = $company->activeFeatured;

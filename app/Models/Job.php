@@ -183,7 +183,8 @@ class Job extends Model
         'industry_id',
         'summary',
         'qualifications',
-        'additional_information'
+        'additional_information',
+        'benefits'
     ];
     /**
      * @var array

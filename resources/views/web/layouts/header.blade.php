@@ -102,7 +102,7 @@
                                 </ul>
                             </li>
                         @else
-                            <li class="simple-menu {{ Request::is('front-register') ? 'active' : '' }}">
+                            <li class="simple-menu mr-3 {{ Request::is('front-register') ? 'active' : '' }}">
                                 <a href="{{ route('front.register') }}" class="j-nav-item"> {{ __('web.register') }}</a>
                             </li>
                             {{--<li class="dropdown simple-menu language-menu">
@@ -119,8 +119,10 @@
                                     @endforeach
                                 </ul>
                             </li>--}}
+
+
                             <a href="{{ route('login') }}"
-                               class="btn btn-purple btn-effect mobileLoginButton login-btn"><i
+                               class="btn btn-purple btn-effect mobileLoginButton login-btn" style="margin-left: 10px"><i
                                         class="fa fa-lock"></i> {{ __('web.login') }}</a>
                         @endauth
                     </ul>

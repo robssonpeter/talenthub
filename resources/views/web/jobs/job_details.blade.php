@@ -111,6 +111,17 @@
                                         </p>
                                     </div>
                                 @endif
+                                @if($job->benefits != '[]')
+                                    @php
+                                    $benefits = App\Models\Benefit::pluck('name', 'id');
+                                    @endphp
+                                    <h5>Benefits</h5>
+                                    <ul>
+                                    @foreach(json_decode($job->benefits) as $benefit)
+                                        <li>{{$benefits[$benefit]}}</li>
+                                    @endforeach
+                                    </ul>
+                                @endif
                         </div>
 
                     </div>

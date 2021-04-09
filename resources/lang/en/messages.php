@@ -20,6 +20,7 @@ return [
     'organization_types'     => 'Organization Types',
     'salary_periods'         => 'Salary Periods',
     'marital_statuses'       => 'Marital Status',
+    'benefit'                => 'Benefit',
     'job_tags'               => 'Job Tags',
     'job_shifts'             => 'Job Shifts',
     'industries'             => 'Industries',
@@ -48,7 +49,8 @@ return [
     'reported_jobs'          => 'Reported Jobs',
     'front_settings'         => 'Front Settings',
     'social_settings'        => 'Social Settings',
-    'about_us' => 'About Us',
+    'about_us'              => 'About Us',
+    'value_proposition'     => 'Value Proposition',
     'skills'              => 'Skills',
     'no_skills'           => 'No Skills',
     'footer_settings'     => 'Footer Settings',
@@ -140,7 +142,8 @@ return [
         'available_placeholders' => 'Available Placeholders',
         'save_template'       => 'Save Template',
         'edit_template'       => 'Edit Template',
-        'extras'              => 'Extras'
+        'extras'              => 'Extras',
+        'billing'             => 'Billing'
     ],
 
 
@@ -243,6 +246,17 @@ return [
         'add'            => 'Add',
         'action'         => 'Action',
     ],
+    //    Benefits
+    'benefits'        => [
+        'new_benefit'  => 'New Benefit',
+        'edit_benefit' => 'Edit Benefit',
+        'show_benefit' => 'Benefit',
+        'benefit'      => 'Benefit',
+        'benefits'     => 'Benefits',
+        'description'  => 'Description',
+        'add'          => 'Add',
+        'action'       => 'Action',
+    ],
 
     //    Marital Status
     'marital_status'        => [
@@ -333,6 +347,7 @@ return [
         'state'                   => 'State',
         'region'                  => 'Region',
         'city'                    => 'City',
+        'town'                    => 'Town',
         'company_logo'            => 'Logo',
         'reported_company'        => 'Reported Company',
         'reported_companies'      => 'Reported Companies',
@@ -531,6 +546,7 @@ return [
         'birth_date'               => 'Birth Date',
         'gender'                   => 'Gender',
         'marital_status'           => 'Marital Status',
+        'benefit'                  => 'Benefit',
         'nationality'              => 'Nationality',
         'national_id_card'         => 'National ID Card',
         'phone'                    => 'Phone',
@@ -845,6 +861,7 @@ return [
         'role_at_company' => "Role at the company",
         'role_placeholder' => "Your role at the company",
         'attachment' => 'Attachment',
+        'attachments' => 'Attachments',
         'verified_status' => 'Verified',
         'not_verified' => 'Not verified',
         'upload' => [

@@ -107,6 +107,7 @@ class Company extends Model implements HasMedia
         'company_size_id',
         'established_in',
         'details',
+        'value_proposition',
         'website',
         'location',
         'no_of_offices',

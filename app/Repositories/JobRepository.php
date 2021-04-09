@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Mail\EmailJobToFriend;
 use App\Mail\EmailToCandidate;
+use App\Models\Benefit;
 use App\Models\Candidate;
 use App\Models\CareerLevel;
 use App\Models\Company;
@@ -95,6 +96,7 @@ class JobRepository extends BaseRepository
         $data['careerLevels'] = CareerLevel::pluck('level_name', 'id');
         $data['jobShift'] = JobShift::pluck('shift', 'id');
         $data['currencies'] = SalaryCurrency::pluck('currency_name', 'id');
+        $data['benefits'] = Benefit::pluck('name', 'id');
         $data['salaryPeriods'] = SalaryPeriod::pluck('period', 'id');
         $data['functionalArea'] = FunctionalArea::pluck('name', 'id');
         $data['industries'] = Industry::pluck('name', 'id');

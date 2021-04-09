@@ -41,15 +41,28 @@
                                 <strong>{{ Form::label('role_at_company',__('messages.verification.role_at_company').':') }}</strong>
                                 {{ Form::text('role_at_company', null, ['class' => 'form-control', 'placeholder' => __('messages.verification.role_placeholder'),'required','id' => 'role_at_company' ]) }}
                             </div>
+
+
                             <div class="form-group col-sm-12">
-                                {{ Form::hidden('file', null, ['class' => 'form-control','required','id' => 'uploaded_file' ]) }}
-                            </div>
-                            <div class="form-group col-sm-12">
-                                <strong>{{ Form::label('attachment',__('messages.verification.attachment').':') }}</strong>
-                                {{Form::file('attachment', ['class' => 'form-control', 'required', 'id' => 'attachment'])}}
-                                <div class="progress mt-2">
-                                    <div class="progress-bar" id="resume-progress" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="alert-secondary px-3 py-3 mb-2" role="alert">
+                                    <span>
+                                        <strong>Required Documents:</strong>
+                                        @foreach($documents as $document)
+                                            <li>{{$document->name}}</li>
+                                        @endforeach
+                                    </span>
                                 </div>
+                                <strong>{{ Form::label('attachments:',__('messages.verification.attachments').':') }}</strong>
+                                @foreach($documents as $document)
+                                    <br><span>{{ Form::label('attachment:', $document->name) }}</span>
+                                    {{Form::file('attachment', ['class' => 'form-control  form-control-file attachment', 'required', 'id' => 'attachment-'.$loop->index])}}
+                                    <div class="progress mt-2">
+                                        <div class="progress-bar" id="resume-progress-{{$loop->index}}" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        {{ Form::hidden('file[]', null, ['class' => 'form-control','required','id' => 'uploaded_file_'.$loop->index ]) }}
+                                    </div>
+                                @endforeach
                             </div>
 
                             <div class="form-group col-sm-12">

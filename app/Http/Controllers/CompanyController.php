@@ -10,6 +10,7 @@ use App\Models\EmailTemplate;
 use App\Models\FeaturedRecord;
 use App\Models\FrontSetting;
 use App\Models\ReportedToCompany;
+use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\VerificationAttempt;
@@ -377,8 +378,13 @@ class CompanyController extends AppBaseController
     public function verificationAttempt(){
         $user_id = Auth::user()->id;
         $company = Company::where('user_id', $user_id)->with('verification')->with('verification_attempt')->first();
+        $docs = Setting::where('key', 'verification_documents')->first();
+        $documents = [];
+        if($docs){
+            $documents = json_decode($docs->value);
+        }
         !$company?abort(401):'';
-        return view('employer.verification.index', compact('company'));
+        return view('employer.verification.index', compact('company', 'documents'));
     }
 
     public function verificationSave(Request $request){
@@ -386,13 +392,27 @@ class CompanyController extends AppBaseController
             'role_at_company' => 'required',
             'file' => 'required'
         ];
+        $docs = Setting::where('key', 'verification_documents')->first();
+        $documents = json_decode($docs->value);
         $validator = $request->validate($rules);
+        $docsToSave =[];
+
+        $x = 0;
+        foreach($documents as $document){
+            $row = [
+                'name' => $document->name,
+                'file' => $request->file[$x]
+            ];
+            array_push($docsToSave, $row);
+            $x++;
+        }
 
         $user_id = Auth::user()->id;
         $user = User::where('id', $user_id)->with('company')->first();
         $data = [
             'role' => $request->role_at_company,
-            'document' => $request->file,
+            /*'document' => $request->file,*/
+            'document' => json_encode($docsToSave),
             'company_id' => $user->company->id,
         ];
         $saved = VerificationAttempt::updateOrCreate(['company_id' => $user->company->id], $data);
@@ -457,6 +477,27 @@ class CompanyController extends AppBaseController
         $verified = CompanyVerification::updateOrCreate(['company_id' => $id], $data);
         return $verified;
     }
+
+    public function verifyRevoke($id){
+        $revoked = CompanyVerification::find($id)->delete();
+        return $this->sendSuccess('Verification successfully revoked');
+    }
+
+    public function saveVerificationDocuments(){
+        if(request()->retrieve){
+            $data = Setting::where('key', 'verification_documents')->first();
+            if($data){
+                return $this->sendResponse($data->value, 'retrieved successfully');
+            }else{
+                return $this->sendResponse([], 'no data');
+            }
+        }else{
+            $documents = request()->documents;
+            $save = Setting::updateOrCreate(['key'=>'verification_documents'], ['value'=>$documents]);
+            return $this->sendSuccess('Required documents successfully saved');
+        }
+    }
+
 
     public function emailTemplates(){
         return \view('employer.email_templates.index-temp');

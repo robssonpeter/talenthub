@@ -87,4 +87,62 @@ class Candidate
         ExperienceFunctionalArea::where('experience_id', $experience->id)->whereNotIn('functional_area_id', $exceptions)->delete();
         return $exceptions;
     }
+    public static function totalExperience($candidate_id){
+        $industries = CandidateExperience::where('candidate_id', $candidate_id)->groupBy('industry_id')->pluck('id');
+        $years = 0;
+        $months = 0;
+        $days = 0;
+        $experiences = CandidateExperience::where('candidate_id', $candidate_id)->orderBy('industry_id', 'ASC')->get();
+        for($x=0; $x<$industries->count(); $x++){
+            $exps = $experiences->where('industry_id', $industries[$x]);
+
+            if($exps->count()){
+                return $exps->count();
+                return 'hello';
+                foreach($exps as $experience){
+                    $duration = $experience->duration;
+                    return $duration;
+                    $durationArray = explode(' ', $duration);
+                    for($x = 0; $x<count($durationArray); $x+=2){
+                        $digit = $durationArray[$x];
+                        $detail = $durationArray[$x+1];
+                        if($digit>=1){
+                            switch ($detail){
+                                case 'year':
+                                    $years += $digit;
+                                    break;
+                                case 'month':
+                                    $months += $digit;
+                                    break;
+                                case 'day':
+                                    $days += $digit;
+                                    break;
+                            }
+                        }else{
+                            switch ($detail){
+                                case 'years':
+                                    $years += $digit;
+                                    break;
+                                case 'months':
+                                    $months += $digit;
+                                    break;
+                                case 'days':
+                                    $days += $digit;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }else{
+                //return 'no matching experiences';
+                continue;
+            }
+
+        }
+        return [
+            'years' => $years,
+            'months' => $months,
+            'days' => $days,
+        ];
+    }
 }

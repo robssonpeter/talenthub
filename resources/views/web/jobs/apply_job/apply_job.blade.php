@@ -106,6 +106,7 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
     <script>
+        let requireCoverLetter = false;
         var toolbarOptions = [
             'bold', 'italic', 'underline',
             { 'list': 'ordered'},
@@ -123,7 +124,8 @@
     </script>
     @if($job->require_cover_letter)
     <script>
-        let requireCoverLetter = "{{$job->require_cover_letter}}";
+        requireCoverLetter = "{{$job->require_cover_letter}}";
+        alert(requireCoverLetter);
         var turndownService = new TurndownService();
         $(document).on('click', '.submit', function(event){
             let markdown = turndownService.turndown(quill.root.innerHTML);

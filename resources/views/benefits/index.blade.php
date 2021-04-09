@@ -9,33 +9,33 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ __('messages.marital_statuses') }}</h1>
+            <h1>{{ __('messages.benefits.benefit') }}</h1>
             <div class="section-header-breadcrumb">
                 <a href="#"
-                   class="btn btn-primary form-btn addMaritalStatusModal">{{ __('messages.marital_status.add') }}
+                   class="btn btn-primary form-btn addBenefitModal">{{ __('messages.marital_status.add') }}
                     <i class="fas fa-plus"></i></a>
             </div>
         </div>
         <div class="section-body">
             <div class="card">
                 <div class="card-body">
-                    @include('marital_status.table')
+                    @include('benefits.table')
                 </div>
             </div>
         </div>
-        @include('marital_status.templates.templates')
-        @include('marital_status.add_modal')
-        @include('marital_status.edit_modal')
-        @include('marital_status.show_modal')
+        @include('benefits.templates.templates')
+        @include('benefits.add_modal')
+        @include('benefits.edit_modal')
+        @include('benefits.show_modal')
     </section>
 @endsection
 @push('scripts')
     <script>
-        let maritalStatusUrl = "{{ route('maritalStatus.index') }}/";
-        let maritalStatusSaveUrl = "{{ route('maritalStatus.store') }}";
+        let benefitUrl = "{{ route('benefit.index') }}/";
+        let benefitSaveUrl = "{{ route('benefit.store') }}";
     </script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/summernote.min.js') }}"></script>
     <script src="{{ mix('assets/js/custom/custom-datatable.js') }}"></script>
-    <script src="{{mix('assets/js/marital_status/benefits.js')}}"></script>
+    <script src="{{asset('assets/js/benefits/benefits.js')}}"></script>
 @endpush

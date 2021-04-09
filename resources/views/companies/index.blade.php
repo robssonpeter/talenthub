@@ -45,6 +45,9 @@
 @push('scripts')
     <script>
         let companiesUrl = "{{ route('company.index') }}";
+        let verifiedIcon = "{{asset('assets/images/002-check.svg')}}";
+        let verificationUrl = "{{ route('admin.company.verify.revoke', '*id*') }}";
+        let verificationSettings = "{{route('admin.verification.documents.save')}}";
     </script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>

@@ -1,5 +1,5 @@
 <div class="modal fade bd-example-modal-lg show" id="show-notes" style="z-index: 2000000000" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" style="z-index: 200000000000">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{__("messages.apply_job.notes")}}</h5>

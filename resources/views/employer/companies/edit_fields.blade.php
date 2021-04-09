@@ -1,7 +1,7 @@
 <div class="row">
     {{ Form::hidden('user_id',$user->id) }}
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('name', __('messages.company.name').':') }}<span class="text-danger">*</span>
+        {{ Form::label('name', __('messages.company.company_name').':') }}<span class="text-danger">*</span>
         {{ Form::text('name', isset($user)?$user->first_name:null, ['class' => 'form-control','required']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
@@ -42,7 +42,7 @@
         {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), $user->state_id, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select Region']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('city', __('messages.company.city').':') }}
+        {{ Form::label('city', __('messages.company.town').':') }}
         {{ Form::select('city_id', (isset($cities) && $cities!=null?$cities:[]), $user->city_id, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
@@ -139,6 +139,11 @@
     <div class="form-group col-xl-12 col-md-12 col-sm-12">
         {{ Form::label('details', __('messages.about_us').':') }}
         {{ Form::textarea('details', null, ['class' => 'form-control' , 'id' => 'editDetails', 'rows' => '5']) }}
+    </div>
+
+    <div class="form-group col-xl-12 col-md-12 col-sm-12">
+        {{ Form::label('value_proposition', __('messages.value_proposition').':') }}
+        {{ Form::textarea('value_proposition', $company->value_proposition, ['class' => 'form-control' , 'id' => 'editValueProposition', 'rows' => '5']) }}
     </div>
 
     <!-- Submit Field -->

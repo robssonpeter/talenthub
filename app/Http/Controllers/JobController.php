@@ -89,6 +89,7 @@ class JobController extends AppBaseController
     public function store(CreateJobRequest $request)
     {
         $input = $request->all();
+        $input['benefits'] = json_encode($input['benefits']);
         $input['require_cover_letter'] = (isset($input['require_cover_letter'])) ? 1 : 0;
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
@@ -159,6 +160,7 @@ class JobController extends AppBaseController
         }
 
         $input = $request->all();
+        $input['benefits'] = json_encode($input['benefits']);
         $input['require_cover_letter'] = (isset($input['require_cover_letter'])) ? 1 : 0;
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
@@ -269,6 +271,7 @@ class JobController extends AppBaseController
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
         $input['status'] = Job::STATUS_OPEN;
+        $input['functional_area_id'] = json_encode($input['functional_area_id']);
         $this->jobRepository->store($input);
 
         Flash::success('Job saved successfully.');
@@ -314,6 +317,7 @@ class JobController extends AppBaseController
         $input = $request->all();
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
+        $input['functional_area_id'] = json_encode($input['functional_area_id']);
 
         $this->jobRepository->update($input, $job);
 

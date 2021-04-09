@@ -90,18 +90,40 @@
                     <span>{{ __('messages.employer_menu.followers') }}</span>
                 </a>
             </li>
-            <li class="nav-item {{ Request::is('employer/manage-subscriptions*') ? 'active' : ''}}">
-                <a class="nav-link" href="{{ route('manage-subscription.index') }}">
-                    <i class="fa fa-dollar-sign dollar-sign-icon"></i>
-                    <span>{{ __('messages.employer_menu.manage_subscriptions') }}</span>
+            <li class="nav-item dropdown {{ in_array(Request::path(), ['company/verify', 'company/email-templates']) ? 'active' : ''}}">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{{ route('company.verify') }}">
+                    <i class="fas fa-dollar-sign dollar-sign-icon"></i>
+                    <span>{{ __('messages.common.billing') }}</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="{{ route('manage-subscription.index') }}">
+                        {{--<i class="fas fa-dollar-sign dollar-sign-icon"></i>--}}
+                        <span>{{__('messages.employer_menu.manage_subscriptions')}}</span>
+                    </a>
+                    <a class="dropdown-item" href="{{ route('transaction.index') }}">
+                        {{--<i class="fas fa-money-bill-wave"></i>--}}
+                        <span>{{__('messages.employer_menu.transactions')}}</span>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item {{ Request::is('candidate-lists*') ? 'active' : ''}}">
+                <a class="nav-link" href="{{ route('front.candidate.lists') }}">
+                    <i class="fa fa-users"></i>
+                    <span>{{ __('messages.job.job_seekers') }}</span>
                 </a>
             </li>
-            <li class="nav-item {{ Request::is('employer/transaction*') ? 'active' : ''}}">
-                <a class="nav-link" href="{{ route('transaction.index') }}">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <span>{{ __('messages.employer_menu.transactions') }}</span>
-                </a>
-            </li>
+            {{--            <li class="nav-item {{ Request::is('employer/manage-subscriptions*') ? 'active' : ''}}">--}}
+{{--                <a class="nav-link" href="{{ route('manage-subscription.index') }}">--}}
+{{--                    <i class="fa fa-dollar-sign dollar-sign-icon"></i>--}}
+{{--                    <span>{{ __('messages.employer_menu.manage_subscriptions') }}</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--            <li class="nav-item {{ Request::is('employer/transaction*') ? 'active' : ''}}">--}}
+{{--                <a class="nav-link" href="{{ route('transaction.index') }}">--}}
+{{--                    <i class="fas fa-money-bill-wave"></i>--}}
+{{--                    <span>{{ __('messages.employer_menu.transactions') }}</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
             {{--<li class="nav-item {{ Request::is('company/verify*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('company.verify') }}">
                     <i class="fas fa-check"></i>
@@ -114,10 +136,6 @@
                     <span>{{ __('messages.common.extras') }}</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="{{route('front.candidate.lists')}}">
-                        <i class="fas fa-users"></i>
-                        <span>{{__('messages.job.job_seekers')}}</span>
-                    </a>
                     <a class="dropdown-item" href="{{route('company.email-templates')}}">
                         <i class="fas fa-at"></i>
                         <span>{{__('messages.common.email_templates')}}</span>

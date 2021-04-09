@@ -9,8 +9,10 @@
 @endpush
 @section('content')
     <section class="section">
-        <div class="section-header">
-            <h1>{{ __('messages.company.employer_to_verify') }}</h1>
+        <div class="section-header d-flex">
+            <h1 class="flex-fill">{{ __('messages.company.employer_to_verify') }}</h1>
+            <button class="btn btn-sm btn-primary float-right"  id="set-verification-document">Required Documents</button>
+            @include('companies.modals.required-documents')
         </div>
         <div class="section-body">
             @include('flash::message')
@@ -25,6 +27,14 @@
 @endsection
 @push('scripts')
     <script>
+        $('#set-verification-document').click(function(){
+            $('#verification-setting').appendTo("body").modal('show');
+            if(!vue.documents.length){
+                vue.checkDocuments();
+            }
+        })
+    </script>
+    <script>
         let companiesUrl = "{{ route('admin.company.verify') }}";
         let viewAttachment = "{{__('messages.verification.view_attachment')}}";
         let attachment = "{{__('messages.verification.attachment')}}";
@@ -33,7 +43,8 @@
         let deleteAct = "{{__('messages.verification.delete')}}";
         let actions = "{{__('messages.verification.actions')}}";
         let verificationUrl = "{{route('admin.company.verify.save', '***')}}";
-        let verifySuccess = "{{ __('messages.verification.verified_success') }}"
+        let verifySuccess = "{{ __('messages.verification.verified_success') }}";
+        let verificationSettings = "{{route('admin.verification.documents.save')}}";
     </script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>

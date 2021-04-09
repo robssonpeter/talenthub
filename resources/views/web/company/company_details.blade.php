@@ -90,6 +90,12 @@
                         <div class="profile-details mt20">
                             <p>{!! nl2br($companyDetail->details) !!}</p>
                         </div>
+                        @if($companyDetail->value_proposition)
+                        <div class="">
+                            <h5>Value Proposition</h5>
+                            <p>{!! nl2br($companyDetail->value_proposition) !!}</p>
+                        </div>
+                        @endif
                         <ul class="profile-info mt20 nopadding">
                             <li>
                                 <i class="fa fa-map-marker"></i>
