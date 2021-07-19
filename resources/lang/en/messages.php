@@ -77,6 +77,7 @@ return [
     'staff_user'          => 'Staff User',
     'staff_users'         => 'Staff Users',
     'new_staff'           => 'New Staff',
+    'swap_company_name'   => 'Swap Name',
     'common'         => [
         'save'         => 'Save',
         'save_publish' => 'Save and Publish',

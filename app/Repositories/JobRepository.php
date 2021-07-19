@@ -91,6 +91,8 @@ class JobRepository extends BaseRepository
     public function prepareData()
     {
         $countries = new Countries();
+        $data['swapping'] = Company::with('user')->get()->where('user.is_active', '=', 1)->pluck('swap_name',
+            'id');
         $data['jobType'] = JobType::pluck('name', 'id');
         $data['jobCategory'] = JobCategory::pluck('name', 'id');
         $data['careerLevels'] = CareerLevel::pluck('level_name', 'id');

@@ -3,6 +3,10 @@
         {{ Form::label('company_id', __('messages.company.company_name').':') }}<span class="text-danger">*</span>
         {{ Form::select('company_id', $data['companies'],null, ['id'=>'companyId','class' => 'form-control','placeholder' => 'Select Company','required']) }}
     </div>
+    <div class="form-group col-xl-4 col-md-4 col-sm-12 d-none" id="swapName">
+        {{ Form::label('swap_company_name', __('messages.swap_company_name').':') }}<span class="text-danger">*</span>
+        {{ Form::text('swap_company_name', null, ['class' => 'form-control','required']) }}
+    </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('job_title', __('messages.job.job_title').':') }}<span class="text-danger">*</span>
         {{ Form::text('job_title', null, ['class' => 'form-control','required']) }}
@@ -165,6 +169,9 @@
 
 </div>
 <script>
+    var swapping = @json($data['swapping']);
+
+
     $(document).on('change', '#application_method', function(){
         let value = $(this).val();
         if(Number(value) === 1){
@@ -175,5 +182,6 @@
             $('#url-enclose').fadeOut('fast');
             $('#url-input').prop('required',false);
         }
-    })
+    });
+
 </script>

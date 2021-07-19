@@ -195,7 +195,8 @@ class Job extends Model
         'url',
         'application_method',
         'posted_by',
-        'is_anonymous'
+        'is_anonymous',
+        'swap_company_name'
     ];
     /**
      * @var array

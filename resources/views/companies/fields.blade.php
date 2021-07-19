@@ -166,6 +166,14 @@
             <span class="custom-switch-indicator"></span>
         </label>
     </div>
+    <div class="form-group col-xl-2 col-md-2 col-sm-12">
+        <label>{{ __('messages.swap_company_name') }}</label><br>
+        <label class="custom-switch pl-0">
+            <input type="checkbox" name="swap_name" class="custom-switch-input"
+                   value="1" id="swap_name" {{  isset($company)?($company->swap_name == 1 ?'checked':''):'' }}>
+            <span class="custom-switch-indicator"></span>
+        </label>
+    </div>
 
 
     <!-- Submit Field -->

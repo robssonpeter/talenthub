@@ -95,6 +95,7 @@ class CompanyController extends AppBaseController
     {
         $input = $request->all();
         $input['is_active'] = (isset($input['is_active'])) ? 1 : 0;
+        $input['swap_name'] = (isset($input['swap_name'])) ? 1 : 0;
 
         $company = $this->companyRepository->store($input);
 

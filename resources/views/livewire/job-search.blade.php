@@ -24,7 +24,7 @@
                     <div class="job-title">
                         <a href="{{ route('front.job.details',$job['job_id']) }}">{{ $job['job_title'] }} </a>
                         @if( !$job['is_anonymous'])
-                        <label class="text-muted">- {{ htmlspecialchars_decode($job->company->user->first_name) }}</label>
+                        <label class="text-muted">- {{ htmlspecialchars_decode($job->swap_company_name?$job->swap_company_name:$job->company->user->first_name) }}</label>
                         @endif
                     </div>
 
