@@ -16,12 +16,14 @@ class CompanyDataTable
     public function get($input = [])
     {
         /** @var Company $query */
-        $query = Company::with('user', 'activeFeatured', 'verification_attempt', 'verification')->select('companies.*');
+        $query = Company::with('user', 'activeFeatured', 'verification_attempt', 'verification_rejected', 'verification')->select('companies.*');
 
         $query->when(isset($input['is_featured']) && $input['is_featured'] == 1,
             function (Builder $q) use ($input) {
                 $q->has('activeFeatured');
             });
+
+
 
         $query->when(isset($input['is_featured']) && $input['is_featured'] == 0,
             function (Builder $q) use ($input) {
@@ -49,9 +51,21 @@ class CompanyDataTable
                 });
             });
 
+        $query->when(in_array('not-rejected', $input),
+            function (Builder $q) use ($input) {
+                $q->whereDoesntHave('verification_rejected', function (Builder $q) {
+                    //$q->whereDoesntHave('verification');
+                });
+            });
+        /*$query->where(in_array('not-rejected', $input), function(Builder $q) use ($input){
+             $q->whereDoesntHave('verification_rejected');
+        });*/
         /*if(in_array('attempted', $input)){
             dd('hello there');
         }*/
+        if(in_array('not-rejected', $input)){
+
+        }
         if(in_array('attempted', $input)){
             $subQuery = $query->whereDoesntHave('verification')->get();
         }else{
@@ -64,8 +78,8 @@ class CompanyDataTable
         $subQuery->map(function (Company $company) use ($data, &$result) {
             $data['id'] = $company->id;
             $data['user'] = [
-                'full_name'  => $company->user->full_name,
-                'first_name' => $company->user->first_name,
+                'full_name'  => htmlspecialchars_decode($company->user->full_name),
+                'first_name' => htmlspecialchars_decode($company->user->first_name),
                 'last_name'  => $company->user->last_name,
                 'email'      => $company->user->email,
                 'is_active'  => $company->user->is_active,

@@ -109,6 +109,8 @@ mix.js('resources/assets/js/custom/custom.js',
         'public/assets/js/job_shifts/job_shifts.js').
     js('resources/assets/js/industries/industries.js',
         'public/assets/js/industries/industries.js').
+    js('resources/assets/js/certificate_categories/categories.js',
+        'public/assets/js/certificate_categories/categories.js').
     js('resources/assets/js/job_tags/job_tags.js',
         'public/assets/js/job_tags/job_tags.js').
     js('resources/assets/js/job_types/job_types.js',

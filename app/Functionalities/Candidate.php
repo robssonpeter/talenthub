@@ -8,6 +8,7 @@ use App\Models\CandidateExperience as Experience;
 use App\Models\CandidateReferee as Reference;
 use App\Models\ExperienceFunctionalArea;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 
@@ -88,61 +89,49 @@ class Candidate
         return $exceptions;
     }
     public static function totalExperience($candidate_id){
-        $industries = CandidateExperience::where('candidate_id', $candidate_id)->groupBy('industry_id')->pluck('id');
+        $industries = CandidateExperience::where('candidate_id', $candidate_id)->groupBy('industry_id')->pluck('industry_id');
         $years = 0;
         $months = 0;
         $days = 0;
-        $experiences = CandidateExperience::where('candidate_id', $candidate_id)->orderBy('industry_id', 'ASC')->get();
-        for($x=0; $x<$industries->count(); $x++){
-            $exps = $experiences->where('industry_id', $industries[$x]);
-
-            if($exps->count()){
-                return $exps->count();
-                return 'hello';
-                foreach($exps as $experience){
-                    $duration = $experience->duration;
-                    return $duration;
-                    $durationArray = explode(' ', $duration);
-                    for($x = 0; $x<count($durationArray); $x+=2){
-                        $digit = $durationArray[$x];
-                        $detail = $durationArray[$x+1];
-                        if($digit>=1){
-                            switch ($detail){
-                                case 'year':
-                                    $years += $digit;
-                                    break;
-                                case 'month':
-                                    $months += $digit;
-                                    break;
-                                case 'day':
-                                    $days += $digit;
-                                    break;
-                            }
-                        }else{
-                            switch ($detail){
-                                case 'years':
-                                    $years += $digit;
-                                    break;
-                                case 'months':
-                                    $months += $digit;
-                                    break;
-                                case 'days':
-                                    $days += $digit;
-                                    break;
-                            }
-                        }
-                    }
-                }
+        $keys = [];
+        $values = [];
+        //return $industries;
+        foreach($industries as $industry){
+            array_push($values, 0);
+            if(!is_null($industry)){
+                array_push($keys, $industry);
             }else{
-                //return 'no matching experiences';
-                continue;
+                array_push($keys, 0);
             }
 
         }
-        return [
-            'years' => $years,
-            'months' => $months,
-            'days' => $days,
-        ];
+//        array_push($values, 0);
+//        array_push($keys, 0);
+        $combined = array_combine($keys, $values);
+
+        //return $combined;
+
+        $experiences = CandidateExperience::where('candidate_id', $candidate_id)->orderBy('industry_id', 'ASC')->get();
+
+        $total = 0;
+        foreach($experiences as $experience){
+            //$exps = $experiences->where('industry_id', $industries[$x]);
+            $start = Carbon::parse($experience->start_date);
+            $end = Carbon::parse($experience->currently_working?date('Y-m-d', time()):$experience->end_date);
+
+            $days = $start->diff($end)->days;
+            $total += $days;
+            if(is_numeric($experience->industry_id)){
+                $combined[$experience->industry_id] += $days;
+            }else{
+                $combined[0] += $days;
+            }
+        }
+        $combined['T'] = $total;
+        array_push($keys, 'T');
+        foreach($keys as $key){
+            $combined[$key] = daysToYearsAndMonths($combined[$key]);
+        }
+        return $combined;
     }
 }

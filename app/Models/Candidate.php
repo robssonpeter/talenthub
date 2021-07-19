@@ -202,10 +202,10 @@ class Candidate extends Model implements HasMedia
     /**
      * @return BelongsTo
      */
-    /*public function industry()
+    public function industry()
     {
-        return $this->belongsTo(Industry::class, 'industry_id');
-    }*/
+        return $this->belongsTo(Industry::class, 'industry_id', 'id');
+    }
 
     /**
      * @return BelongsTo

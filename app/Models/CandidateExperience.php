@@ -120,6 +120,10 @@ class CandidateExperience extends Model
         return $this->hasMany(ExperienceFunctionalArea::class, 'experience_id', 'id');
     }
 
+    public function industry(){
+        return $this->hasOne(Industry::class, 'id', 'industry_id');
+    }
+
     public static function syncFunctionalAreas($experience_id){
         $experience = CandidateExperience::find($experience_id);
         $functionalAreas = json_decode($experience->functional_areas);

@@ -29,7 +29,11 @@
                     <section class="main overlay-black">
                         <!-- Start of Wrapper -->
                         <div class="container wrapper">
-                            <h1 class="capitalize text-center text-white"> {{ __('web.home_menu.your_career_starts_now') }}</h1>
+                            @php
+                            $slogan = \App\Models\FrontSetting::where('key', 'slogan')->first();
+                            $color = \App\Models\FrontSetting::where('key', 'slogan_color')->first();
+                            @endphp
+                            <h1 class="capitalize text-center text-white" style="color: {{$color?$color->value:'white'}}"> {{ $slogan?$slogan->value:__('web.home_menu.your_career_starts_now')  }}</h1>
 
                             <!-- Start of Form -->
                             <form class="job-search-form row pt40" action="{{ route('front.search.jobs') }}"
@@ -70,7 +74,7 @@
                             <!-- End of Form -->
 
                             <div class="extra-info pt20">
-                                <span class="text-left text-white"><b>{{ $dataCounts['jobs'] }}</b> {{ __('web.home_menu.jobs_offers_for') }} <b> {{ __('web.home_menu.you') }}.</b></span>
+                                <span class="text-left text-white" style="color: {{$color?$color->value:'white'}}"><b>{{ $dataCounts['jobs'] }}</b> {{ __('web.home_menu.jobs_offers_for') }} <b> {{ __('web.home_menu.you') }}.</b></span>
                             </div>
                         </div>
                         <!-- End of Wrapper -->
@@ -276,6 +280,7 @@
                                             </div>
                                             <div class="pricing-hover">
                                                 <sup class="">{{ $plan->currency->currency_icon }}</sup><span class="amount {{--plan__price--}}">{{ $plan->amount }}</span>
+                                                <br><span>per {{\App\Models\Plan::PERIODS[$plan->period]['name']}}</span>
                                             </div>
                                             <div class="pricing-body">
                                                 <ul class="list">

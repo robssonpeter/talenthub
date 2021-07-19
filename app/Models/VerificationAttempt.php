@@ -15,8 +15,16 @@ class VerificationAttempt extends Model
         'documents'
     ];
 
+    protected $with = [
+        'rejected'
+    ];
+
     public function getDocumentsAttribute(){
         return json_decode($this->document);
+    }
+
+    public function rejected(){
+        return $this->hasOne(CompanyVerificationRejection::class, 'attempt_id', 'id')->orderBy('id', 'DESC');
     }
 
 }

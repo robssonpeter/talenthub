@@ -7,6 +7,13 @@
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
+    @php
+        if(Auth::user()->hasRole('Admin')){
+            $type = 'admin';
+        }else{
+            $type = 'staff';
+        }
+    @endphp
     <section class="section">
         <div class="section-header">
             <h1>{{ __('messages.post.posts') }}</h1>
@@ -28,7 +35,7 @@
 @endsection
 @push('scripts')
     <script>
-        let blogUrl = "{{ route('posts.index') }}";
+        let blogUrl = "{{ $type == 'admin' ? route('posts.index') : route('staff.posts.index') }}";
     </script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ mix('assets/js/custom/custom-datatable.js') }}"></script>

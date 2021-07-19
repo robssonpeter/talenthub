@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                             {{-- Achievement Section --}}
-                            <div class="border-bottom my-3 d-flex justify-content-between">
+                            {{--<div class="border-bottom my-3 d-flex justify-content-between">
                                 <h5 class="mt-2">{{ __('messages.candidate_profile.career_achievements') }}</h5>
                                 <a href="javascript:void(0)" class="addAchievementBtn">
                                     <i class="fas fa-plus-circle text-25px"></i>
@@ -74,7 +74,7 @@
                                 <div class="d-none" id="editAchievementDiv">
                                     @include('candidate.profile.career_informations.edit_achievement')
                                 </div>
-                            </div>
+                            </div>--}}
                             {{-- Online Profile Section --}}
                             <div class="border-bottom my-3 d-flex justify-content-between">
                                 <h5 class="mt-2">{{ __('messages.candidate_profile.online_profile') }}</h5>

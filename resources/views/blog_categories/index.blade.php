@@ -7,6 +7,13 @@
     <link href="{{ asset('assets/css/summernote.min.css') }}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
+    @php
+        if(Auth::user()->hasRole('Admin')){
+            $type = 'admin';
+        }else{
+            $type = 'staff';
+        }
+    @endphp
     <section class="section">
         <div class="section-header">
             <h1>{{ __('messages.post_category.post_categories') }}</h1>
@@ -30,7 +37,7 @@
 @endsection
 @push('scripts')
     <script>
-        let blogCategoryUrl = "{{ route('post-categories.index') }}/";
+        let blogCategoryUrl = "{{ $type == 'admin' ? route('post-categories.index') : route('staff.post-categories.index') }}/";
         let blogCategorySaveUrl = "{{ route('post-categories.store') }}";
     </script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>

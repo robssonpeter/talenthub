@@ -8,6 +8,7 @@ use App\Models\FeaturedRecord;
 use App\Models\FrontSetting;
 use App\Models\Job;
 use App\Models\JobApplication;
+use App\Models\JobFunctionalArea;
 use App\Models\ReportedJob;
 use App\Models\Transaction;
 use App\Queries\JobDataTable;
@@ -101,6 +102,22 @@ class JobController extends AppBaseController
         }
         $job = $this->jobRepository->store($input);
 
+        // updating the functional areas
+        $functionalAreas = json_decode($input['functional_areas']);
+
+        if(is_array($functionalAreas)){
+            // remove non existing functional areas
+            $removed = JobFunctionalArea::whereNotIn('functional_area_id', $functionalAreas)->delete();
+            // insert new onces
+            foreach($functionalAreas as $functionalArea){
+                $data = [
+                    'job_id' => $job->id,
+                    'functional_area_id' => $functionalArea
+                ];
+                JobFunctionalArea::updateOrCreate($data, $data);
+            }
+        }
+
         isset($request->saveDraft) ? Flash::success('Job Draft saved successfully.') : Flash::success('Job saved successfully.');
 
         return redirect(route('job.index'));
@@ -138,7 +155,7 @@ class JobController extends AppBaseController
         if (isset($job->state_id)) {
             $cities = getCities($job->state_id);
         }
-
+        //dd($job);
         return view('employer.jobs.edit', compact('data', 'job', 'cities', 'states'));
     }
 
@@ -164,8 +181,24 @@ class JobController extends AppBaseController
         $input['require_cover_letter'] = (isset($input['require_cover_letter'])) ? 1 : 0;
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
-
+        $jobId = $job->id;
         $job = $this->jobRepository->update($input, $job);
+
+        // updating the functional areas
+        $functionalAreas = $input['functional_areas'];
+
+        if(is_array($functionalAreas)){
+            // remove non existing functional areas
+            $removed = JobFunctionalArea::whereNotIn('functional_area_id', $functionalAreas)->delete();
+            // insert new onces
+            foreach($functionalAreas as $functionalArea){
+                $data = [
+                    'job_id' => $jobId,
+                    'functional_area_id' => $functionalArea
+                ];
+                JobFunctionalArea::updateOrCreate($data, $data);
+            }
+        }
 
         Flash::success('Job updated successfully.');
 
@@ -269,9 +302,13 @@ class JobController extends AppBaseController
     {
         $input = $request->all();
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
+        $input['is_anonymous'] = (isset($input['is_anonymous'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
         $input['status'] = Job::STATUS_OPEN;
-        $input['functional_area_id'] = json_encode($input['functional_area_id']);
+        $input['functional_areas'] = json_encode($input['functional_areas']);
+        $input['benefits'] = json_encode($input['benefits']);
+        //livewire\job-search.blade.phpdd($input);
+
         $this->jobRepository->store($input);
 
         Flash::success('Job saved successfully.');
@@ -317,7 +354,7 @@ class JobController extends AppBaseController
         $input = $request->all();
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
-        $input['functional_area_id'] = json_encode($input['functional_area_id']);
+        $input['functional_areas'] = json_encode($input['functional_areas']);
 
         $this->jobRepository->update($input, $job);
 

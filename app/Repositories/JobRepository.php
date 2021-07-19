@@ -144,11 +144,14 @@ class JobRepository extends BaseRepository
             $input['salary_to'] = (double) removeCommaFromNumbers($input['salary_to']);
             $input['company_id'] = (isset($input['company_id'])) ? $input['company_id'] : Auth::user()->owner_id;
             $input['job_id'] = $this->getUniqueJobId();
+            $input['posted_by'] = Auth::user()->id;
+
             /** @var Job $job */
 
             if (isset($input['state_id']) && ! is_numeric($input['state_id'])) {
                 $input['state_id'] = null;
             }
+            //dd($input);
 
             $job = $this->create($input);
 

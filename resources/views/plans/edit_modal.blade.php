@@ -16,10 +16,15 @@
                         {!! Form::label('name', __('messages.inquiry.name').':') !!}<span class="text-danger">*</span>
                         {!! Form::text('name', null, ['id'=>'editName','class' => 'form-control','required']) !!}
                     </div>
+
                     <div class="form-group col-sm-12">
+                        {!! Form::label('period', __('messages.plan.subscription_period').':') !!}<span class="text-danger">*</span>
+                        {!! Form::select('period', array_keys(\App\Models\Plan::PERIODS), array_search('Monthly', array_keys(\App\Models\Plan::PERIODS)), ['class' => 'form-control', 'id' => 'editSubscriptionPeriod', 'required']) !!}
+                    </div>
+                    {{--<div class="form-group col-sm-12">
                         {!! Form::label('subscription_duration', __('messages.plan.subscription_duration').' (in days)'.':') !!}<span class="text-danger">*</span>
                         {!! Form::number('subscription_duration', null, ['id'=>'editSubscriptionDuration', 'class' => 'form-control subscription-duration', 'required', 'min' => '1']) !!}
-                    </div>
+                    </div>--}}
                     <div class="form-group col-sm-12">
                         {!! Form::label('allowed_jobs', __('messages.plan.allowed_jobs').':') !!}<span class="text-danger">*</span>
                         {!! Form::number('allowed_jobs', null, ['id'=>'editAllowedJobs', 'class' => 'form-control allowed-jobs', 'required', 'min' => '1']) !!}

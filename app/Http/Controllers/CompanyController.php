@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Mail\VerificationRejected;
+use App\Models\Alert;
 use App\Models\Company;
 use App\Models\CompanyVerification;
+use App\Models\CompanyVerificationRejection;
 use App\Models\EmailTemplate;
 use App\Models\FeaturedRecord;
 use App\Models\FrontSetting;
@@ -30,6 +33,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables;
@@ -424,7 +428,7 @@ class CompanyController extends AppBaseController
 
     public function uploadVerificationAttachment(){
         request()->validate([
-            'attachment' => "file|mimes:pdf,doc,docx|max:120000"
+            'attachment' => "file|mimes:pdf,png,jpg|max:120000"
         ]);
         $file = request()->file('attachment');
         $destinationFolder = public_path('verification_files');
@@ -449,7 +453,7 @@ class CompanyController extends AppBaseController
                 'is_featured', 'is_status',
             ])))->make(true);*/
             return Datatables::of((new CompanyDataTable())->get([
-                'is_featured', 'is_status', 'attempted'
+                'is_featured', 'is_status', 'attempted', 'not-rejected'
             ]))->make(true);
 
         }
@@ -475,7 +479,48 @@ class CompanyController extends AppBaseController
             'verified_by' => Auth::user()->id,
         ];
         $verified = CompanyVerification::updateOrCreate(['company_id' => $id], $data);
+
+        // Get the company user
+        $companyUser = User::where('owner_type', 'App\Models\Company')->where('owner_id', $attempt->company_id)->first();
+
+        // Create a notification telling the user
+        $alertData = [
+            'user_id' => $companyUser->id,
+            'message' => 'Congratulation, your company has been verified!',
+            'dismissible' => true,
+            'type' => 'success',
+            'link' => Alert::encodeLink('company.verify', []),
+            'link_text' => 'View'
+        ];
+
+        Alert::create($alertData);
+
         return $verified;
+    }
+
+    public function verificationReject($id){
+        $attempt = VerificationAttempt::where('company_id', $id)->first();
+        $data = [
+            'reason' => request()->reason,
+            'company_id' => $id,
+            'rejected_by' => Auth::user()->id,
+            'attempt_id' => $attempt->id
+        ];
+        $company = Company::where('id', $id)->with('user')->first();
+        $message = '<p>Hello '.$company->user->first_name.',</p>
+                    <p>&nbsp;</p>
+                    <p>Thank you for attempting to verify your account. Your employer account could not be verified due to reason:</p>
+                    <p><strong>'.request()->reason.'</strong></p>
+                    <p>Please login to your account <a href="'.route('company.verify').'">here</a> to resolve this issue.</p>
+                    <p>&nbsp;</p>
+                    <p>Regards</p>
+                    <p>'.env('APP_NAME').' Team</p>';
+        $rejected =  CompanyVerificationRejection::create($data);
+        $mail = Mail::to($company->user)->send(new VerificationRejected($message));
+        if($rejected && $mail){
+            $this->sendResponse( $rejected,'Successfully Rejected');
+        }
+        $this->sendError('Could not reject this attempt');
     }
 
     public function verifyRevoke($id){
@@ -496,6 +541,18 @@ class CompanyController extends AppBaseController
             $save = Setting::updateOrCreate(['key'=>'verification_documents'], ['value'=>$documents]);
             return $this->sendSuccess('Required documents successfully saved');
         }
+    }
+
+    public function reAttachVerification(){
+        $company = Company::where('user_id', Auth::user()->id)->first();
+        $attempt = VerificationAttempt::where('company_id', $company->id)->first();
+        $documents = json_decode($attempt->document);
+        foreach($documents as $document){
+            $file = public_path($document->file);
+            unlink($file);
+        }
+        $attempt->delete();
+        return $this->sendSuccess('Deleted');
     }
 
 

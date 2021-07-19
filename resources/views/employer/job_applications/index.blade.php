@@ -1,4 +1,5 @@
-@extends('employer.layouts.app')
+
+@extends((!isStaff(Auth::user()->id))?'employer.layouts.app': 'layouts.app')
 @section('title')
     {{ __('messages.job_applications') }}
 @endsection
@@ -7,6 +8,13 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 @endpush
 @section('content')
+    @php
+        if(isStaff(Auth::user()->id)){
+            $staff = 'staff.';
+        }else{
+            $staff = '';
+        }
+    @endphp
     <section class="section ">
         <div class="section-header">
             <h1>
@@ -33,6 +41,20 @@
                         unset($types[$appliedIndex]);
                         $types = array_values($types);
                     @endphp
+                    <div>
+                        <label>View
+                            <select id="filtering"  onchange="filterByStatus()" class="border rounded">
+                                <option value="" {{!request()->status?'selected':''}}>All</option>
+                                <option value="2" {{request()->status==2?'selected':''}}>Rejected</option>
+                                <option value="3" {{request()->status==3?'selected':''}}>Shortlisted</option>
+                                {{--<option value="">Interview Scheduled</option>--}}
+                                <option value="4" {{request()->status==4?'selected':''}}>Interviewed</option>
+                                <option value="5" {{request()->status==5?'selected':''}}>Selected</option>
+                                <option value="">Noted</option>
+                            </select>
+                             Applicants
+                        </label>
+                    </div>
                     <div class="w-25 float-right pb-2 d-none" id="bulk-action-div">
                         <select class="form-control" id="bulk-action-select">
                             <option value="">Bulk Action</option>
@@ -78,7 +100,7 @@
 @push('scripts')
     <script>
         let jobId = "{{$jobId}}";
-        let jobApplicationsUrl = "{{  route('job-applications', ['jobId' => $jobId]) }}";
+        let jobApplicationsUrl = "{{  route($staff.'job-applications', ['jobId' => $jobId]) }}";
         let view = "{{  __('messages.common.view') }}";
         let jobApplicationStatusUrl = "{{  url('employer/job-applications') }}/";
         let jobApplicationDeleteUrl = "{{  url('employer/job-applications') }}";
@@ -95,6 +117,7 @@
         let selectedApplications = [];
         let statuses = "{{json_encode(\App\Models\JobApplication::STATUS)}}";
         let parser = new DOMParser();
+        let isStaff = Number('{{isStaff(Auth::user()->id)?1:0}}');
     </script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ mix('assets/js/custom/custom-datatable.js') }}"></script>
@@ -128,7 +151,20 @@
             }
         })
     </script>--}}
+
     <script>
+        let currentFilterStatus = '{{ request()->status }}';
+        //alert(currentFilterStatus);
+        function filterByStatus(){
+            let status = event.target.value;
+            let url = "{{route('job-applications', $job->id)}}";
+            let param = status.length?"?status="+status:'';
+            //$(tableName).reload();
+            //$("#jobApplicationsTbl").DataTable().ajax().reload();
+            if(currentFilterStatus !== status){
+                window.location = url+param;
+            }
+        }
         function viewCoverLetter(content){
             let markdown = new showdown.Converter();
             let html = markdown.makeHtml(content);

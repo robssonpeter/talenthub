@@ -21,6 +21,7 @@ class JobApplicationDataTable
         $query = JobApplication::with(['job.currency', 'candidate.user'])
             ->where('job_id', $input['job_id'])
             ->where('status', '!=', JobApplication::STATUS_DRAFT)
+            ->where('status','LIKE', "%".$input['status']."%")
             ->select('job_applications.*');
 
         return $query;

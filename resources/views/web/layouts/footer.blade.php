@@ -10,7 +10,7 @@
 
                 <!-- Your Logo Here -->
                 <a href="{{ route('front.home') }}">
-                    <img src="{{ asset($settings['logo']) }}" alt="">
+                    <img src="{{ asset($settings['footer_logo']) }}" alt="">
                     <span class="app-name">{{ $settings['application_name'] }}</span>
                 </a>
 
@@ -50,6 +50,8 @@
                     @endif
                     <li><a href="{{ route('terms.conditions') }}"><i
                                 class="fa fa-angle-double-right"></i>Terms and Conditions</a></li>
+                    <li><a href="{{ route('admin.login') }}"><i
+                                class="fa fa-angle-double-right"></i>Staff Login</a></li>
                 </ul>
             </div>
 

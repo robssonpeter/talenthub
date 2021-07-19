@@ -3,9 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Flash;
 
 class VerificationController extends Controller
 {
@@ -30,27 +37,38 @@ class VerificationController extends Controller
     protected $redirectTo = RouteServiceProvider::ADMIN_HOME;
 
     /**
-     *
+     * @param  Request  $request
      *
      * @return string
      */
-    public function redirectTo()
+    public function redirectTo(Request $request)
     {
-        if (Auth::user()->hasRole('Admin')) {
-            return RouteServiceProvider::ADMIN_HOME;
-        }
+        if (getLoggedInUser() != null) {
+            if (Auth::user()->hasRole('Admin')) {
+                return RouteServiceProvider::ADMIN_HOME;
+            }
 
-        if (Auth::user()->hasRole('Employer')) {
-            return RouteServiceProvider::EMPLOYER_HOME;
-        }
+            if (Auth::user()->hasRole('Employer')) {
+                return RouteServiceProvider::EMPLOYER_HOME;
+            }
 
-        if (Auth::user()->hasRole('Candidate')) {
-            return RouteServiceProvider::CANDIDATE_HOME;
-        }
+            if (Auth::user()->hasRole('Candidate')) {
+                return RouteServiceProvider::CANDIDATE_HOME;
+            }
+        } else {
+            $userRole = User::find($request->route('id'))->roles()->first()->name;
+            if ($userRole == 'Candidate') {
+                Flash::success('You have successfully verified your email. Please login !');
 
-        return $this->redirectTo;
+                return route('login')."#candidate";
+            } else {
+                Flash::success('You have successfully verified your email. Please login !');
+
+                return route('login')."#employer";
+            }
+        }
     }
-    
+
     /**
      * Create a new controller instance.
      *
@@ -58,8 +76,33 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
+    }
+
+    /**
+     * Mark the authenticated user's email address as verified.
+     *
+     * @param  Request  $request
+     *
+     * @throws AuthorizationException
+     *
+     * @return RedirectResponse|Redirector
+     */
+    public function verify(Request $request)
+    {
+        /** @var User $user */
+        $user = User::find($request->id);
+
+        if ($request->route('id') != $user->getKey()) {
+            throw new AuthorizationException;
+        }
+
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+        }
+
+        return redirect($this->redirectTo($request))->with('verified', true);
     }
 }

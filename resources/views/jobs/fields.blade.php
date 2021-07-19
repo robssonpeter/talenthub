@@ -41,11 +41,11 @@
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('salary_from', __('messages.job.salary_from').':') }}<span class="text-danger">*</span>
-        {{ Form::text('salary_from', null, ['class' => 'form-control salary', 'id' => 'fromSalary', 'required']) }}
+        {{ Form::text('salary_from', null, ['class' => 'form-control salary', 'id' => 'fromSalary', 'required', 'placeholder' => __('messages.job.net_amount')]) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('salary_to', __('messages.job.salary_to').':') }}<span class="text-danger">*</span>
-        {{ Form::text('salary_to', null, ['class' => 'form-control salary', 'id' => 'toSalary', 'required']) }}
+        {{ Form::text('salary_to', null, ['class' => 'form-control salary', 'id' => 'toSalary', 'required', 'placeholder' => __('messages.job.net_amount')]) }}
         <span id="salaryToErrorMsg" class="text-danger"></span>
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
@@ -85,9 +85,9 @@
         {{ Form::select('degree_level_id', $data['requiredDegreeLevel'], null, ['id'=>'requiredDegreeLevelId','class' => 'form-control','placeholder' => 'Select Degree Level']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('functional_area_id', __('messages.job.functional_area').':') }}<span
+        {{ Form::label('functional_areas', __('messages.job.functional_area').':') }}<span
                 class="text-danger">*</span>
-        {{ Form::select('functional_area_id', $data['functionalArea'], null, ['id'=>'functionalAreaId','class' => 'form-control','placeholder' => 'Select Functional Area','required']) }}
+        {{ Form::select('functional_areas[]', $data['functionalArea'], null, ['id'=>'functionalAreaId','class' => 'form-control', 'multiple','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('position', __('messages.job.number_of_positions').':') }}<span class="text-danger">*</span>
@@ -110,6 +110,26 @@
         {{ Form::label('additional_information', __('messages.job.additional_information').':') }}<span class="text-danger">*</span>
         {{ Form::textarea('additional_information', null, ['class' => 'form-control' , 'id' => 'additional_information', 'rows' => '5']) }}
     </div>
+    <div class="form-group col-md-6">
+        {{ Form::label('benefits', __('messages.benefits.benefits').':') }}<span class="text-danger">*</span>
+        {{ Form::select('benefits[]', $data['benefits'], 0, ['id'=>'benefits','class' => 'form-control','placeholder' => 'Select Benefits','required','multiple']) }}
+    </div>
+    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+        {{ Form::label('reports_to', __('messages.job.reports_to').':') }}
+        {{ Form::text('reports_to', null, ['id'=>'reports_to','class' => 'form-control']) }}
+    </div>
+    @if(!Auth::user()->hasRole('Employer'))
+    <div class="form-group col-xl-3 col-md-3 col-sm-12">
+        <label>{{ __('messages.job.application_method') }}</label>
+        {{Form::select('application_method', \App\Models\Job::APPLY_METHODS, 0, ['class' => 'form-control', 'id' => 'application_method'] )}}
+    </div>
+    <div class="form-group col-xl-9 col-md-9 col-sm-12">
+        <div id="url-enclose" style="display: none;">
+            <label>{{ __('messages.job.application_url') }}</label>
+            {{Form::url('url', '', ['class' => 'form-control', 'id' => 'url-input', 'placeholder' => 'Paste the link to the application portal'])}}
+        </div>
+    </div>
+    @endif
     <div class="form-group col-xl-3 col-md-3 col-sm-12">
         <label>{{ __('messages.job.hide_salary') }}</label>
         <label class="custom-switch pl-0 col-12">
@@ -127,6 +147,15 @@
         </label>
     </div>
 
+    <div class="form-group col-xl-3 col-md-3 col-sm-12">
+        <label>{{ __('messages.job.hide_employer') }}</label>
+        <label class="custom-switch pl-0 col-12">
+            <input type="checkbox" name="is_anonymous" class="custom-switch-input"
+                   id="salary">
+            <span class="custom-switch-indicator"></span>
+        </label>
+    </div>
+
     <!-- Submit Field -->
     <div class="form-group col-sm-12">
         {{ Form::submit(__('messages.common.save'), ['class' => 'btn btn-primary','name' => 'save', 'id' => 'saveJob']) }}
@@ -135,3 +164,16 @@
     </div>
 
 </div>
+<script>
+    $(document).on('change', '#application_method', function(){
+        let value = $(this).val();
+        if(Number(value) === 1){
+            /*alert('things have changed');*/
+            $('#url-enclose').fadeIn('fast');
+            $('#url-input').prop('required',true);
+        }else{
+            $('#url-enclose').fadeOut('fast');
+            $('#url-input').prop('required',false);
+        }
+    })
+</script>

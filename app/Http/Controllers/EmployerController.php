@@ -67,6 +67,7 @@ class EmployerController extends AppBaseController
     public function editProfile()
     {
         $user = Auth::user();
+        $user->first_name = htmlspecialchars_decode($user->first_name);
         $data['employer'] = $user;
         $data['company'] = Company::where('user_id', $user->id)->first();
 

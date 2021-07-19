@@ -61,6 +61,15 @@ class CandidateController extends AppBaseController
     public function editProfile(Request $request)
     {
         /** @var User $user */
+        /*$host = request()->getHost();
+        $newHost = 'app.hrbumacoinsurance.co.tz';
+
+        $currentUrl = request()->getUri();
+        $newUrl = str_replace($host, $newHost, $currentUrl);
+        return redirect()->to($newUrl);
+        dd($newUrl);
+
+        dd(request()->getUri());*/
         $user = Auth::user();
         $user->phone = preparePhoneNumber($user->phone, $user->region_code);
         $data = $this->candidateRepository->prepareData();
@@ -99,6 +108,7 @@ class CandidateController extends AppBaseController
 
         if ($sectionName == 'career_informations' || $sectionName == 'cv_builder') {
             $data['jobCategories'] = App\Models\JobCategory::pluck('name', 'id');
+            $data['certificateCategories'] = App\Models\CertificateCategory::pluck('name', 'id');
             $data['candidateObjective'] = CandidateObjective::where('candidate_id', $user->owner_id)->first();
             $data['candidateReferees'] = CandidateReferee::where('candidate_id',
                 $user->owner_id)->orderByDesc('id')->get();
@@ -118,10 +128,14 @@ class CandidateController extends AppBaseController
             $candidate = Candidate::findOrFail($user->candidate->id);
             $data['certifications'] = App\Models\Media::where('model_type', 'App\Models\Candidate')->where('collection_name', 'certifications')->where('model_id', $user->candidate->id)->pluck('custom_properties', 'id' )->toArray();
         }
+        $experience = \App\Functionalities\Candidate::totalExperience($user->candidate->id);
         //dd($data);
+        $expKeys = array_keys($experience);
+        $industries = App\Models\Industry::pluck('name', 'id');
+        //dd($experience);
 
         return view("candidate.profile.$sectionName",
-            compact('user', 'data', 'countries', 'states', 'cities', 'candidateSkills', 'candidateLanguage'));
+            compact('user', 'data', 'countries', 'states', 'cities', 'candidateSkills', 'candidateLanguage', 'experience', 'industries', 'expKeys'));
     }
 
     /**
@@ -254,6 +268,11 @@ class CandidateController extends AppBaseController
 
         CandidateFunction::profileCompletion(Auth::user()->id);
 
+        //return $this->sendResponse();
+        if(isset($input['return'])){
+            $certificate = App\Models\Media::where('model_type', 'App\Models\Candidate')->where('collection_name', 'certifications')->where('model_id', Auth::user()->candidate->id)->orderBy('id', 'DESC')->first();
+            return $this->sendResponse($certificate, __('messages.candidate_profile.certificate_uploaded'));
+        }
         return $this->sendSuccess(__('messages.candidate_profile.certificate_uploaded'));
     }
 

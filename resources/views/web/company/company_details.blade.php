@@ -92,7 +92,7 @@
                         </div>
                         @if($companyDetail->value_proposition)
                         <div class="">
-                            <h5>Value Proposition</h5>
+                            <h5>{{ __('messages.value_proposition') }}</h5>
                             <p>{!! nl2br($companyDetail->value_proposition) !!}</p>
                         </div>
                         @endif

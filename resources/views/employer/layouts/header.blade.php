@@ -19,12 +19,12 @@
                     <img alt="image" src="{{ str_replace('htts:', 'https:', getLoggedInUser()->avatar) }}"
                          class="rounded-circle mr-1 user-thumbnail">
                     <div class="d-sm-none d-lg-inline-block">
-                        {{ __('messages.common.hi') }}, {{\Illuminate\Support\Facades\Auth::user()->first_name}}</div>
+                        {{ __('messages.common.hi') }}, {{htmlspecialchars_decode(\Illuminate\Support\Facades\Auth::user()->first_name)}}</div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-title">
                         {{ __('messages.common.welcome') }}
-                        , {{\Illuminate\Support\Facades\Auth::user()->full_name}}</div>
+                        , {{htmlspecialchars_decode(\Illuminate\Support\Facades\Auth::user()->full_name)}}</div>
                     <a class="dropdown-item has-icon editProfileModal" href="#" data-id="{{ getLoggedInUserId() }}">
                         <i class="fa fa-user"></i>{{ __('messages.user.edit_profile') }}</a>
                     <a class="dropdown-item has-icon changePasswordModal" href="#"
@@ -77,9 +77,10 @@
                 <a class="nav-link" href="{{ route('job.index') }}">
                     <i class="fas fa-briefcase"></i><span>{{ __('messages.employer_menu.jobs') }}</span></a>
             </li>
+
             <li class="nav-item {{ Request::is('employer/company*') ? 'active' : ''}}">
                 <a class="nav-link"
-                   href="{{ route('company.edit.form', \Illuminate\Support\Facades\Auth::user()->owner_id) }}">
+                   href="{{ route('company.edit.form', isStaff(Auth::user()->id)?$job->company_id:\Illuminate\Support\Facades\Auth::user()->owner_id) }}">
                     <i class="far fa-user-circle"></i>
                     <span>{{ __('messages.employer_menu.employer_profile') }}</span>
                 </a>
@@ -90,7 +91,7 @@
                     <span>{{ __('messages.employer_menu.followers') }}</span>
                 </a>
             </li>
-            <li class="nav-item dropdown {{ in_array(Request::path(), ['company/verify', 'company/email-templates']) ? 'active' : ''}}">
+            <li class="nav-item dropdown {{ in_array(Request::path(), ['employer/manage-subscriptions', 'employer/transaction']) ? 'active' : ''}}">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{{ route('company.verify') }}">
                     <i class="fas fa-dollar-sign dollar-sign-icon"></i>
                     <span>{{ __('messages.common.billing') }}</span>
@@ -106,12 +107,12 @@
                     </a>
                 </div>
             </li>
-            <li class="nav-item {{ Request::is('candidate-lists*') ? 'active' : ''}}">
+            {{--<li class="nav-item {{ Request::is('candidate-lists*') ? 'active' : ''}}">
                 <a class="nav-link" href="{{ route('front.candidate.lists') }}">
                     <i class="fa fa-users"></i>
                     <span>{{ __('messages.job.job_seekers') }}</span>
                 </a>
-            </li>
+            </li>--}}
             {{--            <li class="nav-item {{ Request::is('employer/manage-subscriptions*') ? 'active' : ''}}">--}}
 {{--                <a class="nav-link" href="{{ route('manage-subscription.index') }}">--}}
 {{--                    <i class="fa fa-dollar-sign dollar-sign-icon"></i>--}}

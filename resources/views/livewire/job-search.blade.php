@@ -12,14 +12,20 @@
                     <div class="job-company">
                         <a href="{{ route('front.company.details',$job->company->unique_id) }}"
                            title="View Company Details">
-                            <img src="{{ $job->company->company_url }}" alt="">
+                            @if( !$job['is_anonymous'])
+                                <img src="{{ $job->company->company_url }}" alt="">
+                            @elseif($job['is_anonymous'])
+                                <img src="{{ asset('assets/img/infyom-logo.png') }}" alt="">
+                            @endif
                         </a>
                     </div>
                 </div>
                 <div class="col-md-8 col-xs-6 ptb5 ml20">
                     <div class="job-title">
                         <a href="{{ route('front.job.details',$job['job_id']) }}">{{ $job['job_title'] }} </a>
-                        <label class="text-muted">- {{ $job->company->user->first_name }}</label>
+                        @if( !$job['is_anonymous'])
+                        <label class="text-muted">- {{ htmlspecialchars_decode($job->company->user->first_name) }}</label>
+                        @endif
                     </div>
 
                     <div class="job-info">
@@ -28,7 +34,7 @@
                         </span>
                         <br>
                         <span class="company pt10">
-                            {!! nl2br(Str::limit($job['description'],120,'...')) !!}  
+                            {!! nl2br(Str::limit($job['description'],120,'...')) !!}
                         </span>
                     </div>
 
@@ -42,7 +48,7 @@
                             <span class="font-weight-bolder">{{ date('jS M, Y', strtotime($job->job_expiry_date)) }}</span>
                         </div>
                         @if(!empty($job->jobShift))
-                            <div class="job-category pull-left j-category-type">
+                            <div class="job-category pull-left j-category-type irs-sing">
                                 <a href="javascript:void(0)"
                                    class="mt15 btn btn-orange btn-small btn-effect">{{ $job->jobShift->shift }}</a>
                             </div>

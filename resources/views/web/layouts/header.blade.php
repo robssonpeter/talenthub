@@ -47,7 +47,7 @@
                                class="j-nav-item">{{ __('web.companies') }}</a>
                         </li>
                         @auth
-                            @role('Employer|Admin')
+                            @role('Admin|Moderator')
                             <li class="simple-menu {{ Request::is('candidate-lists') ? 'active' : '' }}">
                                 <a href="{{ route('front.candidate.lists') }}"
                                    class="j-nav-item">{{ __('web.job_seekers') }}</a>
@@ -80,7 +80,7 @@
                                 </ul>
                             </li>--}}
                             <li class="dropdown simple-menu">
-                                <a href="#" class="dropdown-toggle user-avatar" data-toggle="dropdown" role="button">
+                                <a href="{{ dashboardURL() }}" class="dropdown-toggle user-avatar" data-toggle="dropdown" role="button">
                                     <img src="{{ str_replace('htts:', 'https:', getLoggedInUser()->avatar) }}"
                                          class="thumbnail-rounded front-thumbnail"/>
                                 </a>

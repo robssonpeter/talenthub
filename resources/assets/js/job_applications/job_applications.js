@@ -95,6 +95,11 @@ $(tableName).DataTable({
                         'id': row.id,
                         'isCompleted': isCompleted,
                         'isShortlisted': isShortlisted,
+                        'interviewScheduled': interviewScheduled,
+                        'interviewed': interviewed,
+                        'isRejected': isRejected,
+                        'notes': notes,
+                        'isStaff': isStaff,
                     },
                 ];
                 return prepareTemplateRender('#jobApplicationActionTemplate',

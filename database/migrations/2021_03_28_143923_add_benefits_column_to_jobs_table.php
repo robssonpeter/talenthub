@@ -14,7 +14,7 @@ class AddBenefitsColumnToJobsTable extends Migration
     public function up()
     {
         Schema::table('jobs', function (Blueprint $table) {
-            $table->text('benefits')->after('description')->default('[]');
+            $table->text('benefits')->after('description')->nullable()/*->default('[]')*/;
         });
     }
 

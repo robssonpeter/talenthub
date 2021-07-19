@@ -25,11 +25,11 @@
         <div class="section-body">
             <div class="row candidate-achievements-container">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 candidate-achievement"
-                     data-id="{{ $data['candidateObjective']->id }}">
+                     data-id="{{ isset($data['candidateObjective']->id)?$data['candidateObjective']->id:'' }}">
                     <article class="article article-style-b">
                         <div class="article-details">
                             <p id="candidate-objective">
-                                {{$data['candidateObjective']->description}}
+                                {{isset($data['candidateObjective']->description)?$data['candidateObjective']->description:''}}
                             </p>
                         </div>
                     </article>
@@ -46,17 +46,37 @@
                    data-target="#addExperienceModal">{{ __('messages.candidate_profile.add_experience') }}
                     <i class="fas fa-plus"></i></a>
             </div>
+
         </div>
         <div class="section-body">
             <div class="row candidate-experience-container">
+                @if($experience['T']['years'] || $experience['T']['months'])
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 candidate-experience">
+                    <article class="article article-style-b">
+                        <div class="article-details">
+                            <span>Total Experience: {{$experience['T']['years']."Y ".$experience['T']['months']."M"}}</span>
+                            <span class="float-right">(Y - Years, M - Months)</span>
+                            <div class="py-1">
+                                @foreach($expKeys as $key)
+                                    @if(isset($industries[$key]))
+                                    <span class="bg-secondary p-1 mt-1 text-nowrap rounded-pill">{{$industries[$key]." - ".$experience[$key]['years'].'Y '.$experience[$key]['months'].'M'}}</span>
+                                    @elseif(is_numeric($key))
+                                        <span class="bg-secondary p-1 mt-1 text-nowrap rounded-pill">{{"Unspecified Industry - ".$experience[$key]['years'].'Y '.$experience[$key]['months'].'M'}}</span>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                @endif
                 @forelse($data['candidateExperiences'] as $candidateExperience)
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 candidate-experience"
                          data-experience-id="{{ $loop->index }}" data-id="{{ $candidateExperience->id }}">
                         <article class="article article-style-b">
                             <div class="article-details">
                                 <div class="article-title">
-                                    <h4 class="text-primary">{{ $candidateExperience->experience_title }}</h4>
-                                    <h6 class="text-muted">{{ $candidateExperience->company }}</h6>
+                                    <h5 class="text-primary">{{ $candidateExperience->experience_title }}</h5>
+                                    <h6 class="text-muted">{{ htmlspecialchars_decode($candidateExperience->company) }}</h6>
                                 </div>
                                 <span class="text-muted">{{ \Carbon\Carbon::parse($candidateExperience->start_date)->format('jS M, Y')}} - </span>
 
@@ -119,11 +139,11 @@
                         <article class="article article-style-b">
                             <div class="article-details">
                                 <div class="article-title">
-                                    <h4 class="text-primary education-degree-level">{{ $candidateEducation->degreeLevel->name }}</h4>
+                                    <h5 class="text-primary education-degree-level">{{ htmlspecialchars_decode($candidateEducation->institute) }}</h5>
                                     <h6 class="text-muted">{{ $candidateEducation->degree_title }}</h6>
                                 </div>
                                 <span class="text-muted">{{ $candidateEducation->currently_studying?'Current':$candidateEducation->year }} | {{ $candidateEducation->country }}</span>
-                                <p class="mb-0">{{ $candidateEducation->institute }}</p>
+                                <p class="mb-0">{{ $candidateEducation->degreeLevel->name }}</p>
                                 <div class="article-cta candidate-education-edit-delete">
                                     <a href="javascript:void(0)" class="btn btn-warning action-btn edit-education"
                                        data-id="{{ $candidateEducation->id }}"><i class="fa fa-edit p-1"></i></a>
@@ -148,11 +168,11 @@
     </section><br>
     <section class="section">
         <div class="section-header candidate-experience-header">
-            <h1>{{ __('messages.candidate_profile.career_achievements') }}</h1>
+            <h1>{{ __('messages.candidate_profile.awards_and_certificates') }}</h1>
             <div class="section-header-breadcrumb">
                 <a href="#"
                    class="btn btn-primary form-btn addAchievementModal" data-toggle="modal"
-                   data-target="#addAchievementModal">{{ __('messages.candidate_profile.add_achievement') }}
+                   data-target="#addAchievementModal">{{ __('messages.candidate_profile.add') }}
                     <i class="fas fa-plus"></i></a>
             </div>
         </div>
@@ -166,8 +186,12 @@
                                 <div class="article-title">
                                     <h6 class="text-muted">{{ $candidateAchievement->title }}</h6>
                                 </div>
-
-                                <p class="mb-0">{{ $candidateAchievement->description }}</p>
+                                @if($candidateAchievement->institution)
+                                    <p class="mb-0">{{ $candidateAchievement->institution?$candidateAchievement->institution->name:"" }} - <span class="{{$candidateAchievement->ongoing?'text-success':''}}">{{(int) $candidateAchievement->ongoing?"On Going":date('M, d Y', strtotime($candidateAchievement->completion_date))}}</span></p>
+                                @endif
+                                @if($candidateAchievement->valid_until)
+                                    <span><strong>Valid Until: </strong>{{date_create($candidateAchievement->valid_until)->format('F jS Y')}}</span>
+                                @endif
                                 <div class="article-cta candidate-achievement-edit-delete">
                                     @if($candidateAchievement->attachment_id)
                                     <a href="javascript:void(0)" id="{{ \Spatie\MediaLibrary\Models\Media::find($candidateAchievement->attachment_id)->getFullUrl() }}" class="btn document btn-success action-btn view-achievement-attachment"
@@ -184,7 +208,7 @@
                 @empty
                     <div class="col-12" id="notfoundAchievement">
                         <h4 class="product-item pb-5 d-flex justify-content-center">
-                            Achievements Not Available
+                            Awards Not Available
                         </h4>
                     </div>
                 @endforelse
@@ -253,6 +277,7 @@
     @include('candidate.profile.templates.templates')
 @endsection
 @push('page-scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
     <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
@@ -290,6 +315,7 @@
         let candidateProgressUrl = "{{route('candidate.profile.completion')}}";
         let utilsScript = "{{asset('assets/js/inttel/js/utils.min.js')}}";
         let newExperienceAchievement = document.getElementById('addExperienceAchievement');
+        let attachmentUploadUrl = "{{ route('candidate.certificates') }}";
     </script>
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>

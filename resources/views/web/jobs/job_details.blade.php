@@ -3,8 +3,6 @@
     {{ __('web.job_details.job_details') }}
 @endsection
 @section('content')
-
-
     <!-- ===== Start of Main Wrapper Job Section ===== -->
     <section class="ptb15 bg-gray" id="job-page">
         <div class="container mTop">
@@ -49,20 +47,20 @@
                                 @auth
                                     @role('Candidate')
                                     <ul class="social-btns list-inline mt5">
-                                        <li class="j-detail-social-btn">
-                                            <button class="btn btn-success btn-effect emailJobToFriend mb5"
+                                        <li class="">
+                                            <button class="btn label label-info btn-primary"
                                                     data-toggle="modal"
                                                     data-target="#emailJobToFriendModal">{{ __('web.job_details.email_to_friend') }}
                                             </button>
                                         </li>
-                                        <li class="j-detail-social-btn">
-                                            <button class="btn btn-red btn-effect reportJobAbuse {{ ($isJobReportedAsAbuse) ? 'disabled' : '' }}"
+                                        <li class="">
+                                            <button class="btn btn-danger reportJobAbuse {{ ($isJobReportedAsAbuse) ? 'disabled' : '' }}"
                                                     data-toggle="modal"
                                                     data-target="#reportJobAbuseModal">{{ __('web.job_details.report_abuse') }}
                                             </button>
                                         </li>
                                         @if(!$isJobApplicationRejected)
-                                            <li class="j-detail-social-btn">
+                                            <li class="">
                                                 <button class="btn btn-orange btn-effect"
                                                         data-favorite-user-id="{{ (getLoggedInUserId() !== null) ? getLoggedInUserId() : null }}"
                                                         data-favorite-job-id="{{ $job->id }}" id="addToFavourite">
@@ -111,42 +109,42 @@
                                         </p>
                                     </div>
                                 @endif
-                                @if($job->benefits != '[]')
+                                @if($job->benefits != '[]' && is_array(json_decode($job->benefits)) )
                                     @php
                                     $benefits = App\Models\Benefit::pluck('name', 'id');
                                     @endphp
                                     <h5>Benefits</h5>
                                     <ul>
-                                    @foreach(json_decode($job->benefits) as $benefit)
-                                        <li>{{$benefits[$benefit]}}</li>
-                                    @endforeach
+                                        @foreach(json_decode($job->benefits) as $benefit)
+                                            <li>{{$benefits[$benefit]}}</li>
+                                        @endforeach
                                     </ul>
                                 @endif
                         </div>
 
                     </div>
-                    <div class="row mt40">
+                    <div class="row mt15">
                         <div class="col-md-12">
                             <h4 class="font-weight-bold">{{ __('web.job_details.job_details') }}</h4>
                             <hr/>
                         </div>
-                        <div class="col-md-8 mt15">
+                        <div class="col-md-8 mt5">
 
-                            <div class="row mt15">
+                            <div class="row">
                                 <div class="col-md-5">
                                     <h6>{{ Form::label('job_category_id', __('messages.job_category.job_category').':') }}</h6>
                                 </div>
                                 <div class="col-md-7"><h6>{{ $job->jobCategory->name }}</h6></div>
                             </div>
                             @if($job->careerLevel)
-                                <div class="row mt15">
+                                <div class="row">
                                     <div class="col-md-5">
                                         <h6>{{ Form::label('career_level_id', __('messages.job.career_level').':') }}</h6>
                                     </div>
                                     <div class="col-md-7"><h6>{{ $job->careerLevel->level_name }}</h6></div>
                                 </div>
                             @endif
-                            <div class="row mt15">
+                            <div class="row">
                                 <div class="col-md-5">
                                     <h6>{{ Form::label('job_shift_id', __('messages.job_tag.show_job_tag').':') }}</h6>
                                 </div>
@@ -154,7 +152,7 @@
                                     <h6>{{ ($job->jobsTag->isNotEmpty()) ? $job->jobsTag->pluck('name')->implode(', ') : __('messages.common.n/a') }}</h6>
                                 </div>
                             </div>
-                            <div class="row mt15">
+                            <div class="row">
                                 <div class="col-md-5">
                                     <h6>{{ Form::label('job_type', __('messages.job.job_type').':') }}</h6>
                                 </div>
@@ -163,35 +161,39 @@
                                 </div>
                             </div>
                             @if($job->jobShift)
-                                <div class="row mt15">
+                                <div class="row">
                                     <div class="col-md-5">
                                         <h6>{{ Form::label('job_shift_id', __('messages.job.job_shift').':') }}</h6>
                                     </div>
                                     <div class="col-md-7"><h6>{{ $job->jobShift->shift }}</h6></div>
                                 </div>
                             @endif
-                            <div class="row mt15">
+                            <div class="row">
                                 <div class="col-md-5">
-                                    <h6>{{ Form::label('functional_area_id', __('messages.job.functional_area').':') }}</h6>
+                                    <h6>{{ Form::label('functional_area_id', __('messages.job.functional_area').'s:') }}</h6>
                                 </div>
-                                <div class="col-md-7"><h6>{{ $job->functionalArea->name }}</h6></div>
+                                <div class="col-md-7">
+                                    @foreach($job->functionalAreas as $functionalArea)
+                                    <h6>{{$functionalArea->details->name}}</h6>
+                                    @endforeach
+                                </div>
                             </div>
                             @if($job->degreeLevel)
-                                <div class="row mt15">
+                                <div class="row">
                                     <div class="col-md-5">
                                         <h6>{{ Form::label('degree_level_id', __('messages.job.degree_level').':') }}</h6>
                                     </div>
                                     <div class="col-md-7"><h6>{{ $job->degreeLevel->name }}</h6></div>
                                 </div>
                             @endif
-                            <div class="row mt15">
+                            <div class="row">
                                 <div class="col-md-5">
                                     <h6>{{ Form::label('position', __('messages.positions').':') }}</h6>
                                 </div>
                                 <div class="col-md-7"><h6>{{ isset($job->position)?$job->position:'0' }}</h6>
                                 </div>
                             </div>
-                            <div class="row mt15">
+                            <div class="row">
                                 <div class="col-md-5">
                                     <h6>{{ Form::label('position', __('messages.job_experience.job_experience').':') }}</h6>
                                 </div>
@@ -199,13 +201,13 @@
                                         {{ isset($job->experience) ? $job->experience .' '. __('messages.candidate_profile.year') :'No experience' }}</h6>
                                 </div>
                             </div>
-                            <div class="row mt15">
+                            <div class="row">
                                 <div class="col-md-5">
                                     <h6>{{ Form::label('salary_period_id', __('messages.job.salary_period').':') }}</h6>
                                 </div>
                                 <div class="col-md-7"><h6>{{ $job->salaryPeriod->period }}</h6></div>
                             </div>
-                            <div class="row mt15">
+                            <div class="row">
                                 <div class="col-md-5">
                                     <h6>{{ Form::label('is_freelance', __('messages.job.is_freelance').':') }}</h6>
                                 </div>
@@ -333,11 +335,19 @@
                                                 {{ $isJobDrafted ? __('web.job_details.edit_draft') : __('web.job_details.apply_for_job') }}
                                             </button>
                                         @elseif($isActive && !$job->is_suspended && \Carbon\Carbon::today()->toDateString() < $job->job_expiry_date->toDateString())
+                                            @if($job->application_method == 0)
+                                                <button
+                                                    class="btn {{ $isJobDrafted ? 'btn-red' : 'btn-purple' }} btn-block btn-effect"
+                                                    onclick="window.location='{{ route('show.apply-job-form', $job->job_id) }}'">
+                                                    {{ $isJobDrafted ? __('web.job_details.edit_draft') : __('web.job_details.apply_for_job') }}
+                                                </button>
+                                            @elseif($job->application_method == 1)
                                             <button
-                                                class="btn {{ $isJobDrafted ? 'btn-red' : 'btn-purple' }} btn-block btn-effect"
-                                                onclick="window.location='{{ route('show.apply-job-form', $job->job_id) }}'">
+                                                class="btn label label-info {{ $isJobDrafted ? 'btn-red' : 'btn-purple' }} btn-block btn-effect"
+                                                onclick="window.open('{{ $job->url }}', '_blank')">
                                                 {{ $isJobDrafted ? __('web.job_details.edit_draft') : __('web.job_details.apply_for_job') }}
                                             </button>
+                                            @endif
                                         @endif
                                         @if(!$isApplied && \Carbon\Carbon::today()->toDateString() > $job->job_expiry_date->toDateString() || $job->is_suspended)
                                                 {{--<div class="text-danger bg-danger py-4">
@@ -372,6 +382,7 @@
                     <!-- Start of Job Sidebar -->
 
                     <!-- ===== Start of Company Overview ===== -->
+                    @if(!$job->is_anonymous)
                     <div>
                         <div class="job-sidebar mt20">
                             <h5>{{ __('web.job_details.company_overview') }}</h5>
@@ -425,6 +436,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     <!-- ===== End of Company Overview ===== -->
                 </div>
             </div>
@@ -436,7 +448,7 @@
                     @include('web.jobs.report_job_modal')
                     @endrole
                 @endauth
-
+                @if(!$job->is_anonymous)
                 <div class="row mt40 mb30">
                     <div class="col-md-12 text-center">
                         <h3 class="pb5">{{ __('web.job_details.related_jobs') }}</h3>
@@ -463,6 +475,7 @@
                 </div>
                     <!-- End of Job Post Wrapper -->
             <!-- End of Row -->
+                @endif
 
         </div>
     </section>

@@ -1,5 +1,6 @@
 <script id="jobApplicationActionTemplate" type="text/x-jsrender">
  <div class="dropdown d-inline mr-2">
+      {{if !isStaff}}
       <button class="btn btn-primary dropdown-toggle" type="button" id="actionDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
       <div class="dropdown-menu mb-3">
         {{if !isCompleted}}
@@ -28,6 +29,7 @@
             {{/if}}
         {{/if}}
         <a class="dropdown-item action-delete" href="#" data-id="{{:id}}"><?php echo __('messages.common.delete') ?></a>
+        {{/if}}
     </div>
  </div>
 </script>

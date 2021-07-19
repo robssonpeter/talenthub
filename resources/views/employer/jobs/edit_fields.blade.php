@@ -101,9 +101,9 @@
         {{ Form::select('degree_level_id', $data['requiredDegreeLevel'], null, ['id'=>'requiredDegreeLevelId','class' => 'form-control','placeholder' => 'Select Degree Level']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-        {{ Form::label('functional_area_id', __('messages.job.functional_area').':') }}<span
+        {{ Form::label('functional_areas', __('messages.job.functional_area').'s:') }}<span
                 class="text-danger">*</span>
-        {{ Form::select('functional_area_id[]', $data['functionalArea'], null, ['id'=>'functionalAreaId','class' => 'form-control', 'multiple','required']) }}
+        {{ Form::select('functional_areas[]', $data['functionalArea'], json_decode($job->functional_areas), ['id'=>'functionalAreaId','class' => 'form-control', 'multiple','required']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('position', __('messages.job.number_of_positions').':') }}<span class="text-danger">*</span>

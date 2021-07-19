@@ -16,7 +16,12 @@ class ModifyFunctionalAreaIdColumnToJobsTable extends Migration
         Schema::table('jobs', function (Blueprint $table) {
             //$table->dropIfExists('jobs_functional_area_id_foreign');
             //$table->dropForeign('jobs_functional_area_id_foreign');
-            $table->text('functional_area_id')->change();
+            if(Schema::hasColumn('jobs', 'functional_area_id')){
+                $table->text('functional_area_id')->change();
+            }else{
+                $table->text('functional_area_id');
+            }
+
         });
     }
 

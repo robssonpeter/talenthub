@@ -62,17 +62,34 @@ class LoginController extends Controller
     }
 
     /**
+     * @return Factory|View
+     */
+    protected function employeeLogin()
+    {
+        return view('web.auth.employer_login');
+    }
+
+    /**
+     * @return Factory|View
+     */
+    protected function candidateLogin()
+    {
+        return view('web.auth.candidate_login');
+    }
+
+    /**
      * @param  Request  $request
      *
      * @return RedirectResponse
      */
     protected function sendLoginResponse(Request $request)
     {
-        //dd(request()->all());
         $type = $request->get('type');
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
+
+
 
         if (Auth::user()->hasRole('Employer') && $type == Company::COMPANY_LOGIN_TYPE) {
             $this->redirectTo = RouteServiceProvider::EMPLOYER_HOME;
@@ -80,10 +97,15 @@ class LoginController extends Controller
             if (Auth::user()->hasRole('Candidate') && $type == Candidate::CANDIDATE_LOGIN_TYPE) {
                 $this->redirectTo = RouteServiceProvider::CANDIDATE_HOME;
             } else {
-                Auth::logout();
-                return redirect('/login#'.$type)->withInput()->withErrors([
-                    'error' => 'These credentials do not match our records.',
-                ]);
+                if(Auth::check() && Auth::user()->owner_type == 'App\Models\Candidate'){
+                    $this->redirectTo = RouteServiceProvider::CANDIDATE_HOME;
+                }else{
+                    Auth::logout();
+                    $section = ($type == Company::COMPANY_LOGIN_TYPE) ? 'login#candidate' : 'login#employer';
+                    return redirect('/'.$section)->withInput()->withErrors([
+                        'error' => 'These credentials do not match our records.',
+                    ]);
+                }
             }
         }
 

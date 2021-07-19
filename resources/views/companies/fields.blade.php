@@ -47,9 +47,17 @@
         {{ Form::label('state', __('messages.company.state').':') }}
         {{ Form::select('state_id', [], null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select State']) }}
     </div>
-    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+    <div class="form-group col-xl-12 col-md-6 col-sm-12">
         {{ Form::label('city', __('messages.company.city').':') }}
         {{ Form::select('city_id', [], null, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City']) }}
+    </div>
+    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+        {{ Form::label('address_line_1', __('messages.company.address_line_1').':') }}<span class="text-danger">*</span>
+        {{ Form::text('address_line_1', null, ['class' => 'form-control']) }}
+    </div>
+    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+        {{ Form::label('address_line_2', __('messages.company.address_line_2').':') }}<span class="text-danger"></span>
+        {{ Form::text('address_line_2', null, ['class' => 'form-control']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('company_size_id', __('messages.company.company_size').':') }}<span class="text-danger">*</span>

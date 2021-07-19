@@ -73,6 +73,10 @@ class LoginController extends Controller
 
         $this->clearLoginAttempts($request);
 
+        if(Auth::user()->hasRole(['Moderator', 'Talent Advisor', 'Recruiter'])){
+            $this->redirectTo = RouteServiceProvider::STAFF_HOME;
+        }
+
         if (Auth::user()->hasRole('Admin')) {
             $this->redirectTo = RouteServiceProvider::ADMIN_HOME;
         }

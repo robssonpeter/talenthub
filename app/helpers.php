@@ -3,6 +3,7 @@
 use App\Models\City;
 use App\Models\Company;
 use App\Models\Setting;
+use App\Models\Staff;
 use App\Models\State;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -140,6 +141,21 @@ function getUniqueCompanyId()
     }
 
     return $companyUniqueId;
+}
+
+
+function getUniqueStaffId()
+{
+    $staffUniqueId = Str::random(12);
+    while (true) {
+        $isExist = Staff::where('unique_id', $staffUniqueId)->exists();
+        if ($isExist) {
+            getUniqueStaffId();
+        }
+        break;
+    }
+
+    return $staffUniqueId;
 }
 
 /**
@@ -386,5 +402,32 @@ function canDelete($models, $columnName, $id)
         }
     }
 
+    return false;
+}
+
+function daysToYearsAndMonths($days){
+    if($days<365){
+        $years = 0;
+        $months = round($days/30);
+    }else{
+        $toMonths = $days%365;
+        $months = round($toMonths/30);
+        $years = ($days - $toMonths)/365;
+    }
+    return [
+        'years' => $years,
+        'months' => (int) $months
+    ];
+}
+
+function isStaff($user_id){
+    $user = User::find($user_id);
+    $roles = [
+        'Admin', 'Moderator', 'Recruiter'
+    ];
+    $userRoles = $user->roles()->pluck('name')->toArray();
+    if(array_intersect($roles, $userRoles)){
+        return true;
+    }
     return false;
 }

@@ -14,6 +14,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use App\Repositories\PlanRepository;
 use App\Repositories\SubscriptionRepository;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
@@ -22,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Spatie\ArrayToXml\ArrayToXml;
 use Stripe\Checkout\Session;
@@ -52,11 +54,12 @@ class SubscriptionController extends AppBaseController
 
 
     /**
-     * @param  Request  $request
-     *
-     * @throws Exception
+     * @param Request $request
      *
      * @return mixed
+     * @throws \Throwable
+     *
+     * @throws Exception
      */
     public function purchaseSubscription(Request $request)
     {
@@ -73,6 +76,102 @@ class SubscriptionController extends AppBaseController
         $company = Company::whereUserId(Auth::user()->id)->first();
         $currency = SalaryCurrency::find($plan->currency_id);
 
+        // Check if the user had subscribed to plan before and reactivate it
+        $today = Carbon::now()->format('Y-m-d H:i:s');
+        $subscription = Subscription::where('user_id', $user->id)->where('plan_id', $planId)
+                            /*->whereNull('trial_ends_at')*/
+                            ->where('current_period_end', '>', $today)
+                            ->first();
+
+        if($subscription){
+            /** @var SubscriptionRepository $subscriptionRepo */
+            $payment = Payment::where('user_id', $user->id)->where('items', 'LIKE', '%:'.$planId.'}%')->first();
+            $oldSubscription = Subscription::where('plan_id', $planId)->orderBy('id', 'DESC')->first();
+            $newSubscription = [
+                'name' => $oldSubscription->name,
+                'plan_id' => $planId,
+                'ends_at' => $oldSubscription->ends_at,
+                'current_period_start' => $oldSubscription->current_period_start,
+                'current_period_end' => $oldSubscription->current_period_end,
+                'user_id' => $user->id,
+                'cancel_at_period_end' => $oldSubscription->cancel_at_period_end,
+                'type' => $oldSubscription->type,
+                'cancellation_reason' => $oldSubscription->cancellation_reason
+            ];
+
+            /*// create a new subscription similar to the old existing one
+            Subscription::create($newSubscription);*/
+            //$currentSubscription
+            $result = [
+                'sessionId' => $payment->id,
+                'token' => $payment->token,
+                'payment_url' => ""
+            ];
+            $currentSubscription = Subscription::whereUserId(Auth::user()->id)
+                ->active()
+                ->latest()
+                ->first();
+            if($currentSubscription){
+                if($currentSubscription->stripe_status == 'trialing'){
+                    Subscription::find($currentSubscription->id)->update([
+                        'ends_at'       => Carbon::now(),
+                        'trial_ends_at' => Carbon::now(),
+                    ]);
+                }else{
+                    DB::beginTransaction();
+                    /** @var Subscription $userSubscription */
+                    /*$userSubscription = new Subscription();
+                    $userSubscription->fill([
+                        'user_id'              => $user->id,
+                        'name'                 => $plan->name,
+                        'plan_id'              => $plan->id,
+                        'stripe_status'        => '',
+                        'trial_ends_at'        => null,
+                        'current_period_start' => $oldSubscription->current_period_start,
+                        'current_period_end'   => $oldSubscription->current_period_end,
+                    ]);
+                    $userSubscription->save();*/
+                    $tsSubscription = Subscription::create([
+                        'name'                 => $plan->name,
+                        'stripe_id'            => $plan->id,
+                        //'stripe_status'        => $subscription->status,
+                        'stripe_status'        => null,
+                        'stripe_plan'          => $plan->id,
+                        'user_id'              => $user->id,
+                        'plan_id'              => $plan->id,
+                        //'current_period_start' => isset($subscription->current_period_start) ? Carbon::createFromTimestamp($subscription->current_period_start) : null,
+                        'current_period_start' => $oldSubscription->current_period_start,
+                        //'current_period_end'   => isset($subscription->current_period_start) ? Carbon::createFromTimestamp($subscription->current_period_end) : null,
+                        'current_period_end'   => $oldSubscription->current_period_end,
+                    ]);
+                    if($tsSubscription){
+                        return $this->sendResponse($result, 'Subscription activated successfully. year');
+                    }else{
+                        return null;
+                    }
+
+                    DB::commit();
+                }
+            }/*else{
+                $userSubscription = new Subscription();
+                $userSubscription->fill([
+                    'user_id'              => $user->id,
+                    'name'                 => $plan->name,
+                    'plan_id'              => $plan->id,
+                    'stripe_status'        => '',
+                    'trial_ends_at'        => null,
+                    'current_period_start' => $oldSubscription->current_period_start,
+                    'current_period_end'   => $oldSubscription->current_period_end,
+                ]);
+                $userSubscription->save();
+                return $this->sendResponse($result, 'Subscription activated successfully. nothing happened');
+            }*/
+            /*Subscription::create($newSubscription)->resume();*/
+            $subscriptionRepo = app(SubscriptionRepository::class);
+            //$subscriptionRepo->purchaseSubscription($payment->id);
+            return $this->sendResponse($result, 'Subscription activated successfully.');
+        }
+
         $userEmail = isset($user->email) ? $user->email : null;
         $items = [
             ['plan' => $plan->id]
@@ -86,6 +185,7 @@ class SubscriptionController extends AppBaseController
 
         ];
         $payment = Payment::create($data);
+
 
         if(Auth::user()->city_id){
             $city = City::find(Auth::user()->city_id)->name;
@@ -105,7 +205,7 @@ class SubscriptionController extends AppBaseController
                 'BackURL' => url('employer/manage-subscriptions'),
                 'DeclinedURL' => url('failed-payment'),
                 'customerEmail' => Auth::user()->email,
-                'customerFirstName' => Auth::user()->first_name,
+                'customerFirstName' => htmlspecialchars_decode(Auth::user()->first_name),
                 'customerLastName' => isset(Auth::user()->first_name[0])?Auth::user()->first_name[0]:'',
                 'customerAddress' => $company->address_line_1,
                 'customerCity' => $city,
@@ -296,5 +396,17 @@ class SubscriptionController extends AppBaseController
             http_response_code(400);
             exit();
         }
+    }
+
+    public function renewSubscription($subscription_id){
+        $subscription = \Laravel\Cashier\Subscription::find($subscription_id);
+        $plan = Plan::find($subscription->plan_id);
+        $subscriptionPage = route('manage-subscription.index');
+
+        session()->flash('renew', $plan);
+        session()->flash('subscription', $subscription);
+        //dd(session()->get('renew'));
+        // Create a payment
+        return redirect()->route('manage-subscription.index');
     }
 }

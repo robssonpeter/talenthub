@@ -6,6 +6,13 @@
     <link href="{{ asset('assets/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
+    @php
+        if(Auth::user()->hasRole('Admin')){
+            $type = 'admin';
+        }else{
+            $type = 'staff';
+        }
+    @endphp
     <section class="section">
         <div class="section-header">
             <h1>{{ __('messages.reported_jobs') }}</h1>
@@ -23,7 +30,7 @@
 @endsection
 @push('scripts')
     <script>
-        let reportedJobsUrl = "{{ route('reported.jobs') }}/";
+        let reportedJobsUrl = "{{ $type == 'admin' ? route('reported.jobs') : route('staff.reported.jobs') }}/";
         let frontJobDetail = "{{ route('front.job.details') }}";
         let frontCandidateDetail = "{{ url('candidate-details') }}";
     </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UpdateUserProfileRequest;
+use App\Models\Alert;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Auth;
@@ -86,5 +87,16 @@ class UserController extends AppBaseController
         $user->update(['language' => $language]);
 
         return $this->sendSuccess('Language updated successfully.');
+    }
+
+    public function processAlert($alert_id){
+        $alert = Alert::find($alert_id);
+        $alert->update(['status' => Alert::STATUS_VIEWED]);
+        return redirect($alert->action['url']);
+    }
+
+    public function dismissAlert($alert_id){
+        $dismissed = Alert::find($alert_id)->update(['status' => Alert::STATUS_VIEWED]);
+        return $dismissed;
     }
 }

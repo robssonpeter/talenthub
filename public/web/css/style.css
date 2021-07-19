@@ -458,7 +458,8 @@ img {
 }
 
 .text-blue {
-    color: #3abaf4 !important;
+    /*color: #3abaf4 !important;*/
+    color: #0f2944 !important;
 }
 
 .text-green {
@@ -3521,7 +3522,7 @@ div.job-title a {
 }
 
 .job-post-wrapper .single-job-post .job-title a:hover {
-    color: #29b2fe;
+    color: #fe9004;
 }
 
 .job-post-wrapper .single-job-post .job-info {
@@ -3561,8 +3562,8 @@ ul.pagination {
 .page-link, .page-item span {
     font-size: 16px;
     color: #f6f6f6;
-    background: #6777ef;
-    border: 2px solid #6777ef;
+    background: #263e56;
+    border: 2px solid #263e56;
     box-shadow: 0 2px 6px #acb5f6;
     padding: 7px 14px;
     -webkit-border-radius: 5px;
@@ -3592,9 +3593,9 @@ ul.pagination li button:focus {
 
 ul.pagination li.active .page-link {
     font-size: 16px !important;
-    color: #6777ef;
+    color: #fe9004;
     background: none;
-    border: 2px solid #0f2944;
+    border: 2px solid #fe9004;
     box-shadow: 0 2px 6px #acb5f6;
     padding: 9px 15px !important;
     margin-left: 1px;
@@ -4409,6 +4410,20 @@ form.post-job-resume .form-group .bootstrap-select button.dropdown-toggle:hover 
     background: none;
     height: auto;
 }
+/*form.post-job-resume .form-group .bootstrap-select button.dropdown-toggle ul:hover {*/
+/*    background: #00dd00;*/
+/*}*/
+ul.dropdown-menu li:hover{
+    background-color: #0f2944;
+    z-index: 1000000000
+}
+
+
+/*select.form-control option:hover{
+    background-color: yellow;
+}*/
+
+
 
 
 /* Tinymce Editor */

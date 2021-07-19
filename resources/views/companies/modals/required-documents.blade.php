@@ -2,10 +2,10 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" id="documentsViewContent">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{__("messages.common.add_note")}}</h5>
-                {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLabel">{{__("messages.common.verification_documents")}}</h5>
+                <button type="button" onclick="closeCurrentModal('verification-setting')" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>--}}
+                </button>
             </div>
             <div  class="container mx-2 py-2">
                 <div v-if="loading">

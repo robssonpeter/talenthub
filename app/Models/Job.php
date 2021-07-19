@@ -104,6 +104,12 @@ class Job extends Model
         0 => 'Female',
     ];
 
+    const APPLY_METHODS = [
+       0 => 'In-platform',
+       1 => 'To URL',
+       2 => 'Specified in Description'
+    ];
+
     const IS_SUSPENDED = [
         1 => 'Yes',
         0 => 'No',
@@ -145,7 +151,7 @@ class Job extends Model
         'currency_id'        => 'required',
         'salary_period_id'   => 'required',
         'job_type_id'        => 'required',
-        'functional_area_id' => 'required',
+        /*'functional_area_id' => 'required',*/
         'position'           => 'required',
         'experience'         => 'required',
         'country_id'         => 'required',
@@ -165,6 +171,7 @@ class Job extends Model
         'job_type_id',
         'career_level_id',
         'functional_area_id',
+        'functional_areas',
         'job_shift_id',
         'degree_level_id',
         'position',
@@ -184,7 +191,11 @@ class Job extends Model
         'summary',
         'qualifications',
         'additional_information',
-        'benefits'
+        'benefits',
+        'url',
+        'application_method',
+        'posted_by',
+        'is_anonymous'
     ];
     /**
      * @var array
@@ -217,8 +228,13 @@ class Job extends Model
         'is_suspended'       => 'boolean',
     ];
 
-    protected $appends = ['country_name', 'state_name', 'city_name'];
-    protected $with = ['country', 'state', 'city', 'activeFeatured', 'currency', 'company'];
+    protected $appends = ['country_name', 'state_name', 'city_name', 'functional_area_ids', 'applications_count'];
+    protected $with = ['country', 'state', 'city', 'activeFeatured', 'currency', 'company', 'functionalAreas'];
+
+
+    public function getApplicationsCountAttribute(){
+        return $this->appliedJobs->count();
+    }
 
     /**
      *
@@ -247,6 +263,10 @@ class Job extends Model
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function getFunctionalAreaIdsAttribute(){
+        return $this->functionalAreas()->pluck('functional_area_id');
     }
 
     public function getCountryNameAttribute()
@@ -327,6 +347,10 @@ class Job extends Model
     public function functionalArea()
     {
         return $this->belongsTo(FunctionalArea::class, 'functional_area_id');
+    }
+
+    public function functionalAreas(){
+        return $this->hasMany(JobFunctionalArea::class, 'job_id', 'id');
     }
 
     /**

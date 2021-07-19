@@ -24,11 +24,13 @@
         @include('plans.templates.templates')
         @include('plans.add_modal')
         @include('plans.edit_modal')
+        @include('companies.templates.templates')
     </section>
 @endsection
 @push('scripts')
     <script>
         let planUrl = "{{ route('plans.index') }}";
+        let planToggleUrl = "{{ route('plan.toggle', '**id**') }}";
         let planSaveUrl = "{{ route('plans.store') }}";
     </script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>

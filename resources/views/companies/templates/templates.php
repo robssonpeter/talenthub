@@ -34,6 +34,4 @@
         <input type="checkbox" name="Is Active" class="custom-switch-input isActive" data-id="{{:id}}" {{:checked}}>
         <span class="custom-switch-indicator"></span>
     </label>
-
-
 </script>

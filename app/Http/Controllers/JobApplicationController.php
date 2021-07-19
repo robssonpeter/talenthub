@@ -36,23 +36,33 @@ class JobApplicationController extends AppBaseController
     /**
      * Display a listing of the Industry.
      *
-     * @param  int  $jobId
-     * @param  Request  $request
+     * @param int $jobId
+     * @param Request $request
      *
-     * @throws Exception
-     *
+     * @param string $status
      * @return Factory|View
+     * @throws Exception
      */
-    public function index($jobId, Request $request)
+    public function index($jobId, Request $request, $status = '')
     {
         $input['job_id'] = $jobId;
+        $input['status'] = $status;
         $job = Job::with('city')->findOrFail($jobId);
         if ($request->ajax()) {
             return Datatables::of((new JobApplicationDataTable())->get($input))->make(true);
         }
         $statusArray = JobApplication::STATUS;
 
-        return view('employer.job_applications.index', compact('jobId', 'statusArray', 'job'));
+        if(\Auth::user()->hasRole('Admin', 'Moderator')){
+            $company = Company::find($job->company_id);
+            $extend = 'layouts.app';
+        }else{
+            $company = null;
+            $extend = 'employer.layouts.app';
+        }
+
+
+        return view('employer.job_applications.index', compact('jobId', 'statusArray', 'job', 'company', 'extend'));
     }
 
 

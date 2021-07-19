@@ -8,6 +8,13 @@
     <link href="{{ asset('assets/css/summernote.min.css') }}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
+    @php
+        if(Auth::user()->hasRole('Admin')){
+            $type = 'admin';
+        }else{
+            $type = 'staff';
+        }
+    @endphp
     <section class="section">
         <div class="section-header">
             <h1>{{ __('messages.jobs') }}</h1>
@@ -24,7 +31,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3 col-sm-12 ml-4 mt-md-1 pr-0 jobAddBtn">
-                        <a href="{{ route('admin.job.create') }}"
+                        <a href="{{ route($type.'.job.create') }}"
                            class="btn btn-primary form-btn">{{ __('messages.common.add') }}
                             <i class="fas fa-plus"></i></a>
                     </div>
@@ -46,8 +53,9 @@
 @endsection
 @push('scripts')
     <script>
-        let jobsUrl = "{{ route('admin.jobs.index') }}";
+        let jobsUrl = "{{ route($type.'.jobs.index') }}";
         let companyUrl = "{{url('company-details')}}";
+        let applicationUrl = '{{route('staff.job-applications', '**job_id**')}}';
         //alert(companyUrl)
     </script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>

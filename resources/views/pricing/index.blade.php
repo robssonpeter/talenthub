@@ -8,6 +8,7 @@
             <div class="card-body">
                 <div class="row justify-content-around d-flex mt-xl-0 mt-5">
                     @foreach($plans as $plan)
+                        @if($plan->subscribed || $plan->is_active)
                         <div class="col-12 col-md-6 col-lg-4 col-xl-4">
                             <div class="pricing {{ isset($subscription) && $subscription->plan_id == $plan->id && $subscription->stripe_status == 'trialing' ? 'pricing-highlight pricing-margin-bottom' : '' }} {{ isset($subscription) && $subscription->plan_id == $plan->id ? 'pricing-highlight' : '' }}">
                                 <div class="pricing-title">
@@ -16,7 +17,7 @@
                                 <div class="pricing-padding h-317">
                                     <div class="pricing-price">
                                         <div>{{ $plan->currency->currency_icon.$plan->amount }}</div>
-                                        <div>{{ __('messages.plan.per_month') }}</div>
+                                        <div>{{ "Per ".$plan->per  }}</div>
                                     </div>
                                     <div class="pricing-details">
                                         <div class="pricing-item">
@@ -69,18 +70,17 @@
                                         @endif
                                     @else
                                         @if($plan->is_trial_plan)
-                                            <a href="javascript:void(0)" data-id="{{ $plan->id }}"
-                                               class="subscribe-trial">{{ __('messages.plan.purchase') }} </a>
+                                            <a href="javascript:void(0)" id="purchase-plan-{{ $plan->id }}" data-id="{{ $plan->id }}"
+                                               class="subscribe-trial">{{ __('messages.plan.purchase') }}</a>
                                         @else
-                                            <a href="javascript:void(0)" data-id="{{ $plan->id }}"
-                                               class="subscribe">{{ __('messages.plan.purchase') }} </a>
+                                            <a href="javascript:void(0)" id="purchase-plan-{{ $plan->id }}" data-id="{{ $plan->id }}"
+                                               class="subscribe">{{ $plan->subscribed?'Activate':__('messages.plan.purchase') }} </a>
                                         @endif
-
-
                                     @endif
                                 </div>
                             </div>
                         </div>
+                        @endif
                     @endforeach
                 </div>
                 @include('pricing.cancel_subscription_modal')
@@ -107,5 +107,48 @@
             session()->remove('success');
         @endphp
     @endif
+
+    @php
+    $renew = session()->get('renew');
+    $subscription = session()->get('subscription');
+    //dd($renew->id);
+    @endphp
+    @if(session()->has('renew'))
+        <script>
+            plan = @json(session()->get('renew'));
+
+            console.log(plan);
+            let element = document.getElementById('purchase-plan-{{$renew->id}}');
+            if(element === null) {
+                swal('Subscribed', 'You are already subscribed to this plan', 'success');
+            }else{
+                swal({
+                    title: 'Confirm',
+                    text: 'Are you sure want to renew '+plan.name+' ?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    confirmButtonColor: '#6777ef',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'No',
+                    confirmButtonText: 'Yes',
+                }, function () {
+                    console.log('#purchase-plan-'+plan.id);
+
+                    console.log(element);
+                    element.click();
+                    //$('#purchase-plan-{{$renew->id}}').click();
+                });
+            }
+        </script>
+    @endif
+
+    {{--@if($renew && $subscription->active())
+        <script>
+
+        </script>
+    @endif--}}
+
     <script src="{{ mix('assets/js/subscription/subscription.js') }}"></script>
 @endpush

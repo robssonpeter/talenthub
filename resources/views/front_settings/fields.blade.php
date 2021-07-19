@@ -58,11 +58,29 @@
         </label>
     </div>
 
+    <div class="form-group col-md-6 col-sm-12">
+        {{ Form::label('slogan', __('messages.front_settings.slogan').':') }}<span
+            class="text-danger">*</span>
+        <div class="input-group mb-3">
+            {{ Form::text('slogan', isset($frontSettings['slogan'])?$frontSettings['slogan']:'', ['class' => 'form-control salary', 'required','min' => 0]) }}
+            <div class="input-group-append">
+                <div class="colorPickSelector"></div>
+            </div>
+        </div>
+        <input type="text" id="color" class="invisible" style="height: 1px" name="slogan_color">
+
+    </div>
+
+
+
+
     <!-- Submit Field -->
     <div class="form-group col-sm-12">
         {{ Form::submit(__('messages.common.save'), ['class' => 'btn btn-primary','name' => 'save', 'id' => 'saveJob']) }}
         <a href="{{ route('front.settings.index') }}"
            class="btn btn-secondary text-dark">{{__('messages.common.cancel')}}</a>
     </div>
+
+    <div class="my-5 invisible">jdjd</div>
 
 </div>

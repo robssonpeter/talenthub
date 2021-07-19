@@ -1,3 +1,12 @@
+@if(Auth::check())
+@php
+    if(Auth::user()->hasRole('Admin')){
+        $type = 'admin';
+    }else{
+        $type = 'staff';
+    }
+@endphp
+@endif
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +34,20 @@
     <link href="{{ mix('assets/css/infy-loader.css') }}" rel="stylesheet" type="text/css"/>
     {{--    @yield('css')--}}
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <style>
+        .colorPickSelector {
+            border-radius:5px;
+            width:41px;
+            height:41px;
+            cursor:pointer;
+            -webkit-transition:all linear .2s;
+            -moz-transition:all linear .2s;
+            -ms-transition:all linear .2s;
+            -o-transition:all linear .2s;
+            transition:all linear .2s;
+        }
+        .colorPickSelector:hover { transform: scale(1.1); }
+    </style>
 </head>
 <body>
 <div id="app">
@@ -113,9 +136,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Viewing Document</h5>
-                {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" onclick="closeCurrentModal('document')" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>--}}
+                </button>
             </div>
             <div id="doc">
                 <object data='http://www.africau.edu/images/default/sample.pdf'

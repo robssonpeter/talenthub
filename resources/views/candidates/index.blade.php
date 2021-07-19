@@ -7,6 +7,13 @@
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
+    @php
+        if(Auth::user()->hasRole('Admin')){
+            $type = 'admin';
+        }else{
+            $type = 'staff';
+        }
+    @endphp
     <section class="section">
         <div class="section-header">
             <h1>{{ __('messages.candidates') }}</h1>
@@ -30,7 +37,7 @@
 @endsection
 @push('scripts')
     <script>
-        let candidateUrl = "{{ route('candidates.index') }}";
+        let candidateUrl = "{{ $type == 'admin' ? route('candidates.index') : route('staff.candidates.index') }}";
     </script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>

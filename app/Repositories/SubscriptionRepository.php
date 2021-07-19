@@ -140,6 +140,21 @@ class SubscriptionRepository
             //dd(Carbon::createFromTimestamp($subscription->current_period_start));
             /** @var Subscription $tsSubscription */
             /*dd($plan);*/
+            $current_period_end = Carbon::now()->addMonth();
+            switch ($plan->period){
+                case 'Weekly':
+                    $current_period_end = Carbon::now()->addWeek();
+                    break;
+                case 'Monthly':
+                    $current_period_end = Carbon::now()->addMonth();
+                    break;
+                case 'Quarterly':
+                    $current_period_end = Carbon::now()->addQuarter();
+                    break;
+                case 'Yearly':
+                    $current_period_end = Carbon::now()->addYear();
+                    break;
+            }
             $tsSubscription = Subscription::create([
                 'name'                 => $plan->name,
                 'stripe_id'            => $subscriptionId,
@@ -151,7 +166,7 @@ class SubscriptionRepository
                 //'current_period_start' => isset($subscription->current_period_start) ? Carbon::createFromTimestamp($subscription->current_period_start) : null,
                 'current_period_start' => Carbon::now(),
                 //'current_period_end'   => isset($subscription->current_period_start) ? Carbon::createFromTimestamp($subscription->current_period_end) : null,
-                'current_period_end'   => Carbon::now()->addDays($planInfo->subscription_duration),
+                'current_period_end'   => $current_period_end,
             ]);
 
             //$price = $subscription->items->data[0]->price;

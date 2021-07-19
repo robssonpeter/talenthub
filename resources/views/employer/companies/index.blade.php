@@ -33,6 +33,6 @@
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/summernote.min.js') }}"></script>
     <script src="{{ mix('assets/js/custom/custom-datatable.js') }}"></script>
-    <script src="{{mix('assets/js/companies/companies.js')}}"></script>
+    <script src="{{mix('assets/js/companies/staff.js')}}"></script>
 @endpush
 

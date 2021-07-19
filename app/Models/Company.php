@@ -148,9 +148,13 @@ class Company extends Model implements HasMedia
     /**
      * @var array
      */
-    protected $appends = ['company_url'];
+    protected $appends = ['company_url', 'company_name'];
 
     protected $with = ['user', 'verification'];
+
+    public function getCompanyNameAttribute(){
+        return htmlspecialchars_decode($this->user->first_name);
+    }
 
     public function getCountryNameAttribute()
     {
@@ -253,5 +257,9 @@ class Company extends Model implements HasMedia
 
     public function verification_attempt(){
         return $this->hasOne('App\Models\VerificationAttempt', 'company_id', 'id');
+    }
+
+    public function verification_rejected(){
+        return $this->hasOneThrough(CompanyVerificationRejection::class, VerificationAttempt::class, 'company_id', 'attempt_id', 'id', 'id');
     }
 }

@@ -12,7 +12,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <h2>{{ __('web.apply_for_job.apply_for') }} <span class="text-blue">{{ $job->job_title }}</span>
+                    <h2>{{ __('web.apply_for_job.apply_for') }} <span class="text-purple">{{ $job->job_title }}</span>
                     </h2>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                                        value="{{ ($isJobDrafted) ? $draftJobDetails->expected_salary : '' }}"
                                        class="form-control price-input" required>
                             </div>
-                            <div class="form-group col-sm-12">
+                            <div class="form-group col-sm-12 dropdown-menu">
                                 <label for="notes">{{ __('messages.applied_job.cover_letter').':' }}<span
                                         class="required asterisk-size">{{$job->require_cover_letter?'*':''}}</span></label>
                                 <div id="message" class="mb-3">

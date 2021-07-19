@@ -35,6 +35,7 @@ return [
     'jobs'                   => 'Jobs',
     'education_institutions' => 'Education Institutions',
     'candidates'             => 'Candidates',
+    'find_candidates'        => 'Find Candidates',
     'profile'                => 'Profile',
     'resumes'                => 'Resumes',
     'career_informations'    => 'Career Informations',
@@ -50,7 +51,7 @@ return [
     'front_settings'         => 'Front Settings',
     'social_settings'        => 'Social Settings',
     'about_us'              => 'About Us',
-    'value_proposition'     => 'Value Proposition',
+    'value_proposition'     => 'Why Work With Us',
     'skills'              => 'Skills',
     'no_skills'           => 'No Skills',
     'footer_settings'     => 'Footer Settings',
@@ -73,6 +74,9 @@ return [
     'image_sliders'       => 'Image Sliders',
     'pricings_table'      => 'Pricing Table',
     'verification'        => 'Verification',
+    'staff_user'          => 'Staff User',
+    'staff_users'         => 'Staff Users',
+    'new_staff'           => 'New Staff',
     'common'         => [
         'save'         => 'Save',
         'save_publish' => 'Save and Publish',
@@ -143,7 +147,9 @@ return [
         'save_template'       => 'Save Template',
         'edit_template'       => 'Edit Template',
         'extras'              => 'Extras',
-        'billing'             => 'Billing'
+        'billing'             => 'Billing',
+        'valid_until'         => 'Valid Until',
+        'verification_documents' => 'Verification Documents'
     ],
 
 
@@ -305,6 +311,22 @@ return [
         'action'        => 'Action',
     ],
 
+    //    Certificate Category
+    'certificate_category'   => [
+        'new_category'  => 'New Category',
+        'edit_category' => 'Edit Category',
+        'show_category' => 'Category',
+        'name'          => 'Name',
+        'description'   => 'Description',
+        'add'           => 'Add',
+        'size'          => 'Size',
+        'action'        => 'Action',
+    ],
+    // Staff
+    'staff' =>[
+        'name' => 'Staff Name',
+        'role' => 'Staff Role',
+    ],
     // Company
     'company'               => [
         'new_company'             => 'New Company',
@@ -488,6 +510,7 @@ return [
         'job_title'        => 'Job Title',
         'is_freelance'     => 'Is Freelance',
         'hide_salary'      => 'Hide Salary',
+        'hide_employer'    => 'Hide Employer',
         'is_featured'      => 'Is Featured',
         'is_suspended'     => 'Is Suspended',
         'job_skill'        => 'Job Skill',
@@ -528,7 +551,9 @@ return [
         'expires_on'       => 'Expires On',
         'job_alert'        => 'Job Alert',
         'require_cover_letter'=> 'Require Cover Letter',
-        'job_seekers'      => 'Job Seekers'
+        'job_seekers'      => 'Job Seekers',
+        'application_method' => 'Application Method',
+        'application_url'  => 'Application URL'
     ],
 
     'candidate' => [
@@ -607,12 +632,18 @@ return [
         'edit_education'    => 'Edit Education',
         'edit_referee'      => 'Edit Referee',
         'edit_achievement'  => 'Edit Achievement',
+        'awards_and_certificates' => 'Awards & Certificates',
         'experience_title'  => 'Experience Title',
         'company'           => 'Company',
         'start_date'        => 'Start Date',
         'end_date'          => 'End Date',
         'description'       => 'Description',
         'achievements'      => 'Achievements',
+        'certificate_category' => 'Certificate Category',
+        'certificate_categories' => 'Certificate Categories',
+        'country_of_institution' => 'Country of Institution',
+        'completion_date'   => 'Completion Date',
+        'institution'       => 'Institution',
         'currently_working' => 'Currently Working',
         'currently_studying'=> 'Currently Studying',
         'title'             => 'Title',
@@ -635,6 +666,7 @@ return [
         'career_achievements'=> 'Career Achievements',
         'add_achievement'    => 'Add Achievement',
         'what_achieved'      => 'What did you achieve?',
+        'add'                => 'Add',
         'messages'           => [
             'what_achieved'  => 'Briefly describe your achievement'
         ]
@@ -779,6 +811,7 @@ return [
     'plan'            => [
         'subscriptions'          => 'Subscriptions',
         'subscription_duration'  => 'Subscription Duration',
+        'subscription_period'    => 'Subscription Period',
         'allowed_jobs'           => 'Allowed Jobs',
         'amount'                 => 'Amount',
         'is_trial_plan'          => 'Is Trial Plan',
@@ -801,6 +834,7 @@ return [
         'job_allowed'            => 'Job Allowed',
         'active_subscription'    => 'Active Subscriptions',
         'currency'               => 'Currency',
+        'status'                 => 'Status'
     ],
 
     //transaction
@@ -835,7 +869,8 @@ return [
         'featured_employer_not_available' => 'Featured Employer Not Available',
         'latest_jobs_enable'              => 'Show latest jobs as per logged in user\'s country',
         'latest_jobs_enable_message'      => 'It will show latest jobs of candidate/employer\'s country when they are logged in',
-    ],
+        'slogan'                          => 'Slogan'
+        ],
 
     //    Image Slider
     'image_slider'   => [
@@ -858,6 +893,7 @@ return [
         'actions' => 'Actions',
         'mark_verified' => 'Mark as verified',
         'delete' => 'Delete',
+        'reject' => 'Reject',
         'role_at_company' => "Role at the company",
         'role_placeholder' => "Your role at the company",
         'attachment' => 'Attachment',
@@ -871,7 +907,10 @@ return [
         'verified' => 'Congratulations! Your account has been verified.',
         'verified_employer' => 'Verified employer',
         'verified_success' => 'Company verified successfully',
-        'processing' =>  'We\'ve received your document. Verification is currently in progress.'
+        'rejected_success' => 'Successfully rejected',
+        'processing' =>  'We\'ve received your document. Verification is currently in progress.',
+        'rejected' =>  'Your verification has been rejected',
+        'rejection_reason' => 'Reason'
 
     ],
 
@@ -880,11 +919,13 @@ return [
     ],
 
     'alert' => [
-        'company_verify' => 'Please verify your company account to unlock more features'
+        'company_verify' => 'Please verify your company account to unlock more features',
+        'verification_rejected' => 'Your verification has been rejected',
     ],
 
     'action' => [
-        'verify' => 'Verify'
+        'verify' => 'Verify',
+        'take_action' => 'Take Action'
     ],
 
     // Pricing Table

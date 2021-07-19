@@ -21,14 +21,14 @@ class ReportedCompanyDataTable
         $query->map(function (ReportedToCompany $reportedToCompany) use($data, &$result){
             $data['id'] = $reportedToCompany->id;
             $data['user'] = [
-                'full_name' => $reportedToCompany->user->full_name,
-                'first_name' => $reportedToCompany->user->first_name,
+                'full_name' => htmlspecialchars_decode($reportedToCompany->user->full_name),
+                'first_name' => htmlspecialchars_decode($reportedToCompany->user->first_name),
                 'last_name' => $reportedToCompany->user->last_name,
             ];
             $data['company']['user'] = [
-                'full_name' => $reportedToCompany->company->user->full_name,
-                'first_name' => $reportedToCompany->company->user->first_name,
-                'last_name' => $reportedToCompany->company->user->last_name,
+                'full_name' => htmlspecialchars_decode($reportedToCompany->company->user->full_name),
+                'first_name' => htmlspecialchars_decode($reportedToCompany->company->user->first_name),
+                'last_name' => htmlspecialchars_decode($reportedToCompany->company->user->last_name),
             ];
             $data['note'] = $reportedToCompany->note;
             $data['created_at'] = $reportedToCompany->created_at->toDateTimeString();

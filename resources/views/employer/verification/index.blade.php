@@ -20,14 +20,29 @@
                             <p>{{__('messages.verification.verified')}}</p>
                         </div>
                     @elseif($company->verification_attempt)
-                        <div class="card card-statistic-1 shadow-primary container text-center py-2">
-                            <img
-                                src="{{asset('assets/images/001-engineering.svg')}}"
-                                alt="triangle with all three sides equal"
-                                height="200"
-                                width="100" />
-                            <p>{{__('messages.verification.processing')}}</p>
-                        </div>
+                        @if($company->verification_attempt->rejected)
+                            <div class="card card-statistic-1 shadow-primary container text-center py-2">
+                                <img
+                                    src="{{asset('assets/images/report.svg')}}"
+                                    alt="triangle with all three sides equal"
+                                    height="200"
+                                    width="100" />
+                                <p>{{__('messages.verification.rejected')}}</p>
+                                <p><strong>Reason: </strong>{{$company->verification_attempt->rejected->reason}}</p>
+                                <div id="re-attach-documents">
+                                    <span><button id="attach-new-documents" class="btn btn-primary">Attach new documents</button></span>
+                                </div>
+                            </div>
+                        @else
+                            <div class="card card-statistic-1 shadow-primary container text-center py-2">
+                                <img
+                                    src="{{asset('assets/images/001-engineering.svg')}}"
+                                    alt="triangle with all three sides equal"
+                                    height="200"
+                                    width="100" />
+                                <p>{{__('messages.verification.processing')}}</p>
+                            </div>
+                        @endif
                     @else
                         <div class="card card-statistic-1 shadow-primary container">
                         <div class="bs-callout margin-top bs-callout-info" id="callout-labels-inline-block">
@@ -76,8 +91,8 @@
                 </div>
             </div>
         </div>
-
         <script>
+            let reAttachUrl = "{{ route('company.verification.reattach') }}";
             let saveUrl = "{{ route('company.verification.save') }}";
             let uploadUrl = "{{ route('company.verification.upload') }}";
             let uploadSuccess = "{{__('messages.verification.upload.success')}}";

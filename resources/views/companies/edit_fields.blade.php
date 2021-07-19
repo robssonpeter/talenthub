@@ -42,6 +42,14 @@
         {{ Form::select('city_id', (isset($cities) && $cities!=null) ?$cities:[], isset($company->user->city_id)?$company->user->city_id:null, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
+        {{ Form::label('address_line_1', __('messages.company.address_line_1').':') }}<span class="text-danger">*</span>
+        {{ Form::text('address_line_1', null, ['class' => 'form-control']) }}
+    </div>
+    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+        {{ Form::label('address_line_2', __('messages.company.address_line_2').':') }}<span class="text-danger"></span>
+        {{ Form::text('address_line_2', null, ['class' => 'form-control']) }}
+    </div>
+    <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('company_size_id', __('messages.company.company_size').':') }}<span class="text-danger">*</span>
         {{ Form::select('company_size_id', $data['companySize'], null, ['id'=>'companySizeId','class' => 'form-control','placeholder' => 'Select Employer Size','required']) }}
     </div>

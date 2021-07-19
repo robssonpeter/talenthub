@@ -121,6 +121,12 @@ class CandidateProfileRepository extends BaseRepository
     {
         $input['candidate_id'] = Auth::user()->owner_id;
 
+        if(isset($input['ongoing'])){
+            $input['ongoing'] = 1;
+        }else{
+            $input['ongoing'] = 0;
+        }
+
         /** @var CandidateEducation $education */
         $achievement = CandidateAchievement::create($input);
 

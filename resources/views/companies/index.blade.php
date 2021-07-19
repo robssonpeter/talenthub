@@ -8,6 +8,13 @@
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
+    @php
+        if(Auth::user()->hasRole('Admin')){
+            $type = 'admin';
+        }else{
+            $type = 'staff';
+        }
+    @endphp
     <section class="section">
         <div class="section-header">
             <h1>{{ __('messages.company.employers') }}</h1>
@@ -44,15 +51,15 @@
 @endsection
 @push('scripts')
     <script>
-        let companiesUrl = "{{ route('company.index') }}";
+        let companiesUrl = "{{ $type == 'admin' ? route('company.index') : route('staff.company.index') }}";
         let verifiedIcon = "{{asset('assets/images/002-check.svg')}}";
-        let verificationUrl = "{{ route('admin.company.verify.revoke', '*id*') }}";
+        let verificationUrl = "{{ route($type.'.company.verify.revoke', '*id*') }}";
         let verificationSettings = "{{route('admin.verification.documents.save')}}";
     </script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/summernote.min.js') }}"></script>
     <script src="{{ mix('assets/js/custom/custom-datatable.js') }}"></script>
-    <script src="{{mix('assets/js/companies/companies.js')}}"></script>
+    <script src="{{asset('assets/js/companies/companies.js')}}"></script>
 @endpush
 

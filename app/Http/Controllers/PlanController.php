@@ -102,6 +102,7 @@ class PlanController extends AppBaseController
     {
         try {
             $input = $request->all();
+            $input['period'] = array_keys(Plan::PERIODS)[$input['period']];
             /** @var PlanRepository $planRepo */
             $planRepo = app(PlanRepository::class);
             $updatePlan = $planRepo->updatePlan($input, $plan);
@@ -156,5 +157,24 @@ class PlanController extends AppBaseController
         ]);
 
         return $this->sendSuccess('Trial Plan Updated successfully.');
+    }
+
+    public function toggle($id){
+        $plan = Plan::find($id);
+        $change = !$plan->is_active;
+        $updated = $plan->update(['is_active' => $change]);
+        if(!$updated){
+            // return a message that it was not successful
+            $message =  'Status could not be updated';
+            return $this->sendError($message);
+        }
+        if(!$change){
+            // message that it has been disabled new users can not subscribe this package
+            $message = 'Plan successfully disabled, new users wont be able to subscribe to this package';
+        }else{
+            // message that it has been enabled and new users can subscribe to this package
+            $message = 'Plan successfully enabled, new users can now subscribe to this package';
+        }
+        return $this->sendSuccess($message);
     }
 }

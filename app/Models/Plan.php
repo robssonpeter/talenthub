@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,6 +33,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Plan extends Model
 {
     use SoftDeletes;
+    const PERIODS = [
+        'Weekly' => ['name' => 'week'],
+        'Monthly' => ['name' => 'month'],
+        'Quarterly' => ['name' => 'quarter'],
+        'Yearly' => ['name' => 'year'],
+    ];
+
     /**
      * @var string
      */
@@ -57,7 +65,9 @@ class Plan extends Model
         'allowed_jobs',
         'amount',
         'is_trial_plan',
-        'currency_id'
+        'currency_id',
+        'period',
+        'is_active'
     ];
 
     /**
@@ -71,8 +81,12 @@ class Plan extends Model
         'is_trial_plan'  => 'boolean',
     ];
 
+    protected $appends = [
+        'subscription_period', 'per'
+    ];
+
     protected $with = [
-        'currency'
+        'currency',
     ];
 
     /**
@@ -84,7 +98,27 @@ class Plan extends Model
             ->Where('ends_at', '=', null);
     }
 
+    public function getSubscriptionPeriodAttribute(){
+        return array_search($this->period, array_keys(self::PERIODS));
+    }
+
+    public function getPerAttribute(){
+        return Plan::PERIODS[$this->period]['name'];
+    }
+
     public function currency(){
         return $this->hasOne(SalaryCurrency::class, 'id', 'currency_id');
+    }
+
+    public function subscribed(){
+        $today = Carbon::now()->format('Y-m-d H:i:s');
+        if(\Auth::check() && User::find(\Auth::user()->id)->hasRole('Employer')){
+            return $this->hasOne(Subscription::class, 'plan_id', 'id')
+                ->where('user_id', \Auth::user()->id)
+                ->whereNull('trial_ends_at')
+                ->where('current_period_end', '>', $today)
+                ->orderBy('id', 'DESC');
+        }
+        return null;
     }
 }

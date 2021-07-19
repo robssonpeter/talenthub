@@ -165,9 +165,11 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     /**
      * @var array
      */
-    protected $appends = ['full_name', 'avatar', 'country_name', 'state_name', 'city_name'];
+    protected $appends = ['full_name', 'avatar', 'country_name', 'state_name', 'city_name', 'role'];
 
     protected $with = ['media', 'country', 'city', 'state'];
+
+
 
     /**
      *
@@ -205,6 +207,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             return $this->country->name;
         }
     }
+
 
     public function getStateNameAttribute()
     {
@@ -263,9 +266,13 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     /**
      * @return string
      */
+    public function getRoleAttribute(){
+        return isset($this->getRoleNames()[0])?$this->getRoleNames()[0]:'';
+    }
+
     public function getFullNameAttribute()
     {
-        return ucfirst($this->first_name).' '.ucfirst($this->last_name);
+        return ucfirst(htmlspecialchars_decode($this->first_name)).' '.ucfirst($this->last_name);
     }
 
     /**
@@ -308,6 +315,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     {
         return $this->hasMany(FavouriteCompany::class, 'user_id');
     }
+
 
     /**
      * @return bool

@@ -1,7 +1,7 @@
 <div class="row details-page">
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('name', __('messages.company.employer_name').':') }}
-        <p>{{ $company->user->first_name }}</p>
+        <p>{{ htmlspecialchars_decode($company->user->first_name) }}</p>
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('email', __('messages.company.email').':') }}

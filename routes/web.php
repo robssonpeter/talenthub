@@ -121,6 +121,14 @@ Route::group(['middleware' => ['auth', 'role:Admin', 'xss', 'verified.user'], 'p
     Route::delete('required-degree-level/{requiredDegreeLevel}',
         'RequiredDegreeLevelController@destroy')->name('requiredDegreeLevel.destroy');
 
+    // Certificate Categories
+    Route::get('cert-categories', 'CertificateCategoriesController@index')->name('cert-category.index');
+    Route::post('cert-categories', 'CertificateCategoriesController@store')->name('cert-category.store');
+    Route::get('cert-categories/{category}', 'CertificateCategoriesController@show')->name('cert-category.show');
+    Route::get('cert-categories/{category}/edit', 'CertificateCategoriesController@edit')->name('cert-category.edit');
+    Route::put('cert-categories/{category}', 'CertificateCategoriesController@update')->name('cert-category.update');
+    Route::delete('cert-categories/{category}', 'CertificateCategoriesController@destroy')->name('cert-category.destroy');
+
     // Industries
     Route::get('industries', 'IndustryController@index')->name('industry.index');
     Route::post('industries', 'IndustryController@store')->name('industry.store');
@@ -166,6 +174,7 @@ Route::group(['middleware' => ['auth', 'role:Admin', 'xss', 'verified.user'], 'p
     Route::get('companies/verify', 'CompanyController@verify')->name('admin.company.verify');
     Route::post('companies/verify/{id}', 'CompanyController@verifySave')->name('admin.company.verify.save');
     Route::post('companies/verify/{id}/revoke', 'CompanyController@verifyRevoke')->name('admin.company.verify.revoke');
+    Route::post('companies/reject/{id}', 'CompanyController@verificationReject')->name('admin.company.verification.reject');
     Route::post('companies/required/verification-documents', 'CompanyController@saveVerificationDocuments')->name('admin.verification.documents.save');
 
     Route::get('companies/create', 'CompanyController@create')->name('company.create');
@@ -179,6 +188,25 @@ Route::group(['middleware' => ['auth', 'role:Admin', 'xss', 'verified.user'], 'p
         'CompanyController@markAsFeatured')->name('mark-as-featured');
     Route::post('companies/{company}/mark-as-unfeatured',
         'CompanyController@markAsUnFeatured')->name('mark-as-featured');
+
+    // Staff
+    Route::get('staff-users', 'StaffController@index')->name('staff.index');
+    /*Route::get('staff/verify', 'StaffController@verify')->name('admin.staff.verify');
+    Route::post('staff/verify/{id}', 'StaffController@verifySave')->name('admin.staff.verify.save');
+    Route::post('staff/verify/{id}/revoke', 'StaffController@verifyRevoke')->name('admin.staff.verify.revoke');
+    Route::post('staff/required/verification-documents', 'StaffController@saveVerificationDocuments')->name('admin.verification.documents.save');*/
+
+    Route::get('staff/create', 'StaffController@create')->name('staff.create');
+    Route::post('staff', 'StaffController@store')->name('staff.store');
+    Route::get('staff/{staff}', 'StaffController@show')->name('staff.show');
+    Route::get('staff/{staff}/edit', 'StaffController@edit')->name('staff.edit');
+    Route::put('staff/{staff}', 'StaffController@update')->name('staff.update');
+    Route::delete('staff-users/{staff}/delete', 'StaffController@destroy')->name('staff.destroy');
+    Route::post('staff/{staff}/change-is-active', 'StaffController@changeIsActive');
+    Route::post('staff/{staff}/mark-as-featured',
+        'StaffController@markAsFeatured')->name('mark-as-featured');
+    Route::post('staff/{staff}/mark-as-unfeatured',
+        'StaffController@markAsUnFeatured')->name('mark-as-featured');
 
 
     // Language routes
@@ -337,6 +365,7 @@ Route::group(['middleware' => ['auth', 'role:Admin', 'xss', 'verified.user'], 'p
     // plans routes
     Route::get('plans', 'PlanController@index')->name('plans.index');
     Route::post('plans', 'PlanController@store')->name('plans.store');
+    Route::post('plan/toggle/{id}', 'PlanController@toggle')->name('plan.toggle');
     Route::get('plans/{plan}/edit', 'PlanController@edit')->name('plans.edit');
     Route::put('plans/{plan}', 'PlanController@update')->name('plans.update');
     Route::delete('plans/{plan}', 'PlanController@destroy')->name('plans.destroy');
@@ -351,7 +380,7 @@ Route::group(['middleware' => ['auth', 'role:Admin', 'xss', 'verified.user'], 'p
     Route::post('front-settings', 'FrontSettingsController@update')->name('front.settings.update');
 });
 
-Route::group(['middleware' => ['auth', 'role:Admin|Employer|Candidate', 'xss', 'verified.user']], function () {
+Route::group(['middleware' => ['auth', 'role:Admin|Employer|Candidate|Moderator|Recruiter', 'xss', 'verified.user']], function () {
     Route::get('states-list', 'JobController@getStates')->name('states-list');
     Route::get('cities-list', 'JobController@getCities')->name('cities-list');
     Route::get('schools-list', 'JobController@getSchools')->name('schools-list');
@@ -386,6 +415,7 @@ Route::group(['middleware' => ['auth', 'role:Employer', 'xss', 'verified.user'],
 
     // Job Applications
     Route::get('jobs/{jobId}/applications', 'JobApplicationController@index')->name('job-applications');
+    Route::get('jobs/{jobId}/applications/{status}', 'JobApplicationController@index')->name('job-applications-by-status');
     Route::get('job-applications/{id}/status/{status}', 'JobApplicationController@changeJobApplicationStatus');
     Route::post('job-application/{id}/add-note', 'JobApplicationController@addNote')->name('note.save');
     Route::post('job-application/{id}/get-notes', 'JobApplicationController@fetchNotes')->name('notes.fetch');
@@ -415,7 +445,7 @@ Route::group(['middleware' => ['auth', 'role:Employer', 'xss', 'verified.user'],
 
     Route::get('manage-subscriptions', 'SubscriptionController@index')->name('manage-subscription.index');
     Route::get('transaction', 'TransactionController@index')->name('transaction.index');
-    Route::post('purchase-subscription', 'SubscriptionController@purchaseSubscription')->name('purchase-subscription');
+        Route::post('purchase-subscription', 'SubscriptionController@purchaseSubscription')->name('purchase-subscription');
     Route::post('purchase-trial-subscription',
         'SubscriptionController@purchaseTrialSubscription')->name('purchase-trial-subscription');
     Route::get('payment-success', 'SubscriptionController@paymentSuccess')->name('payment-success');
@@ -431,7 +461,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['xss', 'setLanguage']], fun
     Route::get('/job-details/{uniqueId?}', 'JobController@jobDetails')->name('front.job.details');
     Route::get('/company-lists', 'CompanyController@getCompaniesLists')->name('front.company.lists');
     Route::get('/candidate-lists',
-        'CandidateController@getCandidatesLists')->name('front.candidate.lists')->middleware('role:Admin|Employer');
+        'CandidateController@getCandidatesLists')->name('front.candidate.lists')->middleware('role:Admin|Moderator|Talent Advisor');
     Route::get('/company-details/{uniqueId?}', 'CompanyController@getCompaniesDetails')->name('front.company.details');
     Route::get('/about-us', 'AboutUsController@FAQLists')->name('front.about.us');
     Route::get('/terms-and-conditions', 'AboutUsController@termsAndConditions')->name('terms.conditions');
@@ -573,6 +603,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('login/{provider}/callback', 'Auth\Front\SocialAuthController@callback');
 });
 
+Route::get('alert/process/{alert_id}', 'UserController@processAlert')->name('alert.process')->middleware(['auth']);
+Route::post('alert/dismiss/{alert_id}', 'UserController@dismissAlert')->name('alert.dismiss')->middleware(['auth']);
+Route::get('subscription/renew/{subscription_id}', 'SubscriptionController@renewSubscription')->name('subscription.renew');
 Route::get('company/verify', 'CompanyController@verificationAttempt')->name('company.verify')->middleware(['auth']);
 Route::get('company/email-templates', 'CompanyController@emailTemplates')->name('company.email-templates')->middleware(['auth','role:Employer']);
 Route::get('company/email-template/get', 'CompanyController@getEmailTemplates')->name('email.templates.get')->middleware(['auth','role:Employer']);
@@ -582,4 +615,5 @@ Route::get('company/{type}/get-placeholder', 'CompanyController@templatePlacehol
 Route::post('company/save-template', 'CompanyController@saveEmailTemplate')->name('email.template.save')->middleware(['auth','role:Employer']);
 Route::delete('company/delete-template/{template_id}', 'CompanyController@deleteEmailTemplate')->name('email.template.delete')->middleware(['auth','role:Employer']);
 Route::post('company/verify', 'CompanyController@verificationSave')->name('company.verification.save')->middleware(['auth']);
+Route::post('company/verify/remove', 'CompanyController@reAttachVerification')->name('company.verification.reattach')->middleware(['auth']);
 Route::post('company/verification/upload', 'CompanyController@uploadVerificationAttachment')->name('company.verification.upload')->middleware(['auth']);
