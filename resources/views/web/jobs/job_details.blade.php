@@ -1,6 +1,6 @@
 @extends('web.layouts.app')
 @section('title')
-    {{ __('web.job_details.job_details') }}
+    {{ $job->job_title." Job" }}
 @endsection
 @section('content')
     <!-- ===== Start of Main Wrapper Job Section ===== -->

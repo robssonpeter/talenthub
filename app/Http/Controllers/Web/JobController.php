@@ -73,7 +73,7 @@ class JobController extends AppBaseController
         $relatedJobs = Job::with('jobCategory', 'jobShift', 'company')->whereJobCategoryId($job->job_category_id);
         $data['getRelatedJobs'] = $relatedJobs->whereNotIn('id', [$job->id])->where('is_anonymous', 0)->orderByDesc('created_at')->take(5)->get();
         $url = Share::load(url()->current())->services('facebook', 'twitter', 'gmail', 'pinterest');
-
+        //dd($job);
         return view('web.jobs.job_details', compact('job', 'url', 'candidate'))->with($data);
     }
 
