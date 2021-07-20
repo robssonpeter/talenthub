@@ -37,8 +37,8 @@
         {{ Form::textarea('additional_information', null, ['class' => 'form-control' , 'id' => 'additional_information', 'rows' => '5']) }}
     </div>
     <div class="form-group col-12">
-        {{ Form::label('benefits', __('messages.benefits.benefits').':') }}<span class="text-danger">*</span>
-        {{ Form::select('benefits[]', $data['benefits'], 0, ['id'=>'benefits','class' => 'form-control','placeholder' => 'Select Benefits','required','multiple']) }}
+        {{ Form::label('benefits', __('messages.benefits.benefits').':') }}<span class="text-danger"></span>
+        {{ Form::select('benefits[]', $data['benefits'], 0, ['id'=>'benefits','class' => 'form-control','placeholder' => 'Select Benefits', 'multiple']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('reports_to', __('messages.job.reports_to').':') }}
@@ -93,10 +93,10 @@
 {{--        {{ Form::label('job_shift_id', __('messages.job.job_shift').':') }}--}}
 {{--        {{ Form::select('job_shift_id', $data['jobShift'], null, ['id'=>'jobShiftId','class' => 'form-control','placeholder' => 'Select Job Shift']) }}--}}
 {{--    </div>--}}
-    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+    {{--<div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('tagId', __('messages.job_tag.show_job_tag').':') }}
         {{Form::select('jobTag[]',$data['jobTag'], null, ['class' => 'form-control','id'=>'tagId','multiple'=>true])}}
-    </div>
+    </div>--}}
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('degree_level_id', __('messages.job.degree_level').':') }}
         {{ Form::select('degree_level_id', $data['requiredDegreeLevel'], null, ['id'=>'requiredDegreeLevelId','class' => 'form-control','placeholder' => 'Select Degree Level']) }}

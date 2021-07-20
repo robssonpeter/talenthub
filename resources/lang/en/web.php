@@ -236,7 +236,7 @@ return [
 
     //login keys
     'login_menu'     => [
-        'login_to'           => 'Login To',
+        'login_to'           => 'Login as',
         'remember_me'        => 'Remember me?',
         'forget_password'    => 'Forgot password?',
         'login_via_google'   => 'Log In via Google',

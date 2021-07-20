@@ -65,7 +65,8 @@
                                        value="{{ ($isJobDrafted) ? $draftJobDetails->expected_salary : '' }}"
                                        class="form-control price-input" required>
                             </div>
-                            <div class="form-group col-sm-12 dropdown-menu">
+
+                            <div class="form-group col-sm-12 ">
                                 <label for="notes">{{ __('messages.applied_job.cover_letter').':' }}<span
                                         class="required asterisk-size">{{$job->require_cover_letter?'*':''}}</span></label>
                                 <div id="message" class="mb-3">
@@ -125,7 +126,7 @@
     @if($job->require_cover_letter)
     <script>
         requireCoverLetter = "{{$job->require_cover_letter}}";
-        alert(requireCoverLetter);
+        //alert(requireCoverLetter);
         var turndownService = new TurndownService();
         $(document).on('click', '.submit', function(event){
             let markdown = turndownService.turndown(quill.root.innerHTML);

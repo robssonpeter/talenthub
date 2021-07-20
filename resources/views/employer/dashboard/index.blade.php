@@ -113,7 +113,7 @@
                         <h4>{{ __('messages.employer_menu.recent_jobs') }}</h4>
                         <div class="card-header-action">
                             <a href="{{ route('job.index') }}"
-                               class="btn btn-info">{{ __('messages.common.view_more') }} <i
+                               class="btn btn-primary">{{ __('messages.common.view_more') }} <i
                                         class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                         <h4>{{ __('messages.employer_menu.recent_follower') }}</h4>
                         <div class="card-header-action">
                             <a href="{{ route('followers.index') }}"
-                               class="btn btn-info">{{ __('messages.common.view_more') }} <i
+                               class="btn btn-primary">{{ __('messages.common.view_more') }} <i
                                         class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>

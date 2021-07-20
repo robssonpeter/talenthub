@@ -369,6 +369,7 @@ return [
         'country'                 => 'Country',
         'state'                   => 'State',
         'region'                  => 'Region',
+        'district'                => 'District',
         'city'                    => 'City',
         'town'                    => 'Town',
         'company_logo'            => 'Logo',
@@ -931,6 +932,6 @@ return [
 
     // Pricing Table
     'pricing_table'  => [
-        'get_started' => 'getstarted',
+        'get_started' => 'get started',
     ],
 ];

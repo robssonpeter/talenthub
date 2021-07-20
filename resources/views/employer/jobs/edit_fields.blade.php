@@ -38,7 +38,7 @@
     </div>
     <div class="form-group col-12">
         {{ Form::label('benefits', __('messages.benefits.benefits').':') }}<span class="text-danger">*</span>
-        {{ Form::select('benefits[]', $data['benefits'], json_decode($job->benefits), ['id'=>'benefits','class' => 'form-control','placeholder' => 'Select Benefits','required','multiple']) }}
+        {{ Form::select('benefits[]', $data['benefits'], json_decode($job->benefits), ['id'=>'benefits','class' => 'form-control','placeholder' => 'Select Benefits','multiple']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('reports_to', __('messages.job.reports_to').':') }}<span class="text-danger">*</span>
@@ -81,8 +81,8 @@
         {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), null, ['id'=>'stateId','class' => 'form-control','placeholder' => 'Select State']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('city', __('messages.job.city').':') }}<span class="text-danger">*</span>
-        {{ Form::select('city_id', (isset($cities) && $cities!=null?$cities:[]), null, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City','required']) }}
+        {{ Form::label('city', __('messages.job.city').':') }}<span class="text-danger"></span>
+        {{ Form::select('city_id', (isset($cities) && $cities!=null?$cities:[]), null, ['id'=>'cityId','class' => 'form-control','placeholder' => 'Select City']) }}
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('career_level_id', __('messages.job.career_level').':') }}
@@ -92,10 +92,10 @@
         {{ Form::label('job_shift_id', __('messages.job.job_shift').':') }}
         {{ Form::select('job_shift_id', $data['jobShift'], null, ['id'=>'jobShiftId','class' => 'form-control','placeholder' => 'Select Job Shift']) }}
     </div>
-    <div class="form-group col-xl-6 col-md-6 col-sm-12">
+    {{--<div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('tagId', __('messages.job_tag.show_job_tag').':') }}
         {{Form::select('jobTag[]',$data['jobTag'], (count($data['jobTags']) > 0)?$data['jobTags']:null, ['class' => 'form-control','id'=>'tagId','multiple'=>true])}}
-    </div>
+    </div>--}}
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('degree_level_id', __('messages.job.degree_level').':') }}
         {{ Form::select('degree_level_id', $data['requiredDegreeLevel'], null, ['id'=>'requiredDegreeLevelId','class' => 'form-control','placeholder' => 'Select Degree Level']) }}

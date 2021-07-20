@@ -40,6 +40,8 @@
                                     class="fa fa-angle-double-right"></i>{{ __('web.job_seekers') }}</a></li>
                     <li><a href="{{ route('front.about.us') }}"><i
                                     class="fa fa-angle-double-right"></i>{{ __('web.about_us') }}</a></li>
+                    <li><a href="{{ route('front.about.us') }}#faq-page"><i
+                                    class="fa fa-angle-double-right"></i>{{ __('messages.faq.faq') }}</a></li>
                     <li><a href="{{ route('front.contact') }}"><i
                                     class="fa fa-angle-double-right"></i>{{ __('web.contact_us') }}</a></li>
                     <li><a href="{{ route('front.post.lists') }}"><i

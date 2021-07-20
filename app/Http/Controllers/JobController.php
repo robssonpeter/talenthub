@@ -306,7 +306,7 @@ class JobController extends AppBaseController
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
         $input['status'] = Job::STATUS_OPEN;
         $input['functional_areas'] = json_encode($input['functional_areas']);
-        $input['benefits'] = json_encode($input['benefits']);
+        $input['benefits'] = json_encode(isset($input['benefits'])?$input['benefits']:[]);
         //livewire\job-search.blade.phpdd($input);
 
         $this->jobRepository->store($input);

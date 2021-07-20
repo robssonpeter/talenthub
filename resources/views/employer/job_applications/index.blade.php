@@ -157,7 +157,7 @@
         //alert(currentFilterStatus);
         function filterByStatus(){
             let status = event.target.value;
-            let url = "{{route('job-applications', $job->id)}}";
+            let url = "{{route($staff.'job-applications', $job->id)}}";
             let param = status.length?"?status="+status:'';
             //$(tableName).reload();
             //$("#jobApplicationsTbl").DataTable().ajax().reload();

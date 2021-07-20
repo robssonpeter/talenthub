@@ -80,7 +80,7 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-md-12">
+                <div class="col-md-12" id="faqs">
                     <div class="section-title">
                         <h2>{{ __('web.about_us_menu.frequently_asked_questions') }}</h2>
                     </div>

@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-12 col-12">
                 <div class="card card-statistic-1">
-                    <div class="card-icon total-users-bg">
+                    <div class="card-icon bg-primary">
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="card-wrap">
@@ -29,7 +29,7 @@
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 col-12">
                 <div class="card card-statistic-1">
-                    <div class="card-icon verified-users-bg">
+                    <div class="card-icon feature-jobs-incomes-bg">
                         <i class="fas fa-user-shield"></i>
                     </div>
                     <div class="card-wrap">
@@ -44,7 +44,7 @@
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 col-12">
                 <div class="card card-statistic-1">
-                    <div class="card-icon today-jobs-bg">
+                    <div class="card-icon bg-primary">
                         <i class="fas fa-list-alt"></i>
                     </div>
                     <div class="card-wrap">
@@ -59,7 +59,7 @@
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 col-12">
                 <div class="card card-statistic-1">
-                    <div class="card-icon feature-jobs-bg">
+                    <div class="card-icon feature-jobs-incomes-bg">
                         <i class="fab fa-foursquare"></i>
                     </div>
                     <div class="card-wrap">
@@ -74,7 +74,7 @@
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 col-12">
                 <div class="card card-statistic-1">
-                    <div class="card-icon feature-employers-bg">
+                    <div class="card-icon bg-primary">
                         <i class="fas fa-user-tag"></i>
                     </div>
                     <div class="card-wrap">
@@ -104,7 +104,7 @@
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 col-12">
                 <div class="card card-statistic-1">
-                    <div class="card-icon feature-employers-incomes-bg">
+                    <div class="card-icon bg-primary">
                         <i class="fas fa-money-check-alt"></i>
                     </div>
                     <div class="card-wrap">
@@ -119,7 +119,7 @@
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 col-12">
                 <div class="card card-statistic-1">
-                    <div class="card-icon subscription-incomes-bg">
+                    <div class="card-icon feature-jobs-incomes-bg">
                         <i class="fas fa-money-bill"></i>
                     </div>
                     <div class="card-wrap">
@@ -143,7 +143,7 @@
                         <h4>{{ __('messages.admin_dashboard.recent_candidates') }}</h4>
                         <div class="card-header-action">
                             <a href="{{ route('candidates.index') }}"
-                               class="btn btn-info">{{ __('messages.common.view_more') }} <i
+                               class="btn btn-primary">{{ __('messages.common.view_more') }} <i
                                         class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>
@@ -190,7 +190,7 @@
                         <h4>{{ __('messages.admin_dashboard.recent_employers') }}</h4>
                         <div class="card-header-action">
                             <a href="{{ route('company.index') }}"
-                               class="btn btn-info">{{ __('messages.common.view_more') }} <i
+                               class="btn btn-primary">{{ __('messages.common.view_more') }} <i
                                         class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>
@@ -211,8 +211,8 @@
                                         </td>
                                         <td>
                                             @if($registeredEmployers->website !== null)
-                                                <a href="{{ 
-                                                    (!str_contains($registeredEmployers->website,'https://') 
+                                                <a href="{{
+                                                    (!str_contains($registeredEmployers->website,'https://')
                                                     ? 'https://'.$registeredEmployers->website
                                                     : $registeredEmployers->website) }}"
                                                    target="_blank">{{ Str::limit($registeredEmployers->website,25,'...') }}</a>
@@ -251,7 +251,7 @@
                         <h4>{{ __('messages.admin_dashboard.recent_jobs') }}</h4>
                         <div class="card-header-action">
                             <a href="{{ route('admin.jobs.index') }}"
-                               class="btn btn-info">{{ __('messages.common.view_more') }} <i
+                               class="btn btn-primary">{{ __('messages.common.view_more') }} <i
                                         class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>
