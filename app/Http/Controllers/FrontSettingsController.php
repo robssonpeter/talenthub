@@ -39,6 +39,7 @@ class FrontSettingsController extends Controller
         (isset($inputArr['featured_jobs_enable'])) ? $inputArr['featured_jobs_enable'] = 1 : $inputArr['featured_jobs_enable'] = 0;
         (isset($inputArr['featured_companies_enable'])) ? $inputArr['featured_companies_enable'] = 1 : $inputArr['featured_companies_enable'] = 0;
         (isset($inputArr['latest_jobs_enable'])) ? $inputArr['latest_jobs_enable'] = 1 : $inputArr['latest_jobs_enable'] = 0;
+        (isset($inputArr['hide_subscription_plans'])) ? $inputArr['hide_subscription_plans'] = 1 : $inputArr['hide_subscription_plans'] = 0;
 
         foreach ($inputArr as $key => $value) {
 

@@ -67,7 +67,7 @@
 
 
 <script id="reportedJobActionTemplate" type="text/x-jsrender">
-<a title="<?php echo __('messages.job.notes') ?>" class="btn btn-info action-btn view-note" data-id="{{:id}}" href="#" data-toggle="tooltip" data-placement="bottom">
+<a title="<?php echo __('messages.job.notes') ?>" class="btn btn-primary action-btn view-note" data-id="{{:id}}" href="#" data-toggle="tooltip" data-placement="bottom">
             <i class="fas fa-eye"></i>
    </a>
    <a title="<?php echo __('messages.common.delete') ?>" class="btn btn-danger action-btn delete-btn" data-id="{{:id}}" href="#" data-toggle="tooltip" data-placement="bottom">
@@ -85,7 +85,7 @@
   {{if !featured}}
      {{if isFeaturedAvilabal && isJobLive}}
         <a title="Pay to get <?php echo __('messages.front_settings.make_featured') ?>
-          " data-toggle="tooltip" data-placement="bottom" class="btn btn-info action-btn w-100 featured-job" data-id="{{:id}}" href="#">
+          " data-toggle="tooltip" data-placement="bottom" class="btn btn-primary action-btn w-100 featured-job" data-id="{{:id}}" href="#">
                 <?php echo __('messages.front_settings.make_featured') ?>
        </a>
      {{/if}}

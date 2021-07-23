@@ -71,7 +71,7 @@
             {{ Form::label('skill_id', __('messages.candidate.candidate_skill').':', ['class' => 'font-weight-bolder']) }}
             <span
                     class="text-danger">*</span>
-            <div class="w-100">
+            <div class="w-100 select2-selection">
                 {{Form::select('candidateSkills[]',$data['skills'], (count($candidateSkills) > 0)?$candidateSkills:null, ['class' => 'form-control  ','id'=>'skillId','multiple'=>true,'required'])}}
             </div>
         </div>

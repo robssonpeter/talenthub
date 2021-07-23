@@ -262,6 +262,8 @@
         {{--    {{  getCountries()  }}--}}
         <!-- ===== End of Notices Section ===== -->
 
+
+        @if(getFrontSettingValue('hide_subscription_plans') == 0)
         <!-- ===== Start of Pricing Table Section ===== -->
         <section class="pricing-tables pb80">
             <div class="container">
@@ -306,6 +308,7 @@
             </div>
         </section>
         <!-- ===== End of Pricing Table Section ===== -->
+        @endif
 
 @endsection
 @section('page_scripts')

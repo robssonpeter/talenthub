@@ -58,6 +58,17 @@
         </label>
     </div>
 
+    <div class="form-group col-xl-12 col-md-3 col-sm-12">
+        <label>{{ __('messages.front_settings.hide_subscription_plans') }}
+            <span><i class="fas fa-question-circle ml-1" data-toggle="tooltip" data-placement="top"
+                     title="{{ __('messages.front_settings.hide_subscription_plans_message') }}"></i></span></label>
+        <label class="custom-switch pl-0 col-12">
+            <input type="checkbox" name="hide_subscription_plans" class="custom-switch-input"
+                    {{ (isset($frontSettings['hide_subscription_plans']) && $frontSettings['hide_subscription_plans'] == 1) ? 'checked' : '' }}>
+            <span class="custom-switch-indicator"></span>
+        </label>
+    </div>
+
     <div class="form-group col-md-6 col-sm-12">
         {{ Form::label('slogan', __('messages.front_settings.slogan').':') }}<span
             class="text-danger">*</span>

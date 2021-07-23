@@ -2,6 +2,7 @@
 
 use App\Models\City;
 use App\Models\Company;
+use App\Models\FrontSetting;
 use App\Models\Setting;
 use App\Models\Staff;
 use App\Models\State;
@@ -75,6 +76,17 @@ function getSettingValue($key)
     }
 
     return $settingValue;
+}
+
+function getFrontSettingValue($key)
+{
+    $settingValue =  FrontSetting::where('key', $key)->first();
+
+    if ($settingValue) {
+        return $settingValue->value;
+    }
+
+    return null;
 }
 
 /**

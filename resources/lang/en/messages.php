@@ -871,7 +871,9 @@ return [
         'featured_employer_not_available' => 'Featured Employer Not Available',
         'latest_jobs_enable'              => 'Show latest jobs as per logged in user\'s country',
         'latest_jobs_enable_message'      => 'It will show latest jobs of candidate/employer\'s country when they are logged in',
-        'slogan'                          => 'Slogan'
+        'slogan'                          => 'Slogan',
+        'hide_subscription_plans'         => 'Hide Subscription Plans',
+        'hide_subscription_plans_message' => 'Hide subscription plans at the homepage'
         ],
 
     //    Image Slider

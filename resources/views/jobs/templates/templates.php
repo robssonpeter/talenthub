@@ -4,7 +4,7 @@
    </a>
    <a title="<?php echo __('messages.common.delete') ?>" class="btn btn-danger action-btn delete-btn" data-id="{{:id}}" href="#">
             <i class="fa fa-trash"></i>
-   </a>  
+   </a>
 
 
 
@@ -18,7 +18,7 @@
 
 <script id="isFeatured" type="text/x-jsrender">
   {{if !featured}}
-      <a class="btn btn-info action-btn w-100 dropdown-toggle text-white" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"><?php echo __('messages.front_settings.make_feature') ?></a>
+      <a class="btn btn-primary action-btn w-100 dropdown-toggle text-white" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"><?php echo __('messages.front_settings.make_feature') ?></a>
     <div class="dropdown-menu w-100px">
         <a class="dropdown-item adminJobMakeFeatured" data-id="{{:id}}" href="#"><?php echo __('messages.front_settings.make_featured') ?></a>
     </div>
