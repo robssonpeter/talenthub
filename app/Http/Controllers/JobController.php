@@ -405,7 +405,15 @@ class JobController extends AppBaseController
     public function changeIsSuspended(Job $job)
     {
         $isSuspended = $job->is_suspended;
-        $job->update(['is_suspended' => ! $isSuspended]);
+        $newStatus = '';
+        if($isSuspended){
+            // change to live
+            $status = array_search('Live', Job::STATUS);
+        }else{
+            // change to suspended
+            $status = array_search('Suspended', Job::STATUS);
+        }
+        $job->update(['is_suspended' => ! $isSuspended, 'status' => $status]);
 
         return $this->sendSuccess('Status changed successfully.');
     }

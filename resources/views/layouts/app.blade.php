@@ -51,7 +51,7 @@
 </head>
 <body>
 <div id="app">
-    <div class="infy-loader" id="overlay-screen-lock">
+    <div class="infy-loader select2-selection__rendered" id="overlay-screen-lock">
         @include('loader')
     </div>
     <div class="main-wrapper main-wrapper-1">

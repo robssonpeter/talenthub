@@ -131,6 +131,7 @@ class Job extends Model
         1 => 'Live',
         2 => 'Closed',
         3 => 'Paused',
+        4 => 'Suspended'
     ];
 
     const STATUS_COLOR = [

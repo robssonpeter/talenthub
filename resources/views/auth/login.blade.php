@@ -17,6 +17,10 @@
                             @endforeach
                         </ul>
                     </div>
+                @elseif(session()->has('success'))
+                    <div class="success alert-success p-1 mb-1">
+                        {{ session()->get('success') }}
+                    </div>
                 @endif
                 <div class="form-group">
                     <label for="email">Email</label>

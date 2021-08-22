@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Flash;
+use Illuminate\Support\MessageBag;
 
 class VerificationController extends Controller
 {
@@ -104,5 +105,19 @@ class VerificationController extends Controller
         }
 
         return redirect($this->redirectTo($request))->with('verified', true);
+    }
+
+    public function resendEmail(){
+        $email = request()->email;
+        $user = User::where('email', $email)->first();
+
+        if(!$user){
+            //dd('hi there');
+            return redirect()->back()->withInput(['email' => $email])->with('error', 'We can not find a user with that email');
+        }else if($user->hasVerifiedEmail()){
+            return redirect()->route('login');
+        }
+        $user->sendEmailVerificationNotification();
+        return redirect()->route('verification.resend.request')->with('success', 'Verification link successfully sent');
     }
 }

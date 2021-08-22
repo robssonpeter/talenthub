@@ -18,6 +18,11 @@ Route::get('/', function () {
 })->name('web.home');
 
 Auth::routes(['verify' => true, 'register' => false]);
+Route::get('verification/resend', function(){
+    //\Session::flash('error', 'We can not find a user with that email');
+    return view('auth.verification.resend');
+})->name('verification.resend.request');
+Route::post('verification/resend', 'Auth\VerificationController@resendEmail')->name('verification.email.resend');
 Route::get('admin/login', 'Auth\LoginController@showAdminLoginForm')->name('admin.login');
 Route::post('users/login', 'Auth\Front\LoginController@login')->name('front.login');
 Route::get('pricing', function () {
