@@ -151,7 +151,7 @@ class Job extends Model
         'job_title'          => 'required',
         'currency_id'        => 'required',
         'salary_period_id'   => 'required',
-        'job_type_id'        => 'required',
+        'job_type_id'        => '',
         /*'functional_area_id' => 'required',*/
         'position'           => 'required',
         'experience'         => 'required',
@@ -234,8 +234,13 @@ class Job extends Model
     protected $with = ['country', 'state', 'city', 'activeFeatured', 'currency', 'company', 'functionalAreas'];
 
 
+
     public function getApplicationsCountAttribute(){
         return $this->appliedJobs->count();
+    }
+
+    public function getJobTitleAttribute(){
+        return htmlspecialchars_decode($this->attributes['job_title']);
     }
 
     /**
@@ -270,6 +275,8 @@ class Job extends Model
     public function getFunctionalAreaIdsAttribute(){
         return $this->functionalAreas()->pluck('functional_area_id');
     }
+
+
 
     public function getCountryNameAttribute()
     {

@@ -2,6 +2,13 @@
 @section('title')
     {{ $job->job_title." Job" }}
 @endsection
+@section('description')
+    {{ strip_tags($job->description) }}
+@endsection
+{{--<meta property="og:title" content="European Travel Destinations">--}}
+{{--<meta property="og:description" content="{{ $job->description }}">--}}
+{{--<meta property="og:image" content="http://euro-travel-example.com/thumbnail.jpg">
+<meta property="og:url" content="http://euro-travel-example.com/index.htm">--}}
 @section('content')
     <!-- ===== Start of Main Wrapper Job Section ===== -->
     <section class="ptb15 bg-gray" id="job-page">

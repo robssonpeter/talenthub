@@ -1,4 +1,11 @@
 <div class="row">
+    <div class="form-group col-12 ">
+        {{ Form::label('job_link', __('Job Link').':') }}
+        <div>
+            <span>{{  route('front.job.details', $job->job_id) }}</span>
+            <small class="align-self-center"><button id="{{route('front.job.details', $job->job_id)}}" onclick="copyLink()" class="btn btn-sm btn-primary link-copy"><i class="fas fa-copy"></i> Copy</button></small>
+        </div>
+    </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('job_title', __('messages.job.job_title').':') }}
         <p>{{ $job->job_title }}</p>

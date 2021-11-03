@@ -10,7 +10,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
 
     <!-- Meta Tags - Description for Search Engine purposes -->
-    <meta name="description" content="{{config('app.name')}}">
+    @hasSection('description')
+        <meta property="og:description" content="@yield('description')">
+        <meta name="twitter:description" content="@yield('description')">
+    @else
+        <meta name="description" content="{{config('app.name')}}">
+        <meta name="twitter:description" content="{{config('app.name')}}">
+    @endif
+    <meta property="og:image" content="{{ asset('uploads/settings/talent-hub-seo.png') }}">
+
     <meta name="keywords"
           content="{{config('app.name')}}">
     <link rel="shortcut icon" href="{{ asset($settings['favicon'])}}" type="image/x-icon">
@@ -18,6 +26,7 @@
 
     <!-- Website Title -->
     <title>@yield('title') | {{config('app.name')}} </title>
+    <meta name="twitter:title" content="@yield('title') | {{config('app.name')}}">
 
     <!-- Google Fonts -->
     <link href="//fonts.googleapis.com/css?family=Raleway:300,400,400i,700,800|Varela+Round" rel="stylesheet">

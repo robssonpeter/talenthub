@@ -12,8 +12,8 @@
         {{ Form::text('job_title', null, ['class' => 'form-control','required']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
-        {{ Form::label('job_type_id', __('messages.job.job_family').':') }}<span class="text-danger">*</span>
-        {{ Form::select('job_type_id', $data['jobType'],null, ['id'=>'jobTypeId','class' => 'form-control','placeholder' => 'Select Job Type','required']) }}
+        {{ Form::label('job_type_id', __('messages.job.job_family').':') }}<span class="text-danger"></span>
+        {{ Form::select('job_type_id', $data['jobType'],null, ['id'=>'jobTypeId','class' => 'form-control','placeholder' => 'Select Job Type']) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('industry_id', __('messages.job.industry').':') }}<span class="text-danger">*</span>
@@ -95,7 +95,7 @@
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('position', __('messages.job.number_of_positions').':') }}<span class="text-danger">*</span>
-        {{ Form::number('position',  null, ['id'=>'positionId','class' => 'form-control','placeholder' => 'Select Position','required', 'min' => 0]) }}
+        {{ Form::number('position',  1, ['id'=>'positionId','class' => 'form-control','placeholder' => 'Select Position','required', 'min' => 0]) }}
     </div>
     <div class="form-group col-xl-4 col-md-4 col-sm-12">
         {{ Form::label('experience', __('messages.job_experience.job_experience').':') }}<span
@@ -111,7 +111,7 @@
         {{ Form::textarea('qualifications', null, ['class' => 'form-control' , 'id' => 'qualifications', 'rows' => '5']) }}
     </div>
     <div class="form-group col-xl-12 col-md-12 col-sm-12">
-        {{ Form::label('additional_information', __('messages.job.additional_information').':') }}<span class="text-danger">*</span>
+        {{ Form::label('additional_information', __('messages.job.additional_information').':') }}<span class="text-danger"></span>
         {{ Form::textarea('additional_information', null, ['class' => 'form-control' , 'id' => 'additional_information', 'rows' => '5']) }}
     </div>
     <div class="form-group col-md-6">

@@ -1,4 +1,12 @@
 <div class="row details-page">
+    <div class="form-group col-12 ">
+        {{ Form::label('job_link', __('Job Link').':') }}
+        <div>
+            <span>{{  route('front.job.details', $job->job_id) }}</span>
+            <small class="align-self-center"><button id="{{route('front.job.details', $job->job_id)}}" onclick="copyLink()" class="btn btn-sm btn-primary link-copy"><i class="fas fa-copy"></i> Copy</button></small>
+        </div>
+
+    </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('company', __('messages.company.company_name').':') }}
         <p>{{  $job->company->user->full_name }}</p>
@@ -25,7 +33,7 @@
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('job_type_id', __('messages.job.job_type').':') }}
-        <p>{{ $job->jobType->name }}</p>
+        <p>{{ $job->jobType?$job->jobType->name:'N/A' }}</p>
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('job_category_id', __('messages.job_category.job_category').':') }}
@@ -49,7 +57,7 @@
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('functional_area_id', __('messages.job.functional_area').':') }}
-        <p>{{ $job->functionalArea->name }}</p>
+        <p>{{ $job->functionalArea?$job->functionalArea->name:'N/A' }}</p>
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('degree_level_id', __('messages.job.degree_level').':') }}
@@ -85,11 +93,11 @@
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('salary_from', __('messages.job.salary_from').':') }}
-        <p>{{ formatCurrency($job->salary_from) }}</p>
+        <p>{{ number_format($job->salary_from) }}</p>
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('salary_to', __('messages.job.salary_to').':') }}
-        <p>{{ formatCurrency($job->salary_to) }}</p>
+        <p>{{ number_format($job->salary_to) }}</p>
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
         {{ Form::label('is_freelance', __('messages.job.is_freelance').':') }}
@@ -116,3 +124,8 @@
         </p>
     </div>
 </div>
+<script>
+    function copyLink(){
+        let link = event.target.id;
+    }
+</script>

@@ -164,13 +164,16 @@ class JobRepository extends BaseRepository
                 $job->jobsTag()->sync($input['jobTag']);
             }
             /** @var JobType $jobType */
-            $jobType = JobType::with('candidateJobAlerts')->whereId($input['job_type_id'])->first();
-            $userIds = $jobType->candidateJobAlerts->where('job_alert','=',1)->pluck( 'user_id');
-            $users = User::whereIn('id', $userIds)->get();
-            foreach ($users as $user) {
-                $job->name = $user->full_name;
-                Mail::to($user->email)->send(new EmailToCandidate($job));
+            if($input['job_type_id']){
+                $jobType = JobType::with('candidateJobAlerts')->whereId($input['job_type_id'])->first();
+                $userIds = $jobType->candidateJobAlerts->where('job_alert','=',1)->pluck( 'user_id');
+                $users = User::whereIn('id', $userIds)->get();
+                foreach ($users as $user) {
+                    $job->name = $user->full_name;
+                    Mail::to($user->email)->send(new EmailToCandidate($job));
+                }
             }
+
             DB::commit();
 
             return true;

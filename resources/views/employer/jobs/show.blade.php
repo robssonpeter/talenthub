@@ -21,4 +21,11 @@
             </div>
         </div>
     </section>
+    <script>
+        $(document).on('click', '.link-copy', function(event){
+            let link = $(this).attr('id');
+            navigator.clipboard.writeText(link);
+            displaySuccessMessage('Link Copied');
+        })
+    </script>
 @endsection
