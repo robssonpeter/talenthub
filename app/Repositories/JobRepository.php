@@ -15,6 +15,7 @@ use App\Models\Industry;
 use App\Models\Job;
 use App\Models\JobApplication;
 use App\Models\JobCategory;
+use App\Models\JobFunctionalArea;
 use App\Models\JobShift;
 use App\Models\JobType;
 use App\Models\Plan;
@@ -174,6 +175,16 @@ class JobRepository extends BaseRepository
                 }
             }
 
+            /* Adding key functional areas */
+            $functional_areas = json_decode($input['functional_areas']);
+            foreach($functional_areas as $functional_area){
+                $data = [
+                    'job_id' => $job->id,
+                    'functional_area_id' => $functional_area
+                ];
+                $created = JobFunctionalArea::updateOrCreate($data, $data);
+            }
+
             DB::commit();
 
             return true;
@@ -205,6 +216,16 @@ class JobRepository extends BaseRepository
                 $job->status = Job::STATUS_OPEN;
             }
             $job->update($input);
+
+            /* Adding key functional areas */
+            $functional_areas = json_decode($input['functional_areas']);
+            foreach($functional_areas as $functional_area){
+                $data = [
+                    'job_id' => $job->id,
+                    'functional_area_id' => $functional_area
+                ];
+                $created = JobFunctionalArea::updateOrCreate($data, $data);
+            }
 
             if (isset($input['jobsSkill']) && ! empty($input['jobsSkill'])) {
                 $job->jobsSkill()->sync($input['jobsSkill']);

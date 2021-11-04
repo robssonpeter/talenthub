@@ -20,7 +20,7 @@
             <div class="card">
                 @include('layouts.errors')
                 <div class="card-body">
-                    {{ Form::model($job, ['route' => ['admin.job.update', $job->id], 'enctype' => 'multipart/form-data', 'method' => 'post', 'id' => 'editJobForm']) }}
+                    {{ Form::model($job, ['route' => ['admin.job.update', $job->id], 'enctype' => 'multipart/form-data', 'method' => 'put', 'id' => 'editJobForm']) }}
 
                     @include('jobs.edit_fields')
 
