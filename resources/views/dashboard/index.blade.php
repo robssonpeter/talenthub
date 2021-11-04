@@ -276,7 +276,7 @@
                                             <a href="{{ route('company.show', $recentJobs->company_id) }}">{{ $recentJobs->company->user->full_name }}</a>
                                         </td>
                                         <td>{{ $recentJobs->jobCategory->name }}</td>
-                                        <td>{{ Str::limit($recentJobs->jobType->name,50,'...') }}</td>
+                                        <td>{{ (!empty($recentJobs->jobType)) ? Str::limit($recentJobs->jobType->name,50,'...'):'' }}</td>
                                         <td>{{ (!empty($recentJobs->jobShift)) ? $recentJobs->jobShift->shift : 'N/A' }}</td>
                                         <td>
                                             <i class="pl-4 {{ ($recentJobs->activeFeatured) ? 'fas fa-check-circle text-success' : 'fas fa-times-circle text-danger' }}"></i>

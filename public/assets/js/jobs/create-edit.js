@@ -222,7 +222,11 @@ $('#companyId').on('change', function(){
       }
     });
   });
-    $('#saveJob').click(function(){
+    /*$('#saveJob').click(function(){
+        $('#createJobForm').submit();
+    });*/
+    $(document).on('click', '#saveJob', function(){
+        $('#editJobForm').submit();
         $('#createJobForm').submit();
     });
   $('#stateId').on('change', function () {

@@ -170,5 +170,9 @@
         }else{
             $('#url-enclose').fadeOut('fast')
         }
-    })
+    });
+
+    /*$(document).on('click', '#saveJob', function(){
+        $('#editJobForm').submit();
+    });*/
 </script>

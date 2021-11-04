@@ -20,7 +20,7 @@
             <div class="card">
                 @include('layouts.errors')
                 <div class="card-body">
-                    {{ Form::model($job, ['route' => ['admin.job.update', $job->id], 'method' => 'put', 'id' => 'editJobForm']) }}
+                    {{ Form::model($job, ['route' => ['admin.job.update', $job->id], 'enctype' => 'multipart/form-data', 'method' => 'post', 'id' => 'editJobForm']) }}
 
                     @include('jobs.edit_fields')
 
@@ -38,5 +38,6 @@
     <script src="{{ asset('assets/js/summernote.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{mix('assets/js/jobs/create-edit.js')}}"></script>
+    {{--<script src="{{asset('assets/js/jobs/create-edit.js')}}"></script>--}}
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 @endpush
