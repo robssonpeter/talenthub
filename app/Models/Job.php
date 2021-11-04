@@ -231,7 +231,7 @@ class Job extends Model
     ];
 
     protected $appends = ['country_name', 'state_name', 'city_name', 'functional_area_ids', 'applications_count'];
-    protected $with = ['country', 'state', 'city', 'activeFeatured', 'currency', 'company', 'functionalAreas'];
+    protected $with = ['country', 'state', 'city', 'activeFeatured', 'currency', 'company', 'functionalAreas', 'industry'];
 
 
 
@@ -360,6 +360,10 @@ class Job extends Model
 
     public function functionalAreas(){
         return $this->hasMany(JobFunctionalArea::class, 'job_id', 'id');
+    }
+
+    public function industry(){
+        return $this->belongsTo(Industry::class, 'industry_id', 'id');
     }
 
     /**

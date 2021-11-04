@@ -64,6 +64,10 @@
                             <a href="{{ route('front.post.lists') }}"
                                class="j-nav-item">{{ __('messages.post.blog') }}</a>
                         </li>
+                        <li class="simple-menu {{ Request::is('posts') ? 'active' : '' }}">
+                            <a href="{{ route('front.about.us') }}#faq-page"
+                               class="j-nav-item">{{  __('messages.faq.faq') }}</a>
+                        </li>
                         @auth
                             {{--<li class="dropdown simple-menu language-menu">
                                 <a href="#" class="dropdown-toggle language-text current-language"

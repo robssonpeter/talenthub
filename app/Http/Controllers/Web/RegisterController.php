@@ -43,7 +43,7 @@ class RegisterController extends AppBaseController
         $input = $request->all();
         $this->webRegisterRepository->store($input);
         $userType = ($input['type'] == 1) ? 'Candidate' : 'Employer';
-        $message = 'Please follow the verification link sent to \n'.$input['email'].' to verify your account';
+        $message = 'Please follow the verification link sent to \n'.$input['email'].' to verify your account. If you can not see your email, kindly check your spam folder.';
         Flash::success('Successfully registered, Please follow the verification link sent to <strong>'.$input['email'].'</strong>');
         session()->flash('registered', $message);
         return $this->sendSuccess("{$userType} registration done successfully.");

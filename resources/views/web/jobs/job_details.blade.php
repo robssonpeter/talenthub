@@ -51,6 +51,9 @@
                         <div class="col-md-9">
                             <div class="job-company-info mt10">
                                 <h3 class="capitalize">{{ Str::limit($job->job_title,50,'...') }}</h3>
+                                @if($job->industry)
+                                    <h5>{{ $job->industry->name }} Industry</h5>
+                                @endif
                                 @auth
                                     @role('Candidate')
                                     <ul class="social-btns list-inline mt5">
@@ -136,6 +139,15 @@
                             <hr/>
                         </div>
                         <div class="col-md-8 mt5">
+
+                            @if($job->industry)
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h6>{{ Form::label('job_category_id', __('messages.industry.show_industry').':') }}</h6>
+                                </div>
+                                <div class="col-md-7"><h6>{{ $job->industry?$job->industry->name:'' }}</h6></div>
+                            </div>
+                            @endif
 
                             <div class="row">
                                 <div class="col-md-5">
