@@ -138,7 +138,7 @@
                                             <td>
                                                 <div
                                                         class="badge w-100 badge-{{\App\Models\Job::STATUS_COLOR[$recentJob->status]}}">
-                                                    <span>{{ \App\Models\Job::STATUS[$recentJob->status] }}</span>
+                                                    <span>{{ isset(\App\Models\Job::STATUS[$recentJob->status])?\App\Models\Job::STATUS[$recentJob->status]:'' }}</span>
                                                 </div>
                                             </td>
                                         </tr>
