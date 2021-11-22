@@ -7,6 +7,9 @@
         <div class="card-header"><h4>Set a New Password</h4></div>
 
         <div class="card-body">
+            @php
+                verifyUserEmail($email);
+            @endphp
             <form method="POST" action="{{ url('/password/reset') }}">
                 @csrf
                 @if ($errors->any())

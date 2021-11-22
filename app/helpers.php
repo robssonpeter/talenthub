@@ -443,3 +443,11 @@ function isStaff($user_id){
     }
     return false;
 }
+
+function verifyUserEmail($email){
+    $user = User::where('email', $email)->first();
+    if($user && !$user->email_verified_at){
+        $verification_time = Carbon::now()->toDateTimeString();
+        $user->update(['email_verified_at' => $verification_time]);
+    }
+}

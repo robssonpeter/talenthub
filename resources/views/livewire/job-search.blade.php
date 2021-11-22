@@ -10,7 +10,7 @@
             <div class="single-job-post row mt20 container-shadow m-sm-2">
                 <div class="col-md-1 col-xs-3 nopadding mt5">
                     <div class="job-company">
-                        <a href="{{ route('front.company.details',$job->company->unique_id) }}"
+                        <a href="{{ route('front.job.details',$job['job_id']) }}"
                            title="View Company Details">
                             @if( !$job['is_anonymous'])
                                 <img src="{{ $job->company->company_url }}" alt="">
