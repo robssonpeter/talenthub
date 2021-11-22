@@ -174,6 +174,13 @@
             let content = $(this).attr('data-content');
             viewCoverLetter(content);
         })
+
+        $(document).on('click', '.action-applied', function (event) {
+            //console.log('hello there');
+            let jobApplicationId = $(event.currentTarget).data('id');
+             let applicationStatus = 1;
+             changeStatus(jobApplicationId, applicationStatus);
+        });
     </script>
 @endpush
 

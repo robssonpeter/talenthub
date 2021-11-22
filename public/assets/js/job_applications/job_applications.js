@@ -97,6 +97,7 @@
         /*$("#notesViewContent").html('hellwo there')*/
 var tableName = '#jobApplicationsTbl';
 var filterBy = $('#filtering').val();
+alert(jobApplicationsUrl+'/'+filterBy)
 var data = $(tableName).DataTable({
   processing: true,
   serverSide: true,
@@ -502,6 +503,9 @@ $(document).on('click', '.action-completed', function (event) {
   var applicationStatus = 5;
   changeStatus(jobApplicationId, applicationStatus);
 });
+
+
+
 
 $(document).on('click', '.action-decline', function (event) {
   var jobApplicationId = $(event.currentTarget).data('id');

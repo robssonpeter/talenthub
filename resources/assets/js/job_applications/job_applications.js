@@ -135,6 +135,12 @@ $(document).on('click', '.action-decline', function (event) {
     changeStatus(jobApplicationId, applicationStatus);
 });
 
+$(document).on('click', '.action-unshortlist', function (event) {
+    let jobApplicationId = $(event.currentTarget).data('id');
+    let applicationStatus = 2;
+    changeStatus(jobApplicationId, applicationStatus);
+});
+
 window.changeStatus = function (id, applicationStatus) {
     console.log(jobApplicationStatusUrl + id + '/status/' + applicationStatus);
     $.ajax({

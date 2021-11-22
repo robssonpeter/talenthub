@@ -79,6 +79,7 @@ return [
     'new_staff'           => 'New Staff',
     'swap_company_name'   => 'Swap Name',
     'common'         => [
+
         'save'         => 'Save',
         'save_publish' => 'Save and Publish',
         'cancel'       => 'Cancel',
@@ -102,6 +103,7 @@ return [
         'company'             => 'Company',
         'report'              => 'Report',
         'shortlist'           => 'Shortlisted',
+        'un_shortlist'       => 'Unshortlist',
         'completed'           => 'Completed',
         'decline'             => 'Decline',
         'close'               => 'Close',

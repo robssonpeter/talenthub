@@ -14,6 +14,9 @@
                 <a class="dropdown-item action-completed" href="#" data-id="{{:id}}"><?php echo __('messages.common.selected') ?></a>
             {{/if}}
             <a class="dropdown-item action-decline" href="#" data-id="{{:id}}"><?php echo __('messages.common.rejected') ?></a>
+            {{if isShortlisted}}
+                <a class="dropdown-item action-applied text-danger" href="#" data-id="{{:id}}"><?php echo __('messages.common.un_shortlist') ?></a>
+            {{/if}}
         {{/if}}
 
         {{if !notes.length}}
