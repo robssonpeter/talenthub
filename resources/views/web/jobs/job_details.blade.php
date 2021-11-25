@@ -42,7 +42,7 @@
                         <div class="col-md-3">
                             <div class="job-company">
                                 <a href="#">
-                                    <img src="{{ $job->company->company_url }}" alt="">
+                                    <img src="{{ $job->is_anonymous?asset('assets/img/infyom-logo.png'):$job->company->company_url }}" alt="">
                                 </a>
                             </div>
                         </div>

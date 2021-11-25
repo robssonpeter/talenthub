@@ -1,7 +1,7 @@
 <div class="col-md-6 mt25  {{ ($loop->last && $loop->iteration % 2 != 0) ? 'col-md-offset-3' : '' }}">
     <div class="single-job-post row nomargin container-shadow">
         <div class="col-md-2 col-xs-6 nopadding">
-            <img src="{{ $job->company->company_url }}" class="jobs-company-logo"
+            <img src="{{ $job->is_anonymous?asset('assets/img/infyom-logo.png'):$job->company->company_url }}" class="jobs-company-logo"
                  alt="company logo">
         </div>
         <div class="col-md-10 col-xs-6  nopadding-right nopadding-left">
