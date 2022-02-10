@@ -71,12 +71,12 @@
                     </div>
                     <div class="form-group col-sm-12" style="display: none;" id="new-attachment-section">
                         <span><strong>{{ Form::label('attachment:', 'New Attachment') }}</strong></span>
-                        {{Form::file('attachment', ['class' => 'form-control  form-control-file attachment', 'required', 'id' => 'attachment-new'])}}
+                        {{Form::file('attachment', ['class' => 'form-control  form-control-file attachment', 'id' => 'attachment-new'])}}
                         <div class="progress mt-2" style="height: 5px">
                             <div class="progress-bar" id="resume-progress-new" role="progressbar" style="width: 0%; height: 5px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <div class="form-group col-sm-12">
-                            {{ Form::hidden('file[]', null, ['class' => 'form-control','required','id' => 'uploaded_file_new' ]) }}
+                            {{ Form::hidden('file[]', null, ['class' => 'form-control', 'id' => 'uploaded_file_new' ]) }}
                         </div>
                     </div>
                 </div>

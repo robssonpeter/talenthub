@@ -196,7 +196,7 @@ var data = $(tableName).DataTable({
     data: function data(row) {
       var downloadLink = downloadDocumentUrl + '/' + row.id;
       //alert(row.resume_url)
-      if(row.resume_url.indexOf('.pdf')){
+      if(row.resume_url && row.resume_url.indexOf('.pdf')){
         return  '<a href="#view-resume" class="document" id="'+row.resume_url+'" data-toggle="modal" data-target="#document" onclick="event.preventDefault()">' + view + '</a>';
       }else{
           return '<a href="' + downloadLink + '">' + 'Download' + '</a>';

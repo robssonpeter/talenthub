@@ -52,7 +52,7 @@
                             <div class="job-company-info mt10">
                                 <h3 class="capitalize">{{ Str::limit($job->job_title,50,'...') }}</h3>
                                 @if($job->industry)
-                                    <h5>{{ $job->industry->name }} Industry</h5>
+                                    <h5>{{ htmlspecialchars_decode($job->industry->name) }} Industry</h5>
                                 @endif
                                 @auth
                                     @role('Candidate')
