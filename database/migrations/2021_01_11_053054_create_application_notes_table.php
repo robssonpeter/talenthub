@@ -13,13 +13,14 @@ class CreateApplicationNotesTable extends Migration
      */
     public function up()
     {
-        Schema::create('application_notes', function (Blueprint $table) {
-            $table->id();
-            $table->integer('application_id', false);
-            $table->integer('user_id', false);
-            $table->text('description');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("application_notes"))
+            Schema::create('application_notes', function (Blueprint $table) {
+                $table->id();
+                $table->integer('application_id', false);
+                $table->integer('user_id', false);
+                $table->text('description');
+                $table->timestamps();
+            });
     }
 
     /**

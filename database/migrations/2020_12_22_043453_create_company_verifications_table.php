@@ -13,13 +13,14 @@ class CreateCompanyVerificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_verifications', function (Blueprint $table) {
-            $table->id();
-            $table->integer('company_id', false);
-            $table->string('document')->nullable();
-            $table->integer('verified_by')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("company_verifications"))
+            Schema::create('company_verifications', function (Blueprint $table) {
+                $table->id();
+                $table->integer('company_id', false);
+                $table->string('document')->nullable();
+                $table->integer('verified_by')->nullable();
+                $table->timestamps();
+            });
     }
 
     /**

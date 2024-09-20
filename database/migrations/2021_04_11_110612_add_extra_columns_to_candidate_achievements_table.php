@@ -14,14 +14,19 @@ class AddExtraColumnsToCandidateAchievementsTable extends Migration
     public function up()
     {
         Schema::table('candidate_achievements', function (Blueprint $table) {
-            if(Schema::hasColumn('candidate_achievements', 'country_id')){
+            if(!Schema::hasColumn('candidate_achievements', 'country_id')){
                 $table->integer('country_id', false)->nullable();
             }
-            $table->integer('institution_id', false)->nullable();
-            $table->integer('category_id', false)->nullable();
-            $table->date('completion_date')->nullable();
-            $table->date('valid_until')->nullable();
-            $table->boolean('ongoing')->nullable();
+            if(!Schema::hasColumn('candidate_achievements', 'institution_id'))
+                $table->integer('institution_id', false)->nullable();
+            if(!Schema::hasColumn('candidate_achievements', 'category_id'))
+                $table->integer('category_id', false)->nullable();
+            if(!Schema::hasColumn('candidate_achievements', 'completion_date'))
+                $table->date('completion_date')->nullable();
+            if(!Schema::hasColumn('candidate_achievements', 'valid_until'))
+                $table->date('valid_until')->nullable();
+            if(!Schema::hasColumn('candidate_achievements', 'ongoing'))
+                $table->boolean('ongoing')->nullable();
         });
     }
 

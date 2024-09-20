@@ -13,10 +13,11 @@ class AddJobCategoryIdColumnToCandidateExperiencesTable extends Migration
      */
     public function up()
     {
-        Schema::table('candidate_experiences', function (Blueprint $table) {
-            $table->integer('job_category_id', false)->after('company')->nullable();
-            $table->integer('industry_id', false)->after('job_category_id')->nullable();
-        });
+        if(!Schema::hasColumn('candidate_experiences', 'industry_id'))
+            Schema::table('candidate_experiences', function (Blueprint $table) {
+                $table->integer('job_category_id', false)->after('company')->nullable();
+                $table->integer('industry_id', false)->after('job_category_id')->nullable();
+            });
     }
 
     /**

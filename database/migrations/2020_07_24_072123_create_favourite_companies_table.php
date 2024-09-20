@@ -13,20 +13,21 @@ class CreateFavouriteCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('favourite_companies', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('company_id');
-            $table->timestamps();
+        if(!Schema::hasTable("favourite_companies"))
+            Schema::create('favourite_companies', function (Blueprint $table) {
+                $table->increments('id');
+                $table->unsignedBigInteger('user_id');
+                $table->unsignedInteger('company_id');
+                $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                $table->foreign('user_id')->references('id')->on('users')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
 
-            $table->foreign('company_id')->references('id')->on('companies')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-        });
+                $table->foreign('company_id')->references('id')->on('companies')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+            });
     }
 
     /**

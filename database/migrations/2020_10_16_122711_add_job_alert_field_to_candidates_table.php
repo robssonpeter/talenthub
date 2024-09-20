@@ -13,9 +13,10 @@ class AddJobAlertFieldToCandidatesTable extends Migration
      */
     public function up()
     {
-        Schema::table('candidates', function (Blueprint $table) {
-            $table->boolean("job_alert")->default(false);
-        });
+        if(!Schema::hasColumn('candidates', 'job_alert'))
+            Schema::table('candidates', function (Blueprint $table) {
+                $table->boolean("job_alert")->default(false);
+            });
     }
 
     /**

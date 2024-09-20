@@ -1,6 +1,6 @@
 @extends('web.layouts.app')
 @section('title')
-    {{ __('messages.post.post_details') }}
+    {{ $blog->title }}
 @endsection
 @section('content')
     <!-- ===== Start of Candidate Profile Header Section ===== -->

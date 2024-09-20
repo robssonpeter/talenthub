@@ -13,12 +13,13 @@ class CreateFrontSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('front_settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('key');
-            $table->text('value');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("front_settings"))
+            Schema::create('front_settings', function (Blueprint $table) {
+                $table->id();
+                $table->string('key');
+                $table->text('value');
+                $table->timestamps();
+            });
     }
 
     /**

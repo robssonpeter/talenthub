@@ -13,12 +13,13 @@ class CreateCandidateObjectivesTable extends Migration
      */
     public function up()
     {
-        Schema::create('candidate_objectives', function (Blueprint $table) {
-            $table->id();
-            $table->integer('candidate_id', false);
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("candidate_objectives"))
+            Schema::create('candidate_objectives', function (Blueprint $table) {
+                $table->id();
+                $table->integer('candidate_id', false);
+                $table->text('description')->nullable();
+                $table->timestamps();
+            });
     }
 
     /**

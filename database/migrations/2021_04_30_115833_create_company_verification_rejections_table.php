@@ -13,14 +13,15 @@ class CreateCompanyVerificationRejectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_verification_rejections', function (Blueprint $table) {
-            $table->id();
-            $table->text('reason');
-            $table->integer('attempt_id', false);
-            $table->integer('company_id', false);
-            $table->integer('rejected_by', false);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("company_verification_rejections"))
+            Schema::create('company_verification_rejections', function (Blueprint $table) {
+                $table->id();
+                $table->text('reason');
+                $table->integer('attempt_id', false);
+                $table->integer('company_id', false);
+                $table->integer('rejected_by', false);
+                $table->timestamps();
+            });
     }
 
     /**

@@ -13,9 +13,10 @@ class AddProfessionalTitleColumnToCandidatesTable extends Migration
      */
     public function up()
     {
-        Schema::table('candidates', function (Blueprint $table) {
-            $table->string('professional_title')->after('experience')->nullable();
-        });
+        if(!Schema::hasColumn('candidates', 'professional_title'))
+            Schema::table('candidates', function (Blueprint $table) {
+                $table->string('professional_title')->after('experience')->nullable();
+            });
     }
 
     /**

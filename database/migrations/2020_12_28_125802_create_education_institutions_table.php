@@ -13,15 +13,16 @@ class CreateEducationInstitutionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('education_institutions', function (Blueprint $table) {
-            $table->id();
-            $table->integer('country_id');
-            $table->integer('city_id')->nullable();
-            $table->string('name');
+        if(!Schema::hasTable("application_notes"))
+            Schema::create('application_notes', function (Blueprint $table) {
+                $table->id();
+                $table->integer('country_id');
+                $table->integer('city_id')->nullable();
+                $table->string('name');
 
-            $table->timestamps();
-        });
-        \App\Functionalities\FeedData::schools();
+                $table->timestamps();
+            });
+            \App\Functionalities\FeedData::schools();
     }
 
     /**

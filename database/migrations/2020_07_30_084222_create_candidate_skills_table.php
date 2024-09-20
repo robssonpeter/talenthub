@@ -13,20 +13,21 @@ class CreateCandidateSkillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('candidate_skills', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('skill_id');
-            $table->timestamps();
+        if(!Schema::hasTable("candidate_skills"))
+            Schema::create('candidate_skills', function (Blueprint $table) {
+                $table->increments('id');
+                $table->unsignedBigInteger('user_id');
+                $table->unsignedInteger('skill_id');
+                $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                $table->foreign('user_id')->references('id')->on('users')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
-            $table->foreign('skill_id')->references('id')->on('skills')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-        });
+                $table->foreign('skill_id')->references('id')->on('skills')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+            });
     }
 
     /**

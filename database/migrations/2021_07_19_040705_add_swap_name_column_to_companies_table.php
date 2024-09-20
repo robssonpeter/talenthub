@@ -13,9 +13,10 @@ class AddSwapNameColumnToCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::table('companies', function (Blueprint $table) {
-            $table->boolean('swap_name')->default(false)->after('ceo')->comment('true if you want to replace name with name on job');
-        });
+        if(!Schema::hasColumn('companies', 'swap_name'))
+            Schema::table('companies', function (Blueprint $table) {
+                $table->boolean('swap_name')->default(false)->after('ceo')->comment('true if you want to replace name with name on job');
+            });
     }
 
     /**

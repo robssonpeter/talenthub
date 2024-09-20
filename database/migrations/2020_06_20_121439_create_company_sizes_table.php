@@ -12,11 +12,12 @@ class CreateCompanySizesTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_sizes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('size', 170)->unique();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("company_sizes"))
+            Schema::create('company_sizes', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('size', 170)->unique();
+                $table->timestamps();
+            });
     }
 
     /**

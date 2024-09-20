@@ -13,15 +13,16 @@ class CreateInquiriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inquiries', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone_no')->nullable();
-            $table->string('subject');
-            $table->text('message');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("inquiries"))
+            Schema::create('inquiries', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('email');
+                $table->string('phone_no')->nullable();
+                $table->string('subject');
+                $table->text('message');
+                $table->timestamps();
+            });
     }
 
     /**

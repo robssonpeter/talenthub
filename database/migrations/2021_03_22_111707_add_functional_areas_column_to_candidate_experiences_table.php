@@ -13,9 +13,10 @@ class AddFunctionalAreasColumnToCandidateExperiencesTable extends Migration
      */
     public function up()
     {
-        Schema::table('candidate_experiences', function (Blueprint $table) {
-            $table->string('functional_areas')->after('industry_id')->default(json_encode(array()));
-        });
+        if(!Schema::hasColumn('candidate_experiences', 'functional_areas'))
+            Schema::table('candidate_experiences', function (Blueprint $table) {
+                $table->string('functional_areas')->after('industry_id')->default(json_encode(array()));
+            });
     }
 
     /**

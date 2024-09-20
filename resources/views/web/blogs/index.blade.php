@@ -40,11 +40,10 @@
                             </div>
 
                             <div class="col-md-8 blog-desc position-relative h110 blog-desc-sm">
-
-                                <p>{!! !empty($blog->description) ? nl2br(Str::limit($blog->description, 100, ' ...')):__('messages.common.n/a') !!}</p>
+                                <p>{!! !empty($blog->description) ? nl2br(strip_tags(Str::limit($blog->description, 100, ' ...'))):__('messages.common.n/a') !!}</p>
                                 <a href="{{ route('front.posts.details',$blog->id) }}"
-                                   class="btn btn-purple btn-effect mt10 position-absolute bottom-0">{{ __('web.post_menu.read_more') }}</a>
-                            </div>
+                                   class="btn btn-purple btn-effect mt10 bottom-0">{{ __('web.post_menu.read_more') }}</a>
+				</div>
                         </article>
 
                     @empty

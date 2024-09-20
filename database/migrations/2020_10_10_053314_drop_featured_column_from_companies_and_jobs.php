@@ -13,13 +13,15 @@ class DropFeaturedColumnFromCompaniesAndJobs extends Migration
      */
     public function up()
     {
-        Schema::table('jobs', function (Blueprint $table) {
-            $table->dropColumn('is_featured');
-        });
+        if(Schema::hasColumn('jobs', 'is_featured'))
+            Schema::table('jobs', function (Blueprint $table) {
+                $table->dropColumn('is_featured');
+            });
 
-        Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('is_featured');
-        });
+        if(Schema::hasColumn('companies', 'is_featured'))
+            Schema::table('companies', function (Blueprint $table) {
+                $table->dropColumn('is_featured');
+            });
     }
 
     /**

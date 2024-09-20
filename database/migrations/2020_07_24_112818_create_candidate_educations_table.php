@@ -13,38 +13,39 @@ class CreateCandidateEducationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('candidate_educations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('candidate_id');
-            $table->unsignedInteger('degree_level_id');
-            $table->string('degree_title');
-            $table->unsignedBigInteger('country_id')->nullable();
-            $table->unsignedBigInteger('state_id')->nullable();
-            $table->unsignedBigInteger('city_id')->nullable();
-            $table->string('institute');
-            $table->string('result');
-            $table->integer('year');
-            $table->timestamps();
+        if(!Schema::hasTable("candidate_educations"))
+            Schema::create('candidate_educations', function (Blueprint $table) {
+                $table->increments('id');
+                $table->unsignedInteger('candidate_id');
+                $table->unsignedInteger('degree_level_id');
+                $table->string('degree_title');
+                $table->unsignedBigInteger('country_id')->nullable();
+                $table->unsignedBigInteger('state_id')->nullable();
+                $table->unsignedBigInteger('city_id')->nullable();
+                $table->string('institute');
+                $table->string('result');
+                $table->integer('year');
+                $table->timestamps();
 
-            $table->foreign('candidate_id')->references('id')->on('candidates')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreign('degree_level_id')->references('id')->on('required_degree_levels')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                $table->foreign('candidate_id')->references('id')->on('candidates')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+                $table->foreign('degree_level_id')->references('id')->on('required_degree_levels')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
-            $table->foreign('country_id')->references('id')->on('countries')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
+                $table->foreign('country_id')->references('id')->on('countries')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
 
-            $table->foreign('state_id')->references('id')->on('states')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
+                $table->foreign('state_id')->references('id')->on('states')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
 
-            $table->foreign('city_id')->references('id')->on('cities')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
-        });
+                $table->foreign('city_id')->references('id')->on('cities')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
+            });
     }
 
     /**

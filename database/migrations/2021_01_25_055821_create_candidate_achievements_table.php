@@ -13,13 +13,14 @@ class CreateCandidateAchievementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('candidate_achievements', function (Blueprint $table) {
-            $table->id();
-            $table->integer('candidate_id', false);
-            $table->string('title');
-            $table->text('description');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("candidate_achievements"))
+            Schema::create('candidate_achievements', function (Blueprint $table) {
+                $table->id();
+                $table->integer('candidate_id', false);
+                $table->string('title');
+                $table->text('description');
+                $table->timestamps();
+            });
     }
 
     /**

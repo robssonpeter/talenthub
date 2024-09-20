@@ -13,9 +13,10 @@ class AddTemplateIdColumnToInterviewsTable extends Migration
      */
     public function up()
     {
-        Schema::table('interviews', function (Blueprint $table) {
-            $table->integer('template_id', false)->after('venue')->nullable();
-        });
+        if(!Schema::hasColumn('interviews', 'template_id'))
+            Schema::table('interviews', function (Blueprint $table) {
+                $table->integer('template_id', false)->after('venue')->nullable();
+            });
     }
 
     /**

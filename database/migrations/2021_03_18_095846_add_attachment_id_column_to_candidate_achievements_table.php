@@ -13,9 +13,10 @@ class AddAttachmentIdColumnToCandidateAchievementsTable extends Migration
      */
     public function up()
     {
-        Schema::table('candidate_achievements', function (Blueprint $table) {
-            $table->integer('attachment_id', false)->after('description')->nullable();
-        });
+        if(!Schema::hasColumn('candidate_achievements', 'attachment_id'))
+            Schema::table('candidate_achievements', function (Blueprint $table) {
+                $table->integer('attachment_id', false)->after('description')->nullable();
+            });
     }
 
     /**

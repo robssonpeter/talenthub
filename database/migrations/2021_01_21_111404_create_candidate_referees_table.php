@@ -13,18 +13,19 @@ class CreateCandidateRefereesTable extends Migration
      */
     public function up()
     {
-        Schema::create('candidate_referees', function (Blueprint $table) {
-            $table->id();
-            $table->integer('candidate_id',false);
-            $table->string('name');
-            $table->string('region_code');
-            $table->string('phone');
-            $table->string('position');
-            $table->string('email');
-            $table->string('company');
-            $table->string('postal_address');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("candidate_referees"))
+            Schema::create('candidate_referees', function (Blueprint $table) {
+                $table->id();
+                $table->integer('candidate_id',false);
+                $table->string('name');
+                $table->string('region_code');
+                $table->string('phone');
+                $table->string('position');
+                $table->string('email');
+                $table->string('company');
+                $table->string('postal_address');
+                $table->timestamps();
+            });
     }
 
     /**

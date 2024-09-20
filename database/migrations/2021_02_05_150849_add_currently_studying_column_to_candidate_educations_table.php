@@ -13,9 +13,10 @@ class AddCurrentlyStudyingColumnToCandidateEducationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('candidate_educations', function (Blueprint $table) {
-            $table->boolean('currently_studying')->nullable();
-        });
+        if(!Schema::hasColumn('candidate_educations', 'currently_studying'))
+            Schema::table('candidate_educations', function (Blueprint $table) {
+                $table->boolean('currently_studying')->nullable();
+            });
     }
 
     /**

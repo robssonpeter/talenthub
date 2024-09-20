@@ -13,20 +13,21 @@ class CreateFavouriteJobsTable extends Migration
      */
     public function up()
     {
-        Schema::create('favourite_jobs', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('job_id');
-            $table->timestamps();
+        if(!Schema::hasTable("favourite_jobs"))
+            Schema::create('favourite_jobs', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('user_id');
+                $table->unsignedInteger('job_id');
+                $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                $table->foreign('user_id')->references('id')->on('users')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
 
-            $table->foreign('job_id')->references('id')->on('jobs')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-        });
+                $table->foreign('job_id')->references('id')->on('jobs')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+            });
     }
 
     /**

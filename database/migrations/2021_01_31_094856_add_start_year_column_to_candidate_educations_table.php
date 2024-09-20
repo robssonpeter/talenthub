@@ -13,9 +13,10 @@ class AddStartYearColumnToCandidateEducationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('candidate_educations', function (Blueprint $table) {
-            $table->integer('start_year', false)->nullable();
-        });
+        if(!Schema::hasColumn('candidate_educations', 'start_year'))
+            Schema::table('candidate_educations', function (Blueprint $table) {
+                $table->integer('start_year', false)->nullable();
+            });
     }
 
     /**

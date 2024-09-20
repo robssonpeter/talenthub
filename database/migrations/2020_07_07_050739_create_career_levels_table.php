@@ -13,11 +13,12 @@ class CreateCareerLevelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('career_levels', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('level_name', 170)->unique();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("career_levels"))
+            Schema::create('career_levels', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('level_name', 170)->unique();
+                $table->timestamps();
+            });
     }
 
     /**

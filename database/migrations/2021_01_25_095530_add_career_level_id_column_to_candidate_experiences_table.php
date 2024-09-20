@@ -13,9 +13,10 @@ class AddCareerLevelIdColumnToCandidateExperiencesTable extends Migration
      */
     public function up()
     {
-        Schema::table('candidate_experiences', function (Blueprint $table) {
-            $table->integer('career_level_id', false)->nullable();
-        });
+        if(!Schema::hasColumn('candidate_experiences', 'career_level_id'))
+            Schema::table('candidate_experiences', function (Blueprint $table) {
+                $table->integer('career_level_id', false)->nullable();
+            });
     }
 
     /**

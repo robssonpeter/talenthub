@@ -13,12 +13,13 @@ class CreateCertificateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('certificate_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("certificate_categories"))
+            Schema::create('certificate_categories', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->text('description');
+                $table->timestamps();
+            });
     }
 
     /**

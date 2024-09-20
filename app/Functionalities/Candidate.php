@@ -134,4 +134,29 @@ class Candidate
         }
         return $combined;
     }
+
+    public static function reserveCandidateUsers(){
+        $candidates = Candid::pluck("id");
+        $created = 0;
+        foreach($candidates as $candidate){
+            // find the candidate
+            $candidate = Candid::find($candidate);
+            // check if user account exists
+            $user = User::find($candidate->user_id);
+            if($user){
+                continue;
+            }
+            $user = [
+                "id" => $candidate->user_id,
+                "first_name" => "**",
+                "email" => "candidate_".$candidate->id."@talenthub.co.tz",
+                "password" => "candidate_".$candidate->id,
+            ];
+            $created_user = User::create($user);
+            if($created_user){
+                $created_user->assignRole("Candidate");
+                $created++;
+            } 
+        }
+    }
 }

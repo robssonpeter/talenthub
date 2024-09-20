@@ -13,9 +13,10 @@ class AddSwapCompanyNameColumnToJobsTable extends Migration
      */
     public function up()
     {
-        Schema::table('jobs', function (Blueprint $table) {
-            $table->text('swap_company_name')->after('company_id')->nullable()->comment('a name that will be used as company name');
-        });
+        if(!Schema::hasColumn('jobs', 'swap_company_name'))
+            Schema::table('jobs', function (Blueprint $table) {
+                $table->text('swap_company_name')->after('company_id')->nullable()->comment('a name that will be used as company name');
+            });
     }
 
     /**

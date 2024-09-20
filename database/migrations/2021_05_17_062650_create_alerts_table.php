@@ -13,18 +13,19 @@ class CreateAlertsTable extends Migration
      */
     public function up()
     {
-        Schema::create('alerts', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id', false);
-            $table->text('title')->nullable();
-            $table->text('message');
-            $table->boolean('dismissible')->default(false);
-            $table->string('type');
-            $table->text('link');
-            $table->string('link_text');
-            $table->string('status')->nullable();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("alerts"))
+            Schema::create('alerts', function (Blueprint $table) {
+                $table->id();
+                $table->integer('user_id', false);
+                $table->text('title')->nullable();
+                $table->text('message');
+                $table->boolean('dismissible')->default(false);
+                $table->string('type');
+                $table->text('link');
+                $table->string('link_text');
+                $table->string('status')->nullable();
+                $table->timestamps();
+            });
     }
 
     /**

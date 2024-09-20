@@ -14,11 +14,12 @@ class CreateFunctionalAreasTable extends Migration
      */
     public function up()
     {
-        Schema::create('functional_areas', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name', 170)->unique();
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("functional_areas"))
+            Schema::create('functional_areas', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name', 170)->unique();
+                $table->timestamps();
+            });
     }
 
     /**

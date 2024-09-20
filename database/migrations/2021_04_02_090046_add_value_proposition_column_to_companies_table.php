@@ -13,9 +13,10 @@ class AddValuePropositionColumnToCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::table('companies', function (Blueprint $table) {
-            $table->text('value_proposition')->after('details')->nullable();
-        });
+        if(!Schema::hasColumn('companies', 'value_proposition'))
+            Schema::table('companies', function (Blueprint $table) {
+                $table->text('value_proposition')->after('details')->nullable();
+            });
     }
 
     /**

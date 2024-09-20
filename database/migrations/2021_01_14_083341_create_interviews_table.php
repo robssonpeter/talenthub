@@ -13,17 +13,18 @@ class CreateInterviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('interviews', function (Blueprint $table) {
-            $table->id();
-            $table->integer('application_id', false);
-            $table->date('date');
-            $table->time('time')->nullable();
-            $table->string('type');
-            $table->text('venue')->nullable();
-            $table->integer('status', false)->default(0);
-            $table->boolean('notified')->default(false);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("interviews"))
+            Schema::create('interviews', function (Blueprint $table) {
+                $table->id();
+                $table->integer('application_id', false);
+                $table->date('date');
+                $table->time('time')->nullable();
+                $table->string('type');
+                $table->text('venue')->nullable();
+                $table->integer('status', false)->default(0);
+                $table->boolean('notified')->default(false);
+                $table->timestamps();
+            });
     }
 
     /**

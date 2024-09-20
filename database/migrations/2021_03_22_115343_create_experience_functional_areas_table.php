@@ -13,12 +13,13 @@ class CreateExperienceFunctionalAreasTable extends Migration
      */
     public function up()
     {
-        Schema::create('experience_functional_areas', function (Blueprint $table) {
-            $table->id();
-            $table->integer('experience_id');
-            $table->integer('functional_area_id');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable("experience_functional_areas"))
+            Schema::create('experience_functional_areas', function (Blueprint $table) {
+                $table->id();
+                $table->integer('experience_id');
+                $table->integer('functional_area_id');
+                $table->timestamps();
+            });
     }
 
     /**
