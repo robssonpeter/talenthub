@@ -1,4 +1,4 @@
-# InfyJobs
+# TalentHub for Epvate
 
 
 ### Process to setup project : 
